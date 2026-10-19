@@ -1,0 +1,29 @@
+{
+  "name": "legalta-monorepo",
+  "version": "2.0.0",
+  "description": "LEGALTA — Keseimbangan • Modern • Adil | Modern LegalTech Web Platform Monorepo",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "dev": "node backend/src/server.js",
+    "db:init": "node database/init.js",
+    "db:seed": "node database/init.js"
+  },
+  "keywords": [
+    "legaltech",
+    "indonesia",
+    "notaris",
+    "kemenkumham",
+    "oss-rba",
+    "hki",
+    "ahu",
+    "monorepo",
+    "spa"
+  ],
+  "author": "LEGALTA Indonesia",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
