@@ -3,11 +3,12 @@
  * Idempotent seeder using upsert and transaction
  */
 
+require('dotenv').config({ quiet: true });
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('\n[PRISMA SEED] Memulai pengisian data awal LEGALTA...');
+  console.log('[LEGALTA] Memulai pengisian data awal (Prisma Seed)...');
 
   // 1. Seed Users
   const usersData = [

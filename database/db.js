@@ -6,7 +6,6 @@
  * 3. Local SQLite Fallback (Zero-config local development)
  */
 
-const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 const prismaRepo = require('./prisma');
@@ -24,9 +23,23 @@ let sqliteInstance = null;
 
 function getDb() {
   if (!sqliteInstance) {
+    const { DatabaseSync } = require('node:sqlite');
     sqliteInstance = new DatabaseSync(DB_PATH);
     sqliteInstance.exec('PRAGMA journal_mode = WAL;');
     sqliteInstance.exec('PRAGMA foreign_keys = ON;');
+
+    try {
+      const schemaPath = path.join(__dirname, 'sqlite', 'schema.sql');
+      const seedPath = path.join(__dirname, 'sqlite', 'seed.sql');
+      if (fs.existsSync(schemaPath)) {
+        sqliteInstance.exec(fs.readFileSync(schemaPath, 'utf8'));
+      }
+      if (fs.existsSync(seedPath)) {
+        sqliteInstance.exec(fs.readFileSync(seedPath, 'utf8'));
+      }
+    } catch (_) {
+      // Ignore if already initialized
+    }
   }
   return sqliteInstance;
 }
@@ -51,9 +64,9 @@ function run(sql, params = []) {
 }
 
 function getActiveEngine() {
-  if (prismaRepo.isPrismaConfigured()) return 'Prisma ORM (PostgreSQL Supabase)';
-  if (supabaseRepo.isSupabaseConfigured()) return 'Supabase Client (PostgreSQL Cloud)';
-  return 'SQLite (Local Fallback)';
+  if (prismaRepo.isPrismaConfigured()) return 'PostgreSQL (Prisma ORM)';
+  if (supabaseRepo.isSupabaseConfigured()) return 'PostgreSQL (Supabase API)';
+  return 'SQLite (Local)';
 }
 
 // ==========================================================

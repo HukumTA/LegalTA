@@ -6,29 +6,27 @@ const fs = require('fs');
 const path = require('path');
 const { exec, DB_PATH } = require('../db');
 
-function initDatabase() {
-  console.log(`[DB] Menginisialisasi basis data di: ${DB_PATH}`);
-
+function initDatabase({ silent = false } = {}) {
   const schemaPath = path.join(__dirname, 'schema.sql');
   const seedPath = path.join(__dirname, 'seed.sql');
 
   try {
     const schemaSql = fs.readFileSync(schemaPath, 'utf8');
     exec(schemaSql);
-    console.log('[DB] ✅ Skema tabel berhasil dibuat sesuai ERD.Md');
 
     const seedSql = fs.readFileSync(seedPath, 'utf8');
     exec(seedSql);
-    console.log('[DB] ✅ Data awal (seed) berhasil dimasukkan');
 
-    console.log('[DB] Inisialisasi basis data SQLite selesai 100%!\n');
+    if (!silent) {
+      console.log(`[LEGALTA] Database lokal (SQLite) siap di: ${DB_PATH}`);
+    }
   } catch (error) {
-    console.error('[DB] ❌ Gagal menginisialisasi basis data SQLite:', error.message);
+    console.error(`[LEGALTA] Gagal inisialisasi SQLite: ${error.message}`);
   }
 }
 
 if (require.main === module) {
-  initDatabase();
+  initDatabase({ silent: false });
 }
 
 module.exports = { initDatabase };

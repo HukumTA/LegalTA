@@ -1,131 +1,217 @@
 /**
  * Navbar & Mobile Drawer Component
+ * Matches LEGALTA Modern Reference Design (Sticky Header, Dropdowns with Icons, Capsule CTA)
+ * Includes hard safeguard against initial load mobile/tablet popup flash.
  */
 
 export function renderNavbar(activePath = '/') {
   const container = document.getElementById('navbar-container');
   if (!container) return;
 
-  const isActive = (path) => activePath === path || (path !== '/' && activePath.startsWith(path));
-
   container.innerHTML = `
-    <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-      <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+    <header class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <!-- Kiri: Logo & Tagline -->
         <a href="#/" class="flex items-center gap-3 group">
-          <img src="assets/logo.png" alt="Logo LEGALTA" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
-          <div class="flex flex-col justify-center">
+          <img src="assets/logo.png" alt="LEGALTA Logo" class="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+          <div class="flex flex-col">
             <div class="flex items-center gap-1.5">
-              <span class="font-headline-sm text-primary tracking-tight font-bold text-xl leading-none">LEGALTA</span>
-              <span class="text-[10px] font-bold text-secondary uppercase bg-secondary-fixed/50 px-1.5 py-0.5 rounded leading-none">ID</span>
+              <span class="font-extrabold text-2xl tracking-tight text-slate-900 leading-tight">LEGALTA</span>
+              <span class="text-[10px] font-bold text-crimson-800 uppercase bg-crimson-50 border border-crimson-100 px-1.5 py-0.5 rounded leading-none">ID</span>
             </div>
-            <span class="text-[11px] text-on-surface-variant font-medium tracking-wider hidden sm:inline-block mt-1">KESEIMBANGAN • MODERN • ADIL</span>
+            <span class="text-[10px] font-semibold tracking-wider uppercase text-slate-500">Keseimbangan • Modern • Adil</span>
           </div>
         </a>
 
-        <!-- Desktop Navigation -->
-        <nav class="hidden xl:flex items-center gap-space-md">
-          <a class="px-3 py-2 rounded-lg font-label-lg transition-colors ${activePath === '/' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}" href="#/">Home</a>
+        <!-- Tengah: Link Navigasi Desktop -->
+        <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-700">
+          <a href="#/" class="${activePath === '/' ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors">Home</a>
           
-          <!-- Layanan Dropdown -->
-          <div class="relative group">
-            <button class="flex items-center gap-1 px-3 py-2 rounded-lg font-label-lg transition-colors ${activePath.startsWith('/layanan') ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}" type="button">
-              Layanan <span class="material-symbols-outlined text-[18px]">expand_more</span>
+          <!-- Dropdown Layanan -->
+          <div class="relative nav-dropdown-group group cursor-pointer py-2">
+            <button type="button" class="flex items-center gap-1.5 ${activePath.startsWith('/layanan') ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors focus:outline-none">
+              <span>Layanan</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-crimson-800 group-hover:rotate-180 transition-transform duration-200"></i>
             </button>
-            <div class="absolute left-0 top-full hidden group-hover:block w-64 pt-2">
-              <div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_-4px_rgba(15,23,42,0.08)] p-space-xs border border-surface-container-high">
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/layanan/pendirian' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/layanan/pendirian">Pendirian Badan Usaha</a>
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/layanan/perizinan' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/layanan/perizinan">Perizinan Usaha</a>
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/layanan/dokumen' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/layanan/dokumen">Dokumen Perusahaan</a>
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/layanan/hki' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/layanan/hki">Pendaftaran HKI</a>
-              </div>
+            <div class="nav-dropdown-panel absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-50">
+              <a href="#/layanan/pendirian" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/pendirian' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-700 shrink-0">
+                  <i data-lucide="building-2" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Pendirian PT &amp; CV</span>
+                  <span class="text-[11px] text-slate-400">PT Umum, Perorangan &amp; PMA</span>
+                </div>
+              </a>
+              <a href="#/layanan/hki" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/hki' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-gold-600 shrink-0">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Pendaftaran HKI &amp; Merek</span>
+                  <span class="text-[11px] text-slate-400">Merek Dagang, Cipta &amp; Paten</span>
+                </div>
+              </a>
+              <a href="#/layanan/perizinan" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/perizinan' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
+                  <i data-lucide="file-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Perizinan Usaha OSS &amp; PB-UMKU</span>
+                  <span class="text-[11px] text-slate-400">NIB RBA, BPOM, Halal &amp; PKKPR</span>
+                </div>
+              </a>
+              <a href="#/layanan/dokumen" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/dokumen' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-800 shrink-0">
+                  <i data-lucide="file-signature" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Dokumen Perusahaan &amp; RUPS</span>
+                  <span class="text-[11px] text-slate-400">Perubahan Akta &amp; Akuisisi Saham</span>
+                </div>
+              </a>
             </div>
           </div>
 
-          <!-- Tools Legalitas Dropdown -->
-          <div class="relative group">
-            <button class="flex items-center gap-1 px-3 py-2 rounded-lg font-label-lg transition-colors ${activePath.startsWith('/tools') ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}" type="button">
-              Tools Legalitas <span class="material-symbols-outlined text-[18px]">expand_more</span>
+          <!-- Dropdown Tools Legalitas -->
+          <div class="relative nav-dropdown-group group cursor-pointer py-2">
+            <button type="button" class="flex items-center gap-1.5 ${activePath.startsWith('/tools') ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors focus:outline-none">
+              <span>Tools Legalitas</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-crimson-800 group-hover:rotate-180 transition-transform duration-200"></i>
             </button>
-            <div class="absolute left-0 top-full hidden group-hover:block w-60 pt-2">
-              <div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_-4px_rgba(15,23,42,0.08)] p-space-xs border border-surface-container-high">
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/tools/cek-pt' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/tools/cek-pt">Cek Nama PT</a>
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/tools/cek-merek' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/tools/cek-merek">Cek Nama Merek</a>
-                <a class="block px-4 py-2.5 rounded-lg font-body-sm transition-colors ${activePath === '/tools/cek-kbli' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}" href="#/tools/cek-kbli">Cek KBLI 2020</a>
+            <div class="nav-dropdown-panel absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-50">
+              <div class="px-4 py-1.5 mb-1 flex items-center justify-between border-b border-slate-100">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tools Interaktif</span>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Gratis</span>
               </div>
+              <a href="#/tools/cek-pt" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-pt' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-700 shrink-0">
+                  <i data-lucide="search" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Cek Ketersediaan Nama PT</span>
+                  <span class="text-[11px] text-slate-400">Validasi AHU &amp; PP 43/2011</span>
+                </div>
+              </a>
+              <a href="#/tools/cek-merek" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-merek' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-gold-600 shrink-0">
+                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Cek Nama Merek (PDKI)</span>
+                  <span class="text-[11px] text-slate-400">Deteksi kemiripan 45 Kelas Nice</span>
+                </div>
+              </a>
+              <a href="#/tools/cek-kbli" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-kbli' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
+                  <i data-lucide="list-checks" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="block font-semibold text-slate-900">Cek Klasifikasi KBLI 2020</span>
+                  <span class="text-[11px] text-slate-400">5 digit KBLI &amp; tingkat risiko OSS</span>
+                </div>
+              </a>
             </div>
           </div>
 
-          <a class="px-3 py-2 rounded-lg font-label-lg transition-colors flex items-center gap-1.5 ${activePath === '/tracking' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}" href="#/tracking">
+          <a href="#/tracking" class="flex items-center gap-1.5 ${activePath === '/tracking' ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Tracking Order</span>
+            <span>Live Tracking</span>
           </a>
 
-          <a class="px-3 py-2 rounded-lg font-label-lg transition-colors ${activePath === '/tentang-kami' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}" href="#/tentang-kami">Tentang Kami</a>
-          <a class="px-3 py-2 rounded-lg font-label-lg transition-colors ${activePath === '/kontak' ? 'bg-primary-container text-on-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}" href="#/kontak">Kontak</a>
+          <a href="#/tentang-kami" class="${activePath === '/tentang-kami' ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors">Tentang Kami</a>
+          <a href="#/kontak" class="${activePath === '/kontak' ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors">Kontak</a>
         </nav>
 
-        <div class="flex items-center gap-space-sm">
-          <a class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 bg-primary text-on-primary font-label-lg rounded-full shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:bg-primary-container hover:text-on-primary transition-all font-bold" href="#/konsultasi">Konsultasi Gratis</a>
-          <button id="mobileMenuToggle" class="xl:hidden p-2 rounded-lg text-on-surface hover:bg-surface-container transition-colors" aria-label="Buka Menu">
-            <span class="material-symbols-outlined text-[26px]">menu</span>
+        <!-- Kanan: Tombol Kapsul Merah Gelap & Mobile Menu Button -->
+        <div class="flex items-center gap-3">
+          <a href="#/konsultasi" class="hidden sm:inline-flex items-center justify-center px-6 py-2.5 bg-crimson-800 hover:bg-crimson-900 text-white font-semibold text-sm rounded-full shadow-md shadow-crimson-800/20 hover:shadow-lg hover:shadow-crimson-800/30 transition-all transform hover:-translate-y-0.5">
+            Konsultasi Gratis
+          </a>
+          <button id="mobileMenuToggle" type="button" class="lg:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors" aria-label="Buka Menu">
+            <i data-lucide="menu" class="w-6 h-6"></i>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- Mobile Overlay & Drawer -->
-    <div id="mobileOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
-    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-surface-container-lowest shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto">
+    <!-- Mobile Overlay & Drawer (Strictly hidden via CSS until .is-open is added) -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 transition-opacity duration-200"></div>
+    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl z-50 flex-col justify-between overflow-y-auto border-l border-slate-100">
       <div class="p-6">
-        <div class="flex items-center justify-between pb-6 border-b border-surface-container-high">
+        <div class="flex items-center justify-between pb-5 border-b border-slate-100">
           <div class="flex items-center gap-2.5">
             <img src="assets/logo.png" alt="Logo LEGALTA" class="h-9 w-auto object-contain" />
-            <span class="font-headline-sm font-bold text-primary tracking-tight text-lg">LEGALTA</span>
+            <div class="flex flex-col">
+              <span class="font-extrabold text-lg text-slate-900 tracking-tight leading-none">LEGALTA</span>
+              <span class="text-[9px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">LegalTech Indonesia</span>
+            </div>
           </div>
-          <button id="closeMobileDrawer" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container" aria-label="Tutup Menu">
-            <span class="material-symbols-outlined text-[24px]">close</span>
+          <button id="closeMobileDrawer" type="button" class="p-2 rounded-lg text-slate-500 hover:bg-slate-100" aria-label="Tutup Menu">
+            <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
 
         <div class="py-4 space-y-1">
-          <a href="#/" class="block px-4 py-2.5 rounded-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors ${activePath === '/' ? 'text-primary font-bold bg-primary-fixed/30' : ''}">Home</a>
+          <a href="#/" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold ${activePath === '/' ? 'bg-crimson-50 text-crimson-800' : 'text-slate-700 hover:bg-slate-50'}">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>Home</span>
+          </a>
           
           <div>
-            <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors">
-              <span>Layanan</span>
-              <span class="material-symbols-outlined text-[20px] transition-transform">expand_more</span>
+            <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+              <span class="flex items-center gap-3">
+                <i data-lucide="briefcase" class="w-4 h-4 text-crimson-700"></i>
+                <span>Layanan Legalitas</span>
+              </span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
             </button>
-            <div class="mobile-accordion-content hidden pl-4 pt-1 space-y-1">
-              <a href="#/layanan/pendirian" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Pendirian Badan Usaha</a>
-              <a href="#/layanan/perizinan" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Perizinan Usaha</a>
-              <a href="#/layanan/dokumen" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Dokumen Perusahaan</a>
-              <a href="#/layanan/hki" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Pendaftaran HKI</a>
+            <div class="mobile-accordion-content hidden pl-9 pr-2 pt-1 space-y-1">
+              <a href="#/layanan/pendirian" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Pendirian PT &amp; CV</a>
+              <a href="#/layanan/hki" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Pendaftaran HKI &amp; Merek</a>
+              <a href="#/layanan/perizinan" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Perizinan OSS &amp; PB-UMKU</a>
+              <a href="#/layanan/dokumen" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Dokumen Perusahaan &amp; RUPS</a>
             </div>
           </div>
 
           <div>
-            <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors">
-              <span>Tools Legalitas</span>
-              <span class="material-symbols-outlined text-[20px] transition-transform">expand_more</span>
+            <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+              <span class="flex items-center gap-3">
+                <i data-lucide="wrench" class="w-4 h-4 text-gold-600"></i>
+                <span>Tools Legalitas</span>
+              </span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
             </button>
-            <div class="mobile-accordion-content hidden pl-4 pt-1 space-y-1">
-              <a href="#/tools/cek-pt" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Cek Nama PT</a>
-              <a href="#/tools/cek-merek" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Cek Nama Merek</a>
-              <a href="#/tools/cek-kbli" class="block px-4 py-2 rounded-lg font-body-sm text-on-surface-variant hover:bg-surface-container">Cek KBLI 2020</a>
+            <div class="mobile-accordion-content hidden pl-9 pr-2 pt-1 space-y-1">
+              <a href="#/tools/cek-pt" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Cek Ketersediaan Nama PT</a>
+              <a href="#/tools/cek-merek" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Cek Kemiripan Merek (PDKI)</a>
+              <a href="#/tools/cek-kbli" class="block px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-crimson-800 hover:bg-slate-50">Kamus KBLI 2020 &amp; Risiko</a>
             </div>
           </div>
 
-          <a href="#/tracking" class="flex items-center justify-between px-4 py-2.5 rounded-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors ${activePath === '/tracking' ? 'text-primary font-bold bg-primary-fixed/30' : ''}">
-            <span>Tracking Order</span>
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <a href="#/tracking" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold ${activePath === '/tracking' ? 'bg-crimson-50 text-crimson-800' : 'text-slate-700 hover:bg-slate-50'}">
+            <span class="flex items-center gap-3">
+              <i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i>
+              <span>Live Tracking Order</span>
+            </span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           </a>
 
-          <a href="#/tentang-kami" class="block px-4 py-2.5 rounded-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors ${activePath === '/tentang-kami' ? 'text-primary font-bold bg-primary-fixed/30' : ''}">Tentang Kami</a>
-          <a href="#/kontak" class="block px-4 py-2.5 rounded-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors ${activePath === '/kontak' ? 'text-primary font-bold bg-primary-fixed/30' : ''}">Kontak</a>
+          <a href="#/tentang-kami" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold ${activePath === '/tentang-kami' ? 'bg-crimson-50 text-crimson-800' : 'text-slate-700 hover:bg-slate-50'}">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Tentang Kami</span>
+          </a>
+          <a href="#/kontak" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold ${activePath === '/kontak' ? 'bg-crimson-50 text-crimson-800' : 'text-slate-700 hover:bg-slate-50'}">
+            <i data-lucide="map-pin" class="w-4 h-4"></i>
+            <span>Kontak &amp; Kantor SCBD</span>
+          </a>
         </div>
       </div>
-      <div class="p-6 border-t border-surface-container-high bg-surface-container-low">
-        <a href="#/konsultasi" class="block w-full py-3 bg-primary text-on-primary font-label-lg rounded-xl text-center shadow-md hover:bg-primary-container transition-all font-bold">Konsultasi Gratis</a>
+
+      <div class="p-6 border-t border-slate-100 bg-slate-50">
+        <a href="#/konsultasi" class="block w-full py-3 bg-crimson-800 hover:bg-crimson-900 text-white text-sm font-bold rounded-full text-center shadow-md transition-all">
+          Konsultasi Gratis
+        </a>
       </div>
     </div>
   `;
@@ -137,41 +223,33 @@ export function renderNavbar(activePath = '/') {
   const drawer = document.getElementById('mobileDrawer');
 
   function openMenu() {
-    overlay.classList.remove('hidden');
-    setTimeout(() => {
-      overlay.classList.remove('opacity-0');
-      drawer.classList.remove('translate-x-full');
-    }, 10);
+    overlay?.classList.add('is-open');
+    drawer?.classList.add('is-open');
   }
 
   function closeMenu() {
-    overlay.classList.add('opacity-0');
-    drawer.classList.add('translate-x-full');
-    setTimeout(() => {
-      overlay.classList.add('hidden');
-    }, 300);
+    overlay?.classList.remove('is-open');
+    drawer?.classList.remove('is-open');
   }
 
   menuToggle?.addEventListener('click', openMenu);
   closeDrawer?.addEventListener('click', closeMenu);
   overlay?.addEventListener('click', closeMenu);
 
-  // Close drawer on link click
   drawer?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeMenu);
   });
 
-  // Accordion toggle in mobile drawer
   drawer?.querySelectorAll('.mobile-accordion-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const content = this.nextElementSibling;
-      const icon = this.querySelector('.material-symbols-outlined');
       if (content) {
         content.classList.toggle('hidden');
-        if (icon) {
-          icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
       }
     });
   });
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 }

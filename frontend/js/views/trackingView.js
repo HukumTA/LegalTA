@@ -1,5 +1,6 @@
-/**
+4/**
  * View: Live Order Tracking System (PRD Section 3.C & ERD.Md)
+ * Modernized to match the LEGALTA Crimson/Gold/Slate reference aesthetic.
  */
 
 import { api } from '../api.js';
@@ -7,49 +8,49 @@ import { showToast } from '../components/toast.js';
 
 export function renderTrackingView() {
   return `
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full bg-[#FAFAFC]">
       <!-- Search Header -->
-      <section class="relative w-full bg-surface-container-lowest px-6 lg:px-12 pt-12 pb-16 border-b border-surface-container-high">
-        <div class="max-w-5xl mx-auto space-y-6 text-center">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary-fixed/50 text-secondary">
+      <section class="relative w-full bg-gradient-to-b from-white via-slate-50/50 to-white px-6 pt-12 pb-16 border-b border-slate-100">
+        <div class="max-w-5xl mx-auto space-y-5 text-center">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-crimson-50 border border-crimson-100 text-crimson-800 text-xs font-bold uppercase tracking-wider">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="font-label-sm uppercase tracking-wider font-bold">Live Client Tracking System (PRD 3.C)</span>
+            <span>Live Client Tracking System</span>
           </div>
-          <h1 class="font-display-lg text-primary tracking-tight">
+          <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight leading-tight">
             Pantau Status Permohonan Legalitas Anda Secara Real-Time
           </h1>
-          <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">
-            Transparansi penuh tanpa tanda tanya. Cukup masukkan Nomor Order (cth: <strong class="text-on-surface">LEG-2025-0891</strong>) atau nomor WhatsApp yang didaftarkan.
+          <p class="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Transparansi penuh tanpa tanda tanya. Cukup masukkan Nomor Order (cth: <strong class="text-slate-900">LEG-2025-0891</strong>) untuk melihat progres notariat hingga SK AHU.
           </p>
 
           <!-- Search Bar -->
-          <div class="max-w-2xl mx-auto pt-4">
-            <form id="trackingSearchForm" class="bg-surface-container-low p-2 rounded-2xl shadow-md flex flex-col sm:flex-row items-center gap-2 border border-surface-container-high">
-              <div class="flex items-center gap-3 px-4 py-2 w-full flex-1">
-                <span class="material-symbols-outlined text-primary text-[24px]">search</span>
-                <input type="text" id="trackingIdInput" value="LEG-2025-0891" placeholder="Masukkan ID Order / No. WhatsApp..." class="w-full bg-transparent border-none outline-none font-body-md text-on-surface font-bold uppercase">
+          <div class="max-w-2xl mx-auto pt-3">
+            <form id="trackingSearchForm" class="bg-white p-2.5 rounded-2xl shadow-xl flex flex-col sm:flex-row items-center gap-2.5 border border-slate-200/80">
+              <div class="flex items-center gap-3 px-4 py-2.5 w-full flex-1 bg-slate-50 rounded-xl border border-slate-200/60 focus-within:border-crimson-800 transition-colors">
+                <span class="material-symbols-outlined text-crimson-800 text-[22px]">search</span>
+                <input type="text" id="trackingIdInput" value="LEG-2025-0891" placeholder="Masukkan ID Order / No. WhatsApp..." class="w-full bg-transparent border-none outline-none text-sm text-slate-900 font-extrabold uppercase font-mono">
               </div>
-              <button type="submit" id="trackingSubmitBtn" class="w-full sm:w-auto px-7 py-3.5 bg-primary text-on-primary font-label-lg font-bold rounded-xl shadow-sm hover:bg-primary-container transition-all flex items-center justify-center gap-2 shrink-0">
-                <span class="material-symbols-outlined text-[20px]">sync</span>
+              <button type="submit" id="trackingSubmitBtn" class="w-full sm:w-auto px-7 py-3.5 bg-crimson-800 hover:bg-crimson-900 text-white text-sm font-bold rounded-xl shadow-md shadow-crimson-800/20 transition-all flex items-center justify-center gap-2 shrink-0">
+                <span class="material-symbols-outlined text-[18px]">sync</span>
                 <span>Lacak Berkas</span>
               </button>
             </form>
 
             <!-- Quick Demo Selectors -->
-            <div class="flex flex-wrap items-center justify-center gap-2 pt-4 text-on-surface-variant font-label-sm">
-              <span>Demo Cepat:</span>
-              <button type="button" class="demo-track-btn px-3 py-1 bg-surface-container-high hover:bg-primary-fixed hover:text-primary rounded-full transition-colors font-mono font-bold" data-order="LEG-2025-0891">LEG-2025-0891 (On Progress)</button>
-              <button type="button" class="demo-track-btn px-3 py-1 bg-surface-container-high hover:bg-primary-fixed hover:text-primary rounded-full transition-colors font-mono font-bold" data-order="LEG-2025-0104">LEG-2025-0104 (Completed)</button>
-              <button type="button" class="demo-track-btn px-3 py-1 bg-surface-container-high hover:bg-primary-fixed hover:text-primary rounded-full transition-colors font-mono font-bold" data-order="LEG-2025-0942">LEG-2025-0942 (Pending)</button>
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-4 text-xs text-slate-500">
+              <span class="font-bold text-slate-400 uppercase tracking-wider text-[11px]">Demo Cepat:</span>
+              <button type="button" class="demo-track-btn px-3 py-1 bg-white border border-slate-200 hover:border-crimson-800 hover:text-crimson-800 rounded-full transition-colors font-mono font-bold text-slate-700 shadow-sm" data-order="LEG-2025-0891">LEG-2025-0891 (On Progress)</button>
+              <button type="button" class="demo-track-btn px-3 py-1 bg-white border border-slate-200 hover:border-crimson-800 hover:text-crimson-800 rounded-full transition-colors font-mono font-bold text-slate-700 shadow-sm" data-order="LEG-2025-0104">LEG-2025-0104 (Completed)</button>
+              <button type="button" class="demo-track-btn px-3 py-1 bg-white border border-slate-200 hover:border-crimson-800 hover:text-crimson-800 rounded-full transition-colors font-mono font-bold text-slate-700 shadow-sm" data-order="LEG-2025-0942">LEG-2025-0942 (Pending)</button>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Main Tracking Content Container -->
-      <section class="max-w-7xl mx-auto px-6 lg:px-12 py-12" id="trackingDetailsWrapper">
+      <section class="max-w-7xl mx-auto px-6 py-12 w-full" id="trackingDetailsWrapper">
         <div id="trackingContent" class="space-y-8">
-          <div class="p-12 text-center text-on-surface-variant">Memuat data order dari basis data...</div>
+          <div class="p-12 text-center text-slate-500 text-sm">Memuat data order dari basis data...</div>
         </div>
       </section>
     </div>
@@ -65,39 +66,43 @@ export function initTrackingLogic() {
 
   let currentActiveOrderId = 'LEG-2025-0891';
 
-  async function loadOrder(orderId) {
+  async function loadOrder(orderId, notify = false) {
     if (!orderId) return;
     currentActiveOrderId = orderId;
     submitBtn.disabled = true;
     const originalBtn = submitBtn.innerHTML;
-    submitBtn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Mengambil Data...</span>`;
+    submitBtn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Memuat...</span>`;
 
     try {
       const response = await api.getOrderTracking(orderId);
       if (response.success) {
         const { order, steps, documents, pla } = response.data;
 
-        let statusClass = 'bg-[#FEF3C7] text-[#92400E]';
-        if (order.status === 'COMPLETED') statusClass = 'bg-[#DCFCE7] text-[#166534]';
-        else if (order.status === 'PENDING') statusClass = 'bg-surface-container-high text-on-surface-variant';
+        let statusClass = 'bg-amber-100 text-gold-700';
+        if (order.status === 'COMPLETED') statusClass = 'bg-emerald-100 text-emerald-800';
+        else if (order.status === 'PENDING') statusClass = 'bg-slate-100 text-slate-600';
 
         // Render Steps
         let stepsHtml = '';
         steps.forEach(s => {
-          let icon = 'pending';
-          let iconBg = 'bg-surface-dim text-on-surface-variant';
-          let cardBorder = 'bg-surface-container-low border border-surface-container opacity-70';
-          let titleColor = 'text-on-surface';
+          const stepName = s.step_name || s.stepName || 'Tahap Pemrosesan';
+          const completedAt = s.completed_at || (s.completedAt ? String(s.completedAt).replace('T', ' ').slice(0, 16) : null);
+
+          let icon = 'schedule';
+          let iconBg = 'bg-slate-200 text-slate-500';
+          let cardBorder = 'bg-slate-50/70 border border-dashed border-slate-200 opacity-75';
+          let titleColor = 'text-slate-600';
 
           if (s.status === 'DONE') {
             icon = 'check';
-            iconBg = 'bg-[#166534] text-white';
-            cardBorder = 'bg-surface-container-low border border-surface-container';
+            iconBg = 'bg-emerald-500 text-white';
+            cardBorder = 'bg-white border border-emerald-200 shadow-sm';
+            titleColor = 'text-slate-900';
           } else if (s.status === 'JALAN') {
-            icon = 'hourglass_top';
-            iconBg = 'bg-secondary text-white animate-pulse';
-            cardBorder = 'bg-surface-container-lowest border-2 border-secondary shadow-sm';
-            titleColor = 'text-primary';
+            icon = 'autorenew';
+            iconBg = 'bg-crimson-700 text-white animate-pulse';
+            cardBorder = 'bg-crimson-50/60 border-2 border-crimson-300 shadow-md';
+            titleColor = 'text-crimson-900';
           }
 
           stepsHtml += `
@@ -106,12 +111,12 @@ export function initTrackingLogic() {
                 <span class="material-symbols-outlined text-[16px]">${icon}</span>
               </div>
               <div class="${cardBorder} p-5 rounded-2xl flex-1">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                  <h4 class="font-label-lg ${titleColor} font-bold">${s.step_name}</h4>
-                  <span class="font-label-sm px-2.5 py-0.5 rounded-full font-bold self-start sm:self-auto ${s.status === 'DONE' ? 'bg-[#DCFCE7] text-[#166534]' : (s.status === 'JALAN' ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container-high text-on-surface-variant')}">${s.status}</span>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
+                  <h4 class="text-sm sm:text-base ${titleColor} font-extrabold">${stepName}</h4>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full font-extrabold self-start sm:self-auto ${s.status === 'DONE' ? 'bg-emerald-100 text-emerald-800' : (s.status === 'JALAN' ? 'bg-crimson-700 text-white' : 'bg-slate-200 text-slate-500')}">${s.status}</span>
                 </div>
-                <p class="font-body-sm text-on-surface-variant">${s.description || 'Sedang diproses sesuai tahapan resmi.'}</p>
-                <span class="font-label-sm text-outline block mt-3">${s.completed_at ? 'Selesai: ' + s.completed_at : 'Status: ' + s.status}</span>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${s.description || 'Sedang diproses sesuai tahapan resmi.'}</p>
+                <span class="text-[11px] text-slate-400 font-medium block mt-2.5">${completedAt ? 'Selesai: ' + completedAt : 'Status: ' + s.status}</span>
               </div>
             </div>
           `;
@@ -120,22 +125,34 @@ export function initTrackingLogic() {
         // Render Documents
         let docsHtml = '';
         documents.forEach(doc => {
+          const fileName = doc.file_name || doc.fileName || 'Dokumen_Legalitas.pdf';
+          const docType = doc.doc_type || doc.docType || 'DOKUMEN';
+          const fileSize = doc.file_size || doc.fileSize || '1.5 MB';
+
           docsHtml += `
-            <div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-surface-container">
-              <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary text-[28px]">picture_as_pdf</span>
+            <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
+              <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-crimson-50 text-crimson-800 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+                </div>
                 <div>
-                  <h5 class="font-label-md text-on-surface font-bold">${doc.file_name}</h5>
-                  <p class="font-body-sm text-on-surface-variant">Tipe: ${doc.doc_type} • Ukuran: ${doc.file_size || '1.5 MB'}</p>
+                  <h5 class="text-xs sm:text-sm text-slate-900 font-bold">${fileName}</h5>
+                  <p class="text-xs text-slate-500">Tipe: ${docType} • Ukuran: ${fileSize}</p>
                 </div>
               </div>
-              <button type="button" onclick="showGlobalToast('Mengunduh berkas ${doc.file_name}...')" class="px-3.5 py-1.5 bg-surface-container-lowest text-primary hover:bg-primary hover:text-white rounded-lg text-label-sm font-bold border border-surface-container-high transition-colors flex items-center gap-1.5 shadow-sm">
+              <button type="button" onclick="showGlobalToast('Mengunduh ${fileName}')" class="px-3.5 py-2 bg-white text-crimson-800 hover:bg-crimson-800 hover:text-white rounded-xl text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5 shadow-sm">
                 <span class="material-symbols-outlined text-[16px]">download</span>
                 <span>Unduh</span>
               </button>
             </div>
           `;
         });
+
+        const totalAmount = Number(order.total_amount ?? order.totalAmount ?? 0);
+        const voucherCode = order.voucher_code || order.voucherCode || '-';
+        const kemenkumhamId = order.kemenkumham_id || order.kemenkumhamId || '-';
+        const rawDate = String(order.created_at || order.createdAt || '-');
+        const createdDate = rawDate.split(/[ T]/)[0] || '-';
 
         content.innerHTML = `
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -144,79 +161,79 @@ export function initTrackingLogic() {
             <div class="lg:col-span-8 space-y-8">
               
               <!-- Order Header Dossier -->
-              <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-3xl shadow-sm border border-surface-container-high space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-surface-container-high">
+              <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
                   <div>
-                    <div class="flex items-center gap-2">
-                      <span class="font-mono font-bold text-headline-sm text-primary">${order.id}</span>
-                      <span class="font-label-sm uppercase px-3 py-1 rounded-full font-bold ${statusClass}">${order.status}</span>
+                    <div class="flex items-center gap-2.5">
+                      <span class="font-mono font-black text-lg text-crimson-800">${order.id}</span>
+                      <span class="text-[11px] uppercase px-3 py-1 rounded-full font-extrabold ${statusClass}">${order.status}</span>
                     </div>
-                    <h2 class="font-headline-lg text-on-surface font-bold mt-1">${order.title}</h2>
-                    <p class="font-body-sm text-on-surface-variant">Layanan: ${order.service_title} • Kategori: ${order.category_name}</p>
+                    <h2 class="text-xl sm:text-2xl text-slate-900 font-extrabold mt-1.5">${order.title}</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Layanan: ${order.service_title} • Kategori: ${order.category_name}</p>
                   </div>
-                  <div class="text-left sm:text-right">
-                    <span class="font-label-sm text-on-surface-variant block">Nomor Kemenkumham</span>
-                    <span class="font-headline-sm text-secondary font-bold font-mono">${order.kemenkumham_id || '-'}</span>
-                    <span class="font-label-sm text-emerald-700 block font-semibold">Tersinkronisasi AHU</span>
+                  <div class="text-left sm:text-right bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Nomor Kemenkumham</span>
+                    <span class="text-sm text-slate-900 font-extrabold font-mono">${kemenkumhamId}</span>
+                    <span class="text-[11px] text-emerald-600 block font-bold">Tersinkronisasi AHU</span>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  <div class="bg-surface-container-low p-3.5 rounded-xl">
-                    <span class="font-label-sm text-on-surface-variant block">Klien Pemohon</span>
-                    <span class="font-label-md text-on-surface font-bold">${order.client_name}</span>
+                  <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Klien Pemohon</span>
+                    <span class="text-xs sm:text-sm text-slate-900 font-extrabold mt-0.5 block">${order.client_name}</span>
                   </div>
-                  <div class="bg-surface-container-low p-3.5 rounded-xl">
-                    <span class="font-label-sm text-on-surface-variant block">Total Biaya</span>
-                    <span class="font-label-md text-on-surface font-bold">Rp ${Number(order.total_amount).toLocaleString('id-ID')}</span>
+                  <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Total Biaya</span>
+                    <span class="text-xs sm:text-sm text-slate-900 font-extrabold mt-0.5 block">Rp ${totalAmount.toLocaleString('id-ID')}</span>
                   </div>
-                  <div class="bg-surface-container-low p-3.5 rounded-xl">
-                    <span class="font-label-sm text-on-surface-variant block">Voucher AHU</span>
-                    <span class="font-label-md text-on-surface font-mono font-bold">${order.voucher_code || '-'}</span>
+                  <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Voucher AHU</span>
+                    <span class="text-xs sm:text-sm text-slate-900 font-mono font-extrabold mt-0.5 block">${voucherCode}</span>
                   </div>
-                  <div class="bg-surface-container-low p-3.5 rounded-xl">
-                    <span class="font-label-sm text-on-surface-variant block">Tanggal Masuk</span>
-                    <span class="font-label-md text-on-surface font-bold">${order.created_at.split(' ')[0]}</span>
+                  <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Tanggal Masuk</span>
+                    <span class="text-xs sm:text-sm text-slate-900 font-extrabold mt-0.5 block">${createdDate}</span>
                   </div>
                 </div>
               </div>
 
               <!-- 4-Step Timeline Container -->
-              <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-3xl shadow-sm border border-surface-container-high space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b border-surface-container-high">
+              <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                   <div>
-                    <h3 class="font-headline-sm text-primary font-bold">Progress 4 Langkah Real-Time</h3>
-                    <p class="font-body-sm text-on-surface-variant">Update otomatis terpantau oleh Tim Notariat &amp; Ditjen AHU</p>
+                    <h3 class="text-lg text-slate-900 font-extrabold">Progress 4 Langkah Real-Time</h3>
+                    <p class="text-xs text-slate-500">Update otomatis terpantau oleh Tim Notariat &amp; Ditjen AHU</p>
                   </div>
                 </div>
 
-                <div class="relative pl-6 sm:pl-8 space-y-8 before:absolute before:left-3 sm:before:left-4 before:top-3 before:bottom-3 before:w-0.5 before:bg-surface-container-high">
+                <div class="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 sm:before:left-4 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
                   ${stepsHtml}
                 </div>
               </div>
 
               <!-- Document Vault -->
-              <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-3xl shadow-sm border border-surface-container-high space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b border-surface-container-high">
+              <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                   <div>
-                    <h3 class="font-headline-sm text-primary font-bold">Brankas Dokumen (Document Vault)</h3>
-                    <p class="font-body-sm text-on-surface-variant">Unduh salinan resmi atau unggah dokumen syarat pelengkap</p>
+                    <h3 class="text-lg text-slate-900 font-extrabold">Brankas Dokumen (Document Vault)</h3>
+                    <p class="text-xs text-slate-500">Unduh salinan resmi atau unggah dokumen syarat pelengkap</p>
                   </div>
-                  <span class="material-symbols-outlined text-secondary text-[24px]">lock</span>
+                  <span class="material-symbols-outlined text-gold-600 text-[24px]">lock</span>
                 </div>
 
                 <div class="space-y-3" id="vaultDocsList">
-                  ${docsHtml || '<div class="text-on-surface-variant text-body-sm p-4">Belum ada dokumen yang diunggah.</div>'}
+                  ${docsHtml || '<div class="text-slate-500 text-xs p-4">Belum ada dokumen yang diunggah.</div>'}
                 </div>
 
                 <!-- Interactive Upload Simulation -->
                 <div class="pt-2">
-                  <label class="block font-label-md text-on-surface font-bold mb-2">Unggah Dokumen Tambahan (KTP, NPWP, Bukti Setor Modal)</label>
-                  <div class="border-2 border-dashed border-surface-container-highest hover:border-primary rounded-2xl p-6 text-center cursor-pointer transition-colors bg-surface-container-low/50" onclick="document.getElementById('spaFileInput').click()">
+                  <label class="block text-xs text-slate-800 font-bold mb-2">Unggah Dokumen Tambahan (KTP, NPWP, Bukti Setor Modal)</label>
+                  <div class="border-2 border-dashed border-slate-300 hover:border-crimson-800 rounded-2xl p-6 text-center cursor-pointer transition-colors bg-slate-50" onclick="document.getElementById('spaFileInput').click()">
                     <input type="file" id="spaFileInput" class="hidden">
-                    <span class="material-symbols-outlined text-primary text-[36px] mb-2 block">cloud_upload</span>
-                    <p class="font-label-md text-on-surface font-bold">Klik untuk memilih file atau seret file ke sini</p>
-                    <p class="font-body-sm text-on-surface-variant mt-1">Format PDF, JPG, PNG hingga 10 MB per berkas. Terenkripsi AES-256.</p>
+                    <span class="material-symbols-outlined text-crimson-800 text-[32px] mb-2 block mx-auto">cloud_upload</span>
+                    <p class="text-xs sm:text-sm text-slate-900 font-bold">Klik untuk memilih file atau seret file ke sini</p>
+                    <p class="text-xs text-slate-500 mt-1">Format PDF, JPG, PNG hingga 10 MB per berkas. Terenkripsi AES-256.</p>
                   </div>
                 </div>
               </div>
@@ -226,47 +243,47 @@ export function initTrackingLogic() {
             <!-- Right: Assigned PLA Card (4 Cols) -->
             <div class="lg:col-span-4 space-y-6">
               
-              <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-surface-container-high space-y-5">
-                <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
-                  <span class="font-label-sm text-secondary uppercase font-bold tracking-wider">Pendamping Legal Anda (PLA)</span>
-                  <span class="inline-flex items-center gap-1 font-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">
+              <div class="bg-white p-6 sm:p-7 rounded-3xl shadow-sm border border-slate-200/80 space-y-5">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <span class="text-[11px] text-crimson-800 uppercase font-extrabold tracking-wider">Pendamping Legal Anda (PLA)</span>
+                  <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full font-bold">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     Online
                   </span>
                 </div>
 
                 <div class="flex items-center gap-4">
-                  <img src="${pla.avatar || 'assets/najwa.jpg'}" alt="${pla.name}" class="w-16 h-16 rounded-2xl object-cover object-top shadow-sm">
+                  <img src="${pla.avatar || 'assets/najwa.jpg'}" alt="${pla.name}" class="w-16 h-16 rounded-2xl object-cover object-top shadow-sm border border-slate-100">
                   <div>
-                    <h4 class="font-headline-sm text-primary font-bold">${pla.name}</h4>
-                    <p class="font-label-md text-secondary font-semibold">${pla.title}</p>
-                    <span class="font-body-sm text-on-surface-variant">${pla.specialization}</span>
+                    <h4 class="text-base text-slate-900 font-extrabold">${pla.name}</h4>
+                    <p class="text-xs text-gold-600 font-bold">${pla.title}</p>
+                    <span class="text-xs text-slate-500">${pla.specialization}</span>
                   </div>
                 </div>
 
-                <p class="font-body-sm text-on-surface-variant leading-relaxed">
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100 italic">
                   "Halo! Saya ${pla.name}, asisten legal pribadi yang mengawal permohonan Anda hingga SK Menkumham resmi terbit. Silakan hubungi saya untuk konsultasi langsung."
                 </p>
 
-                <div class="space-y-2.5 pt-2">
-                  <a href="https://wa.me/6281288880192?text=Halo%20${pla.name}%20LEGALTA,%20saya%20klien%20dengan%20No%20Order%20${order.id}" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#25D366] text-white font-label-md font-bold rounded-xl shadow-sm hover:brightness-105 transition-all flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">chat</span>
+                <div class="space-y-2.5 pt-1">
+                  <a href="https://wa.me/6281288880192?text=Halo%20${pla.name}%20LEGALTA,%20saya%20klien%20dengan%20No%20Order%20${order.id}" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">chat</span>
                     <span>Chat WhatsApp dengan ${pla.name}</span>
                   </a>
-                  <a href="mailto:${pla.email}?subject=Status%20Order%20${order.id}" class="w-full py-3 bg-surface-container-high text-on-surface font-label-md font-bold rounded-xl hover:bg-surface-container-highest transition-all flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">mail</span>
+                  <a href="mailto:${pla.email}?subject=Status%20Order%20${order.id}" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">mail</span>
                     <span>Kirim Email Pendampingan</span>
                   </a>
                 </div>
               </div>
 
               <!-- Security Card -->
-              <div class="bg-surface-container-low p-6 rounded-3xl space-y-3 border border-surface-container">
-                <div class="flex items-center gap-2 text-primary">
-                  <span class="material-symbols-outlined text-[22px]">verified_user</span>
-                  <span class="font-label-md uppercase font-bold tracking-wider">Garansi Keabsahan Dokumen</span>
+              <div class="bg-amber-50/70 p-6 rounded-3xl space-y-2.5 border border-amber-200/70">
+                <div class="flex items-center gap-2 text-crimson-800">
+                  <span class="material-symbols-outlined text-[20px]">verified_user</span>
+                  <span class="text-xs uppercase font-extrabold tracking-wider">Garansi Keabsahan Dokumen</span>
                 </div>
-                <p class="font-body-sm text-on-surface-variant leading-relaxed">
+                <p class="text-xs text-slate-600 leading-relaxed">
                   Setiap akta notaris dan SK yang diterbitkan melalui platform LEGALTA dijamin 100% sah di mata hukum Republik Indonesia dan dapat dicek keasliannya di Ditjen AHU.
                 </p>
               </div>
@@ -284,9 +301,8 @@ export function initTrackingLogic() {
             try {
               const uploadRes = await api.uploadOrderDocument(currentActiveOrderId, file.name, 'OTHER');
               if (uploadRes.success) {
-                showToast(`Dokumen "${file.name}" berhasil diunggah dan disimpan ke server.`, 'success');
-                // Reload order
-                loadOrder(currentActiveOrderId);
+                showToast(`Dokumen "${file.name}" berhasil diunggah.`, 'success');
+                loadOrder(currentActiveOrderId, false);
               }
             } catch (err) {
               showToast('Gagal mengunggah dokumen: ' + err.message, 'error');
@@ -294,13 +310,15 @@ export function initTrackingLogic() {
           }
         });
 
-        showToast(`Memuat data ${order.id}: ${order.title}`, 'info');
+        if (notify) {
+          showToast(`Data order ${order.id} ditampilkan.`, 'info');
+        }
       } else {
-        content.innerHTML = `<div class="p-12 text-center bg-surface-container-lowest rounded-3xl border border-surface-container-high text-error font-bold">${response.message}</div>`;
+        content.innerHTML = `<div class="p-12 text-center bg-white rounded-3xl border border-slate-200 text-crimson-700 font-bold text-sm">${response.message}</div>`;
         showToast(response.message, 'error');
       }
     } catch (e) {
-      showToast('Koneksi backend gagal: ' + e.message, 'error');
+      showToast('Gagal memuat data order: ' + e.message, 'error');
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtn;
@@ -309,17 +327,16 @@ export function initTrackingLogic() {
 
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    loadOrder(input.value.trim().toUpperCase());
+    loadOrder(input.value.trim().toUpperCase(), true);
   });
 
   demoBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       const ord = this.getAttribute('data-order');
       input.value = ord;
-      loadOrder(ord);
+      loadOrder(ord, true);
     });
   });
 
-  // Initial load
-  loadOrder(currentActiveOrderId);
+  loadOrder(currentActiveOrderId, false);
 }

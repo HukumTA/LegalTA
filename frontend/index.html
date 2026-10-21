@@ -1,162 +1,261 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="web_standard" name="shell-type">
-  <title>LEGALTA — Keseimbangan • Modern • Adil | LegalTech Indonesia</title>
-  <meta name="description" content="Platform LegalTech modern terintegrasi di Indonesia. Pengurusan pendirian PT, CV, perizinan OSS-RBA, merek HKI, dan dokumen perusahaan dengan transparansi penuh.">
+  <title>LEGALTA — Keseimbangan • Modern • Adil | Platform LegalTech Indonesia</title>
+  <meta name="description" content="Platform LegalTech modern terpercaya di Indonesia untuk pendirian PT & CV secara kilat, pengurusan perizinan berusaha OSS terintegrasi, hingga proteksi merek HKI.">
   <link rel="icon" type="image/png" href="assets/logo.png">
   
-  <!-- Typography & Icons -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <!-- Google Fonts: Plus Jakarta Sans & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  
+
+  <!-- Critical Anti-FOUC & Mobile Drawer Safeguard Styles (Prevents initial load popup/flash) -->
   <style>
-    @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      main > :first-child { margin-top: 0 !important; }
-      main > :last-child { margin-bottom: 0 !important; }
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
-    ::-webkit-scrollbar { display: none; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #0F172A;
+      background-color: #FAFAFC;
+      overscroll-behavior: none;
+      overflow-x: hidden;
+    }
+    /* Prevent flash of unstyled content or mobile drawer popup before Tailwind & SPA initialize */
+    body:not(.app-ready) #navbar-container,
+    body:not(.app-ready) #app,
+    body:not(.app-ready) #footer-container {
+      opacity: 0;
+    }
+    body.app-ready #navbar-container,
+    body.app-ready #app,
+    body.app-ready #footer-container {
+      opacity: 1;
+      transition: opacity 0.18s ease-out;
+    }
+    /* Hard guarantee: mobile drawer & overlay are strictly hidden unless explicitly opened */
+    #mobileDrawer {
+      display: none !important;
+    }
+    #mobileDrawer.is-open {
+      display: flex !important;
+    }
+    #mobileOverlay {
+      display: none !important;
+    }
+    #mobileOverlay.is-open {
+      display: block !important;
+    }
+    /* Desktop dropdown safeguard before Tailwind loads */
+    .nav-dropdown-panel {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-dropdown-group:hover .nav-dropdown-panel,
+    .nav-dropdown-group:focus-within .nav-dropdown-panel {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    /* Prevent Material Symbols ligature text expansion before font loads */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      width: 1em;
+      height: 1em;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #B08514 0%, #E6B800 50%, #B08514 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .crimson-gradient-bg {
+      background: linear-gradient(135deg, #7F1517 0%, #570005 100%);
+    }
+    /* FAQ Accordion smooth transition */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease, padding 0.28s ease;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 360px;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
   </style>
 
-  <!-- Tailwind CSS Engine -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Newsreader"', 'serif'],
+            "display-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "body-sm": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "label-sm": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "label-md": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "headline-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "headline-sm": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "legal-clause": ['"Newsreader"', 'serif'],
+            "headline-xl-mobile": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "label-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "body-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "display-lg-mobile": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "body-md": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "headline-xl": ['"Plus Jakarta Sans"', 'sans-serif'],
+            "headline-md": ['"Plus Jakarta Sans"', 'sans-serif']
+          },
           colors: {
+            crimson: {
+              50: '#FDF2F2',
+              100: '#FCE7E7',
+              200: '#F9D0D0',
+              500: '#D91D2A',
+              600: '#B81924',
+              700: '#991B1E',
+              800: '#7F1517',
+              900: '#641012',
+              950: '#450A0C',
+            },
+            gold: {
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+              400: '#E6B800',
+              500: '#CCA01D',
+              600: '#B08514',
+              700: '#8C680D',
+            },
             "on-primary": "#ffffff",
             "secondary-fixed": "#ffdbca",
             "surface-container-lowest": "#ffffff",
             "on-primary-fixed-variant": "#891c1b",
-            "on-background": "#191c1e",
+            "on-background": "#0F172A",
             "error": "#ba1a1a",
             "tertiary-fixed-dim": "#bec6e0",
             "on-tertiary-container": "#a0a8c1",
-            "on-surface": "#191c1e",
-            "outline": "#8b716e",
-            "surface-bright": "#f7f9fb",
+            "on-surface": "#0F172A",
+            "outline": "#64748B",
+            "surface-bright": "#FAFAFC",
             "on-secondary": "#ffffff",
-            "outline-variant": "#dfbfbc",
-            "surface": "#f7f9fb",
+            "outline-variant": "#E2E8F0",
+            "surface": "#FAFAFC",
             "on-error": "#ffffff",
-            "secondary": "#9b4500",
-            "primary-container": "#7b1113",
-            "surface-dim": "#d8dadc",
-            "primary-fixed": "#ffdad6",
+            "secondary": "#B08514",
+            "primary-container": "#991B1E",
+            "surface-dim": "#E2E8F0",
+            "primary-fixed": "#FCE7E7",
             "tertiary-fixed": "#dae2fd",
-            "surface-container-low": "#f2f4f6",
-            "surface-container": "#eceef0",
+            "surface-container-low": "#F8FAFC",
+            "surface-container": "#F1F5F9",
             "primary-fixed-dim": "#ffb3ac",
-            "surface-tint": "#aa3530",
-            "on-surface-variant": "#58413f",
+            "surface-tint": "#7F1517",
+            "on-surface-variant": "#475569",
             "inverse-primary": "#ffb3ac",
             "secondary-fixed-dim": "#ffb68e",
             "on-tertiary": "#ffffff",
             "on-secondary-fixed-variant": "#763300",
-            "on-tertiary-fixed": "#131b2e",
-            "tertiary-container": "#353d52",
-            "surface-container-high": "#e6e8ea",
-            "inverse-surface": "#2d3133",
-            "inverse-on-surface": "#eff1f3",
-            "surface-container-highest": "#e0e3e5",
+            "on-tertiary-fixed": "#0F172A",
+            "tertiary-container": "#1E293B",
+            "surface-container-high": "#E2E8F0",
+            "inverse-surface": "#1E293B",
+            "inverse-on-surface": "#F8FAFC",
+            "surface-container-highest": "#CBD5E1",
             "on-primary-fixed": "#410003",
-            "secondary-container": "#fd8a42",
+            "secondary-container": "#E6B800",
             "on-secondary-fixed": "#331200",
             "on-secondary-container": "#682c00",
             "on-primary-container": "#ff837a",
             "error-container": "#ffdad6",
-            "primary": "#570005",
-            "surface-variant": "#e0e3e5",
+            "primary": "#7F1517",
+            "surface-variant": "#E2E8F0",
             "on-tertiary-fixed-variant": "#3f465c",
-            "tertiary": "#1f273b",
-            "background": "#f7f9fb",
+            "tertiary": "#0F172A",
+            "background": "#FAFAFC",
             "on-error-container": "#93000a"
           },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-          spacing: {
-            "space-sm": "0.5rem",
-            "space-lg": "1.5rem",
-            "space-xl": "2.5rem",
-            "space-xs": "0.25rem",
-            "space-md": "1rem",
-            "margin": "2rem",
-            "margin-mobile": "1rem",
-            "gutter": "1.5rem",
-            "gutter-lg": "2rem",
-            "margin-desktop": "3rem",
-            "gutter-sm": "1rem"
-          },
-          fontFamily: {
-            "display-lg": ["Newsreader"],
-            "body-sm": ["Plus Jakarta Sans"],
-            "label-sm": ["Plus Jakarta Sans"],
-            "label-md": ["Plus Jakarta Sans"],
-            "headline-lg": ["Newsreader"],
-            "headline-sm": ["Plus Jakarta Sans"],
-            "legal-clause": ["Newsreader"],
-            "headline-xl-mobile": ["Newsreader"],
-            "label-lg": ["Plus Jakarta Sans"],
-            "body-lg": ["Plus Jakarta Sans"],
-            "display-lg-mobile": ["Newsreader"],
-            "body-md": ["Plus Jakarta Sans"],
-            "headline-xl": ["Newsreader"],
-            "headline-md": ["Newsreader"]
-          },
           fontSize: {
-            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
             "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
-            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "15px", "letterSpacing": "0.04em", "fontWeight": "700" }],
             "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
-            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
-            "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
             "legal-clause": ["15px", { "lineHeight": "26px", "fontWeight": "400" }],
-            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
             "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
             "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
-            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "800" }],
             "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
-            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
-            "headline-md": ["22px", { "lineHeight": "30px", "fontWeight": "500" }]
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-md": ["22px", { "lineHeight": "30px", "fontWeight": "700" }]
           }
         }
       }
     };
   </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-primary">
+<body class="relative min-h-screen flex flex-col bg-[#FAFAFC] text-slate-900 font-sans antialiased selection:bg-crimson-100 selection:text-crimson-900">
 
-  <!-- Dynamic Header / Navbar -->
-  <div id="navbar-container"></div>
+  <!-- 1. Dynamic Header / Navbar (Sticky Top) -->
+  <div id="navbar-container" class="sticky top-0 z-40 w-full"></div>
 
-  <!-- Dynamic SPA Root View Outlet -->
-  <main id="app" class="w-full pt-20 bg-background min-h-screen"></main>
+  <!-- 2. Dynamic SPA Root View Outlet -->
+  <main id="app" class="flex-1 w-full"></main>
 
-  <!-- Floating WhatsApp Hotline (PRD Acceptance Criteria) -->
-  <aside class="fixed bottom-6 right-6 z-40">
-    <a aria-label="WhatsApp Konsultasi Legalitas" class="flex items-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-[0_8px_24px_-4px_rgba(15,23,42,0.16)] hover:brightness-105 transition-all" href="https://wa.me/6281288880192?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20layanan%20hukum" rel="noopener noreferrer" target="_blank">
-      <span class="material-symbols-outlined text-[24px]">chat</span>
-      <span class="font-label-lg text-white pr-1">Chat Legal</span>
-    </a>
-  </aside>
+  <!-- 3. Dynamic Footer (Placed cleanly at bottom of flex column) -->
+  <div id="footer-container" class="w-full mt-auto"></div>
 
-  <!-- Dynamic Footer -->
-  <div id="footer-container"></div>
+  <!-- 4. Floating WhatsApp Button (Fixed Bottom Right) -->
+  <a 
+    href="https://wa.me/6281288880192?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20layanan%20legalitas%20bisnis." 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3 rounded-full shadow-2xl shadow-emerald-600/30 hover:shadow-emerald-500/50 hover:-translate-y-1 transition-all duration-300 group"
+    aria-label="Konsultasi via WhatsApp"
+  >
+    <div class="relative flex items-center justify-center">
+      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.175.58 4.218 1.597 5.986l-1.605 5.856 6.035-1.583c1.705.93 3.655 1.47 5.728 1.47 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+      </svg>
+      <span class="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping"></span>
+    </div>
+    <span class="font-bold text-xs tracking-wide pr-0.5">Konsultasi WhatsApp</span>
+  </a>
 
   <!-- Global Toast Notifications Container -->
-  <div id="toast-container" class="fixed bottom-24 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <div id="toast-container" class="fixed bottom-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- SPA Router Entrypoint -->
   <script type="module" src="js/app.js"></script>

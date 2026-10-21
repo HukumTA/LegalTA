@@ -3,7 +3,7 @@
  * Checks Supabase connection and displays table status.
  */
 
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 const { isSupabaseConfigured, getSupabase, testConnection } = require('./supabase');
 
 async function checkSupabaseStatus() {

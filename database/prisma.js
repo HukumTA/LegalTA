@@ -4,7 +4,7 @@
  */
 
 const { PrismaClient } = require('@prisma/client');
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 let prismaInstance = null;
 
@@ -51,9 +51,13 @@ async function testPrismaConnection() {
 
 async function getPrismaCategories() {
   const prisma = getPrisma();
-  return prisma.serviceCategory.findMany({
+  const categories = await prisma.serviceCategory.findMany({
     orderBy: { id: 'asc' }
   });
+  return categories.map(c => ({
+    ...c,
+    id: Number(c.id)
+  }));
 }
 
 async function getPrismaServices(categorySlug = null) {
@@ -73,6 +77,10 @@ async function getPrismaServices(categorySlug = null) {
 
   return services.map(s => ({
     ...s,
+    id: Number(s.id),
+    category_id: Number(s.categoryId),
+    base_price: Number(s.basePrice),
+    estimated_days: s.estimatedDays,
     category_name: s.category ? s.category.name : null,
     category_slug: s.category ? s.category.slug : null
   }));
@@ -96,6 +104,10 @@ async function getPrismaServiceBySlug(slug) {
 
   return {
     ...service,
+    id: Number(service.id),
+    category_id: Number(service.categoryId),
+    base_price: Number(service.basePrice),
+    estimated_days: service.estimatedDays,
     category_name: service.category ? service.category.name : null,
     category_slug: service.category ? service.category.slug : null
   };
@@ -129,8 +141,19 @@ async function getPrismaOrderWithDetails(cleanId) {
 
   if (!orderData) return null;
 
+  const createdDateStr = orderData.createdAt
+    ? new Date(orderData.createdAt).toISOString().slice(0, 10)
+    : '-';
+
   const order = {
     ...orderData,
+    user_id: orderData.userId,
+    service_id: Number(orderData.serviceId),
+    pla_id: orderData.plaId,
+    total_amount: Number(orderData.totalAmount || 0),
+    voucher_code: orderData.voucherCode || '-',
+    kemenkumham_id: orderData.kemenkumhamId || '-',
+    created_at: createdDateStr,
     service_title: orderData.service ? orderData.service.title : 'Layanan Legalitas',
     category_name: orderData.service && orderData.service.category ? orderData.service.category.name : 'Badan Usaha',
     client_name: orderData.user ? orderData.user.name : 'Klien LEGALTA',
@@ -142,10 +165,32 @@ async function getPrismaOrderWithDetails(cleanId) {
     pla_avatar: orderData.pla ? orderData.pla.avatarUrl : null
   };
 
+  const steps = (orderData.trackingSteps || []).map(s => ({
+    ...s,
+    id: Number(s.id),
+    order_id: s.orderId,
+    step_number: s.stepNumber,
+    step_name: s.stepName,
+    completed_at: s.completedAt
+      ? new Date(s.completedAt).toISOString().replace('T', ' ').slice(0, 16)
+      : null
+  }));
+
+  const documents = (orderData.documents || []).map(d => ({
+    ...d,
+    order_id: d.orderId,
+    uploaded_by: d.uploadedBy,
+    file_name: d.fileName,
+    file_url: d.fileUrl,
+    file_size: d.fileSize,
+    doc_type: d.docType,
+    created_at: d.createdAt ? new Date(d.createdAt).toISOString().slice(0, 10) : null
+  }));
+
   return {
     order,
-    steps: orderData.trackingSteps || [],
-    documents: orderData.documents || [],
+    steps,
+    documents,
     pla: {
       name: order.pla_name || 'Najwa',
       title: 'Senior Personal Legal Assistant',
@@ -173,7 +218,14 @@ async function savePrismaDocument({ orderId, fileName, fileSize = '1.2 MB', docT
     }
   });
 
-  return saved;
+  return {
+    ...saved,
+    order_id: saved.orderId,
+    file_name: saved.fileName,
+    file_url: saved.fileUrl,
+    file_size: saved.fileSize,
+    doc_type: saved.docType
+  };
 }
 
 // BigInt JSON serialization support
@@ -199,7 +251,11 @@ async function savePrismaConsultation({ name, phone, email, city = '', service =
 
   return {
     ...saved,
-    id: Number(saved.id)
+    id: Number(saved.id),
+    client_name: saved.clientName,
+    phone_number: saved.phoneNumber,
+    service_slug: saved.serviceSlug,
+    consult_method: saved.consultMethod
   };
 }
 
@@ -211,7 +267,12 @@ async function getPrismaConsultations(limit = 50) {
   });
   return consultations.map(c => ({
     ...c,
-    id: Number(c.id)
+    id: Number(c.id),
+    client_name: c.clientName,
+    phone_number: c.phoneNumber,
+    service_slug: c.serviceSlug,
+    consult_method: c.consultMethod,
+    created_at: c.createdAt
   }));
 }
 

@@ -6,7 +6,7 @@
 const { createClient } = require('@supabase/supabase-js');
 
 // Load environment variables if not already loaded
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || '';
