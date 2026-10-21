@@ -1,6 +1,6 @@
-const { run, queryAll } = require('../../../database/db');
+const { saveConsultation, getConsultations: fetchConsultations } = require('../../../database/db');
 
-function createConsultation(req, res) {
+async function createConsultation(req, res) {
   try {
     const { name, phone, email, city = '', service = 'pt-standar', method = 'whatsapp', notes = '' } = req.body;
 
@@ -11,10 +11,7 @@ function createConsultation(req, res) {
       });
     }
 
-    run(`
-      INSERT INTO consultations (client_name, phone_number, email, city, service_slug, consult_method, notes)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `, [name, phone, email, city, service, method, notes]);
+    await saveConsultation({ name, phone, email, city, service, method, notes });
 
     // Build prefilled WhatsApp message link
     const waText = `Halo Tim LEGALTA, saya telah menjadwalkan konsultasi via web:\n\n- Nama: ${name}\n- WhatsApp: ${phone}\n- Email: ${email}\n- Domisili: ${city || '-'}\n- Layanan: ${service}\n- Metode: ${method.toUpperCase()}\n- Catatan: ${notes || '-'}\n\nMohon konfirmasi jadwal temu. Terima kasih!`;
@@ -33,9 +30,9 @@ function createConsultation(req, res) {
   }
 }
 
-function getConsultations(req, res) {
+async function getConsultations(req, res) {
   try {
-    const leads = queryAll('SELECT * FROM consultations ORDER BY created_at DESC LIMIT 50');
+    const leads = await fetchConsultations(50);
     res.json({ success: true, data: leads });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

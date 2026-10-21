@@ -7,7 +7,8 @@
     "start": "node backend/src/server.js",
     "dev": "node backend/src/server.js",
     "db:init": "node database/init.js",
-    "db:seed": "node database/init.js"
+    "db:seed": "node database/init.js",
+    "db:supabase": "node database/supabase_init.js"
   },
   "keywords": [
     "legaltech",
@@ -23,7 +24,9 @@
   "author": "LEGALTA Indonesia",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "cors": "^2.8.5",
+    "dotenv": "^18.0.8",
     "express": "^4.21.2"
   }
 }

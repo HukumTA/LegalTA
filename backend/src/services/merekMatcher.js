@@ -3,7 +3,7 @@
  * Legal Foundation: UU No. 20 Tahun 2016 tentang Merek dan Indikasi Geografis
  */
 
-const { queryAll } = require('../../../database/db');
+const { getRegisteredTrademarks } = require('../../../database/db');
 
 function simpleSoundex(s) {
   const str = (s || '').toUpperCase();
@@ -31,13 +31,13 @@ function simpleSoundex(s) {
   return (res + '000').slice(0, 4);
 }
 
-function searchTrademarkSimilarity(brandName, niceClass = 42) {
+async function searchTrademarkSimilarity(brandName, niceClass = 42) {
   const cleanBrand = (brandName || '').trim().toUpperCase();
   const targetClass = parseInt(niceClass, 10) || 42;
   const brandSoundex = simpleSoundex(cleanBrand);
 
-  // Fetch registered trademarks from database
-  const trademarks = queryAll('SELECT * FROM registered_trademarks');
+  // Fetch registered trademarks from database (Supabase or local fallback)
+  const trademarks = await getRegisteredTrademarks();
 
   const matches = [];
   let highestPhoneticSimilarity = 12; // Baseline

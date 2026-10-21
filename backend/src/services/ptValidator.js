@@ -3,7 +3,7 @@
  * Legal Foundation: UU No. 40 Tahun 2007 & PP No. 43 Tahun 2011
  */
 
-const { queryAll } = require('../../../database/db');
+const { getRegisteredPTs } = require('../../../database/db');
 
 // Forbidden governmental, military, or offensive tokens
 const FORBIDDEN_WORDS = [
@@ -41,7 +41,7 @@ function calculateLevenshtein(a, b) {
   return matrix[b.length][a.length];
 }
 
-function validatePTName(rawName) {
+async function validatePTName(rawName) {
   const cleanName = (rawName || '').replace(/^pt\.?\s+/i, '').trim();
   const words = cleanName.split(/\s+/).filter(w => w.length > 0);
   
@@ -71,8 +71,8 @@ function validatePTName(rawName) {
   const indonesianMatches = words.filter(w => INDONESIAN_MARKERS.includes(w.toLowerCase()));
   checks.indonesianLanguage = indonesianMatches.length >= 1 || words.length >= 3;
 
-  // Rule 4: Levenshtein distance check against active registered PTs in database
-  const registered = queryAll('SELECT name FROM registered_pts');
+  // Rule 4: Levenshtein distance check against active registered PTs in database (Supabase/SQLite)
+  const registered = await getRegisteredPTs();
   let highestSimilarity = 0;
   let closestMatch = null;
 

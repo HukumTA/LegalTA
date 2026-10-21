@@ -64,7 +64,8 @@ CREATE TABLE IF NOT EXISTS order_tracking (
     description TEXT,
     completed_at DATETIME,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    UNIQUE (order_id, step_number)
 );
 
 -- 6. DOCUMENTS TABLE

@@ -72,5 +72,16 @@ export const api = {
       body: JSON.stringify(payload)
     });
     return res.json();
+  },
+
+  // System & Database Health
+  async getSupabaseStatus() {
+    const res = await fetch(`${API_BASE}/supabase/status`);
+    return res.json();
+  },
+
+  async getHealth() {
+    const res = await fetch(`${API_BASE}/health`);
+    return res.json();
   }
 };

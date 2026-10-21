@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Environment Variables
+.env
+!.env.example
+
+# Local SQLite databases & journals
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+
+# Logs & temp files
+*.log
+.DS_Store
+Thumbs.db

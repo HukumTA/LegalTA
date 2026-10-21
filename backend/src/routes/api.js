@@ -5,6 +5,7 @@ const { getCategories, getServices, getServiceBySlug } = require('../controllers
 const { getOrderTracking, uploadDocument } = require('../controllers/ordersController');
 const { handleCheckPT, handleCheckMerek, handleCheckKBLI } = require('../controllers/toolsController');
 const { createConsultation, getConsultations } = require('../controllers/consultationsController');
+const { isSupabaseConfigured, testSupabase } = require('../../../database/db');
 
 // Services & Categories
 router.get('/categories', getCategories);
@@ -24,12 +25,24 @@ router.get('/tools/cek-kbli', handleCheckKBLI);
 router.post('/consultations', createConsultation);
 router.get('/consultations', getConsultations);
 
+// Supabase Status Endpoint
+router.get('/supabase/status', async (req, res) => {
+  const configured = isSupabaseConfigured();
+  const test = await testSupabase();
+  res.json({
+    isConfigured: configured,
+    engine: configured ? 'Supabase PostgreSQL' : 'Local SQLite Fallback',
+    connection: test
+  });
+});
+
 // API Health Check
 router.get('/health', (req, res) => {
   res.json({
     status: 'ONLINE',
     service: 'LEGALTA Core API Engine',
     version: '2.0.0 (Monorepo Architecture)',
+    databaseEngine: isSupabaseConfigured() ? 'Supabase PostgreSQL' : 'SQLite (Local Fallback)',
     tagline: 'Keseimbangan • Modern • Adil'
   });
 });

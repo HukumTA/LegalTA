@@ -1,45 +1,28 @@
-const { queryAll, queryOne } = require('../../../database/db');
+const { getCategories: fetchCategories, getServices: fetchServices, getServiceBySlug: fetchServiceBySlug } = require('../../../database/db');
 
-function getCategories(req, res) {
+async function getCategories(req, res) {
   try {
-    const categories = queryAll('SELECT * FROM service_categories ORDER BY id ASC');
+    const categories = await fetchCategories();
     res.json({ success: true, data: categories });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 }
 
-function getServices(req, res) {
+async function getServices(req, res) {
   try {
     const { category } = req.query;
-    let sql = `
-      SELECT s.*, c.name as category_name, c.slug as category_slug 
-      FROM services s 
-      JOIN service_categories c ON s.category_id = c.id
-    `;
-    const params = [];
-    if (category) {
-      sql += ' WHERE c.slug = ?';
-      params.push(category);
-    }
-    sql += ' ORDER BY s.id ASC';
-
-    const services = queryAll(sql, params);
+    const services = await fetchServices(category);
     res.json({ success: true, data: services });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 }
 
-function getServiceBySlug(req, res) {
+async function getServiceBySlug(req, res) {
   try {
     const { slug } = req.params;
-    const service = queryOne(`
-      SELECT s.*, c.name as category_name, c.slug as category_slug 
-      FROM services s 
-      JOIN service_categories c ON s.category_id = c.id
-      WHERE s.slug = ?
-    `, [slug]);
+    const service = await fetchServiceBySlug(slug);
 
     if (!service) {
       return res.status(404).json({ success: false, message: 'Layanan tidak ditemukan' });

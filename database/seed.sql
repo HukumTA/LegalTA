@@ -39,25 +39,25 @@ INSERT OR IGNORE INTO orders (id, user_id, service_id, pla_id, title, status, to
 
 -- 5. SEED ORDER TRACKING STEPS (PRD 3.C)
 -- Steps for LEG-2025-0891 (On Progress)
-INSERT OR IGNORE INTO order_tracking (order_id, step_number, step_name, status, description, completed_at) VALUES
-('LEG-2025-0891', 1, 'Konsultasi & Verifikasi Dokumen', 'DONE', 'Wawancara awal & verifikasi KTP/NPWP direksi dan komisaris terkonfirmasi Dukcapil', '2025-10-21 10:45:00'),
-('LEG-2025-0891', 2, 'Cek Nama PT & Reservasi AHU', 'DONE', 'Pemesanan nama PT PERKASA DIGITAL NUSANTARA sukses disetujui Ditjen AHU Kemenkumham RI', '2025-10-21 15:30:00'),
-('LEG-2025-0891', 3, 'Akta Notaris & Tanda Tangan', 'JALAN', 'Draf Anggaran Dasar selesai dirumuskan. Proses pembacaan & pengesahan akta notaris rekanan', NULL),
-('LEG-2025-0891', 4, 'Pengesahan SK Menkumham & NIB', 'PENDING', 'Pengunggahan salinan resmi akta ke Ditjen AHU untuk penerbitan SK Badan Hukum final & NIB OSS', NULL);
+INSERT OR IGNORE INTO order_tracking (id, order_id, step_number, step_name, status, description, completed_at) VALUES
+(1, 'LEG-2025-0891', 1, 'Konsultasi & Verifikasi Dokumen', 'DONE', 'Wawancara awal & verifikasi KTP/NPWP direksi dan komisaris terkonfirmasi Dukcapil', '2025-10-21 10:45:00'),
+(2, 'LEG-2025-0891', 2, 'Cek Nama PT & Reservasi AHU', 'DONE', 'Pemesanan nama PT PERKASA DIGITAL NUSANTARA sukses disetujui Ditjen AHU Kemenkumham RI', '2025-10-21 15:30:00'),
+(3, 'LEG-2025-0891', 3, 'Akta Notaris & Tanda Tangan', 'JALAN', 'Draf Anggaran Dasar selesai dirumuskan. Proses pembacaan & pengesahan akta notaris rekanan', NULL),
+(4, 'LEG-2025-0891', 4, 'Pengesahan SK Menkumham & NIB', 'PENDING', 'Pengunggahan salinan resmi akta ke Ditjen AHU untuk penerbitan SK Badan Hukum final & NIB OSS', NULL);
 
 -- Steps for LEG-2025-0104 (Completed)
-INSERT OR IGNORE INTO order_tracking (order_id, step_number, step_name, status, description, completed_at) VALUES
-('LEG-2025-0104', 1, 'Konsultasi & Pernyataan Pendirian', 'DONE', 'Formulir pernyataan pendirian mandiri selesai diisi dan divalidasi sistem', '2025-10-12 09:15:00'),
-('LEG-2025-0104', 2, 'Pendaftaran Nama PT Perorangan', 'DONE', 'Nama PT KOPI SENJA SELARAS disetujui Ditjen AHU Kemenkumham', '2025-10-12 11:00:00'),
-('LEG-2025-0104', 3, 'Penerbitan Sertifikat AHU', 'DONE', 'Sertifikat Pendaftaran Pendirian Perseroan Perorangan resmi terbit', '2025-10-13 14:20:00'),
-('LEG-2025-0104', 4, 'Penerbitan NIB & Akun OSS', 'DONE', 'NIB 13 digit dan akun OSS RBA resmi diserahkan kepada klien. Berkas lengkap', '2025-10-14 10:00:00');
+INSERT OR IGNORE INTO order_tracking (id, order_id, step_number, step_name, status, description, completed_at) VALUES
+(5, 'LEG-2025-0104', 1, 'Konsultasi & Pernyataan Pendirian', 'DONE', 'Formulir pernyataan pendirian mandiri selesai diisi dan divalidasi sistem', '2025-10-12 09:15:00'),
+(6, 'LEG-2025-0104', 2, 'Pendaftaran Nama PT Perorangan', 'DONE', 'Nama PT KOPI SENJA SELARAS disetujui Ditjen AHU Kemenkumham', '2025-10-12 11:00:00'),
+(7, 'LEG-2025-0104', 3, 'Penerbitan Sertifikat AHU', 'DONE', 'Sertifikat Pendaftaran Pendirian Perseroan Perorangan resmi terbit', '2025-10-13 14:20:00'),
+(8, 'LEG-2025-0104', 4, 'Penerbitan NIB & Akun OSS', 'DONE', 'NIB 13 digit dan akun OSS RBA resmi diserahkan kepada klien. Berkas lengkap', '2025-10-14 10:00:00');
 
 -- Steps for LEG-2025-0942 (Pending)
-INSERT OR IGNORE INTO order_tracking (order_id, step_number, step_name, status, description, completed_at) VALUES
-('LEG-2025-0942', 1, 'Penelusuran Kemiripan PDKI', 'JALAN', 'Riset mendalam kemiripan fonetik dan visual di Kelas Nice 42 oleh Konsultan HKI', NULL),
-('LEG-2025-0942', 2, 'Penyusunan Etiket & Uraian', 'PENDING', 'Format etiket gambar logo & perincian klasifikasi software', NULL),
-('LEG-2025-0942', 3, 'Pengajuan ke Portal DJKI', 'PENDING', 'Pembayaran billing PNBP & penerbitan bukti pendaftaran resmi', NULL),
-('LEG-2025-0942', 4, 'Masa Pengumuman & Sertifikat', 'PENDING', 'Monitoring masa oposisi 2 bulan hingga terbit Sertifikat Merek', NULL);
+INSERT OR IGNORE INTO order_tracking (id, order_id, step_number, step_name, status, description, completed_at) VALUES
+(9, 'LEG-2025-0942', 1, 'Penelusuran Kemiripan PDKI', 'JALAN', 'Riset mendalam kemiripan fonetik dan visual di Kelas Nice 42 oleh Konsultan HKI', NULL),
+(10, 'LEG-2025-0942', 2, 'Penyusunan Etiket & Uraian', 'PENDING', 'Format etiket gambar logo & perincian klasifikasi software', NULL),
+(11, 'LEG-2025-0942', 3, 'Pengajuan ke Portal DJKI', 'PENDING', 'Pembayaran billing PNBP & penerbitan bukti pendaftaran resmi', NULL),
+(12, 'LEG-2025-0942', 4, 'Masa Pengumuman & Sertifikat', 'PENDING', 'Monitoring masa oposisi 2 bulan hingga terbit Sertifikat Merek', NULL);
 
 -- 6. SEED DOCUMENTS
 INSERT OR IGNORE INTO documents (id, order_id, uploaded_by, file_name, file_url, file_size, doc_type) VALUES
