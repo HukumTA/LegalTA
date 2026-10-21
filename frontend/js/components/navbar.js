@@ -11,14 +11,14 @@ export function renderNavbar(activePath = '/') {
   container.innerHTML = `
     <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
       <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-        <a href="#/" class="flex items-center gap-space-md">
-          <div class="w-9 h-9 rounded-xl bg-primary-container text-white flex items-center justify-center font-bold text-lg shadow-sm">L</div>
-          <div class="flex flex-col">
-            <div class="flex items-center gap-space-xs">
-              <span class="font-headline-sm text-primary tracking-tight font-bold">LEGALTA</span>
-              <span class="font-label-sm text-secondary uppercase bg-secondary-fixed/50 px-2 py-0.5 rounded-full">ID</span>
+        <a href="#/" class="flex items-center gap-3 group">
+          <img src="assets/logo.png" alt="Logo LEGALTA" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
+          <div class="flex flex-col justify-center">
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-primary tracking-tight font-bold text-xl leading-none">LEGALTA</span>
+              <span class="text-[10px] font-bold text-secondary uppercase bg-secondary-fixed/50 px-1.5 py-0.5 rounded leading-none">ID</span>
             </div>
-            <span class="font-label-sm text-on-surface-variant hidden sm:inline-block tracking-wide">Keseimbangan • Modern • Adil</span>
+            <span class="text-[11px] text-on-surface-variant font-medium tracking-wider hidden sm:inline-block mt-1">KESEIMBANGAN • MODERN • ADIL</span>
           </div>
         </a>
 
@@ -78,9 +78,9 @@ export function renderNavbar(activePath = '/') {
     <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-surface-container-lowest shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto">
       <div class="p-6">
         <div class="flex items-center justify-between pb-6 border-b border-surface-container-high">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center font-bold text-sm">L</div>
-            <span class="font-headline-sm font-bold text-primary tracking-tight">LEGALTA</span>
+          <div class="flex items-center gap-2.5">
+            <img src="assets/logo.png" alt="Logo LEGALTA" class="h-9 w-auto object-contain" />
+            <span class="font-headline-sm font-bold text-primary tracking-tight text-lg">LEGALTA</span>
           </div>
           <button id="closeMobileDrawer" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container" aria-label="Tutup Menu">
             <span class="material-symbols-outlined text-[24px]">close</span>

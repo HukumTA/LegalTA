@@ -12,8 +12,10 @@ export function renderFooter() {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-surface-container-high/10">
           <div class="md:col-span-1 space-y-4">
             <div class="flex items-center gap-3">
-              <div class="h-9 w-9 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold text-lg">L</div>
-              <span class="font-headline-sm font-bold text-xl text-white tracking-tight">LEGALTA</span>
+              <div class="h-11 w-11 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-md">
+                <img src="assets/logo.png" alt="LEGALTA Logo" class="h-full w-full object-contain" />
+              </div>
+              <span class="font-headline-sm font-bold text-2xl text-white tracking-tight">LEGALTA</span>
             </div>
             <p class="font-body-sm text-tertiary-fixed-dim leading-relaxed">Platform LegalTech modern yang memberikan kepastian hukum bagi pebisnis, UMKM, dan startup di seluruh Indonesia.</p>
             <p class="font-label-sm text-secondary-container font-semibold uppercase tracking-wider">Keseimbangan • Modern • Adil</p>

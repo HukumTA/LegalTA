@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
 });
 
 if (require.main === module) {
-  app.listen(PORT, async () => {
+  const server = app.listen(PORT, async () => {
     const prismaActive = isPrismaConfigured();
     const supabaseActive = isSupabaseConfigured();
 
@@ -77,6 +77,16 @@ if (require.main === module) {
     }
     console.log(`  > Filosofi:      Keseimbangan • Modern • Adil`);
     console.log(`======================================================\n`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n❌ [PORT CONFLICT] Port ${PORT} sedang dipakai oleh proses lain.`);
+      console.error(`   Solusi di PowerShell: Stop-Process -Id (Get-NetTCPConnection -LocalPort ${PORT}).OwningProcess -Force\n`);
+      process.exit(1);
+    } else {
+      console.error('[SERVER LISTEN ERROR]', err);
+    }
   });
 }
 

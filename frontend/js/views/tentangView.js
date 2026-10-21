@@ -42,6 +42,40 @@ export function renderTentangView() {
               </p>
             </div>
           </div>
+
+          <!-- Brand Identity & Logo Philosophy Showcase -->
+          <div class="mt-8 p-8 rounded-3xl bg-white border border-surface-container-high shadow-sm">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div class="lg:col-span-4 flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl border border-surface-container-high/60">
+                <img src="assets/logo.png" alt="Lambang Resmi LEGALTA" class="h-44 w-auto object-contain drop-shadow-md" />
+                <span class="mt-3 font-label-sm uppercase tracking-widest text-secondary font-bold">Identitas Resmi LEGALTA</span>
+              </div>
+              <div class="lg:col-span-8 space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed/50 text-secondary">
+                  <span class="material-symbols-outlined text-[16px]">balance</span>
+                  <span class="font-label-sm uppercase tracking-wider font-bold">Filosofi Lambang</span>
+                </div>
+                <h3 class="font-headline-lg text-primary font-bold">Dualitas Keadilan: Sinergi Merah Ketegasan & Emas Integritas</h3>
+                <p class="font-body-md text-on-surface-variant leading-relaxed">
+                  Lambang resmi <strong>LEGALTA</strong> memvisualisasikan timbangan keadilan modern yang menyatu dengan siluet monogram dinamis huruf <strong>"L"</strong>. Belahan warna merah marun melambangkan keberanian, ketegasan yuridis, dan perlindungan hak hukum klien; sedangkan gradasi emas metalik merepresentasikan kemuliaan profesi notariat, kemakmuran mitra usaha, dan integritas etika yang luhur.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-surface-container-high">
+                  <div class="space-y-1">
+                    <span class="font-label-lg font-bold text-primary block">Keseimbangan</span>
+                    <span class="text-xs text-on-surface-variant">Harmonisasi regulasi pemerintah dan akselerasi bisnis klien.</span>
+                  </div>
+                  <div class="space-y-1">
+                    <span class="font-label-lg font-bold text-secondary block">Modern</span>
+                    <span class="text-xs text-on-surface-variant">Integrasi teknologi pangkalan data Ditjen AHU, OSS-RBA, & PDKI.</span>
+                  </div>
+                  <div class="space-y-1">
+                    <span class="font-label-lg font-bold text-primary block">Adil</span>
+                    <span class="text-xs text-on-surface-variant">Transparansi tarif legalitas tanpa biaya tersembunyi bagi semua.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -127,8 +161,7 @@ export function renderTentangView() {
 
             <!-- 6. Najwa -->
             <div class="bg-surface-container-low rounded-3xl overflow-hidden border border-surface-container-high flex flex-col justify-between">
-              <div>
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Z30Zfg8uJB3aOLvO9XqC3TwP-vAZf0h_Ir39bA9SP54kzOeP62jZBolvPWJQXkWtTh9QvQAg6GyCtArctfeXkBY1SvQS023dXHCrNUWOe6D5tB6q4qWIOvKw3f-lKNuzdzrpDqoth0IR_XKzd0O-T9uCMIkCEccvOWhE1FcARDHbxTlmOYUtoVwsG4Dd_1iRyfond1cNXc5nQR6A4AF5OBc4h6lGHpA_IPMCCPAYq9s40mP29aEl9p_PXfz_QPJluQ" alt="Najwa" class="w-full aspect-[4/5] object-cover">
+                <img src="assets/najwa.jpg" alt="Najwa" class="w-full aspect-[4/5] object-cover object-top">
                 <div class="p-6 space-y-2">
                   <h3 class="font-headline-sm text-primary font-bold">Najwa</h3>
                   <p class="font-label-md text-secondary font-semibold">Head of Client Relations &amp; Personal Legal Assistant</p>

@@ -236,7 +236,7 @@ export function initTrackingLogic() {
                 </div>
 
                 <div class="flex items-center gap-4">
-                  <img src="${pla.avatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuA-Z30Zfg8uJB3aOLvO9XqC3TwP-vAZf0h_Ir39bA9SP54kzOeP62jZBolvPWJQXkWtTh9QvQAg6GyCtArctfeXkBY1SvQS023dXHCrNUWOe6D5tB6q4qWIOvKw3f-lKNuzdzrpDqoth0IR_XKzd0O-T9uCMIkCEccvOWhE1FcARDHbxTlmOYUtoVwsG4Dd_1iRyfond1cNXc5nQR6A4AF5OBc4h6lGHpA_IPMCCPAYq9s40mP29aEl9p_PXfz_QPJluQ'}" alt="${pla.name}" class="w-16 h-16 rounded-2xl object-cover shadow-sm">
+                  <img src="${pla.avatar || 'assets/najwa.jpg'}" alt="${pla.name}" class="w-16 h-16 rounded-2xl object-cover object-top shadow-sm">
                   <div>
                     <h4 class="font-headline-sm text-primary font-bold">${pla.name}</h4>
                     <p class="font-label-md text-secondary font-semibold">${pla.title}</p>

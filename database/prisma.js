@@ -176,10 +176,14 @@ async function savePrismaDocument({ orderId, fileName, fileSize = '1.2 MB', docT
   return saved;
 }
 
+// BigInt JSON serialization support
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
 async function savePrismaConsultation({ name, phone, email, city = '', service = 'pt-standar', method = 'whatsapp', notes = '' }) {
   const prisma = getPrisma();
-
-  const methodEnum = method.toUpperCase() === 'GMEET' ? 'GMEET' : (method.toUpperCase() === 'OFFICE' ? 'OFFICE' : 'WHATSAPP');
+  const validMethod = (method || 'whatsapp').toLowerCase();
 
   const saved = await prisma.consultation.create({
     data: {
@@ -188,20 +192,27 @@ async function savePrismaConsultation({ name, phone, email, city = '', service =
       email,
       city,
       serviceSlug: service,
-      consultMethod: methodEnum,
+      consultMethod: ['whatsapp', 'gmeet', 'office'].includes(validMethod) ? validMethod : 'whatsapp',
       notes
     }
   });
 
-  return saved;
+  return {
+    ...saved,
+    id: Number(saved.id)
+  };
 }
 
 async function getPrismaConsultations(limit = 50) {
   const prisma = getPrisma();
-  return prisma.consultation.findMany({
+  const consultations = await prisma.consultation.findMany({
     orderBy: { createdAt: 'desc' },
     take: limit
   });
+  return consultations.map(c => ({
+    ...c,
+    id: Number(c.id)
+  }));
 }
 
 async function getPrismaRegisteredPTs() {
@@ -215,7 +226,7 @@ async function getPrismaRegisteredTrademarks() {
   const prisma = getPrisma();
   const marks = await prisma.registeredTrademark.findMany();
   return marks.map(m => ({
-    id: m.id,
+    id: Number(m.id),
     brand_name: m.brandName,
     nice_class: m.niceClass,
     application_number: m.applicationNumber,
