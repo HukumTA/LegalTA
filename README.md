@@ -1,6 +1,6 @@
 # LEGALTA — Keseimbangan • Modern • Adil
 
-> **Arsitektur Monorepo Terpadu (Single Page Application, Layered Backend API & Supabase Database)**  
+> **Arsitektur Monorepo Terpadu (Single Page Application, Layered Backend API, Prisma ORM & Supabase Database)**  
 > Platform *LegalTech* korporasi di Indonesia yang mengintegrasikan kecerdasan perizinan berusaha OSS-RBA, administrasi hukum umum Ditjen AHU Kemenkumham RI, dan hak kekayaan intelektual (DJKI).
 
 ---
@@ -11,9 +11,13 @@
 LegalTA/
 ├── PRD.Md                         # Product Requirements Document
 ├── ERD.Md                         # Entity Relationship Diagram & Schema Specs
-├── package.json                   # Root Monorepo Configuration & Scripts
-├── .env.example                   # Template Variabel Lingkungan & Kredensial Supabase
+├── package.json                   # Root Monorepo Configuration, Dependencies & Scripts
+├── .env.example                   # Template Variabel Lingkungan (Prisma & Supabase)
 ├── .env                           # Variabel Lingkungan Lokal
+│
+├── prisma/                        # 💎 PRISMA ORM (DATA MODELING & MIGRATION)
+│   ├── schema.prisma              # Deklarasi Model, Relasi, Indeks & Enums PostgreSQL
+│   └── seed.js                    # Seeder Database Idempotent via Prisma Client
 │
 ├── frontend/                      # 🎨 FRONTEND CLIENT (HANYA 1 FILE HTML)
 │   ├── index.html                 # Satu-satunya berkas HTML (Single Page Application Root)
@@ -40,9 +44,9 @@ LegalTA/
 │
 ├── backend/                       # ⚙️ BACKEND API ENGINE (Node.js & Express)
 │   └── src/
-│       ├── server.js              # Express Server, Middleware, Supabase Status & Static SPA Serving
+│       ├── server.js              # Express Server, Middleware, Engine Logger & Static SPA
 │       ├── routes/
-│       │   └── api.js             # Central REST API Routing & Supabase Status Endpoint
+│       │   └── api.js             # Central REST API Routing & /database/status
 │       ├── controllers/
 │       │   ├── servicesController.js    # Katalog Layanan & Kategori (Async)
 │       │   ├── ordersController.js      # Live Tracking, Status & Dokumen (Async)
@@ -53,89 +57,75 @@ LegalTA/
 │           ├── merekMatcher.js    # Engine Kemiripan Fonetik PDKI (Soundex)
 │           └── kbliEngine.js      # Search & Risk Determination OSS-RBA
 │
-└── database/                      # 🗄️ DATABASE LAYER (Supabase Cloud + Local SQLite Fallback)
-    ├── supabase.js                # Supabase Client & Async Repository (@supabase/supabase-js)
-    ├── supabase_schema.sql        # DDL PostgreSQL Lengkap untuk Supabase SQL Editor
-    ├── supabase_seed.sql          # Data Awal PostgreSQL (Users, Services, Orders, KBLI)
-    ├── supabase_init.js           # CLI Checker Status & Verifikasi Koneksi Supabase
-    ├── db.js                      # Unified Adapter: Supabase Cloud dengan Fallback SQLite
+└── database/                      # 🗄️ DATABASE LAYER & UNIFIED CASCADE ADAPTER
+    ├── prisma.js                  # Prisma Client Repository Layer (@prisma/client)
+    ├── supabase.js                # Supabase Client Layer (@supabase/supabase-js)
+    ├── db.js                      # Unified Adapter: Prisma ORM -> Supabase -> SQLite Fallback
+    ├── supabase_schema.sql        # Backup Skema DDL PostgreSQL
+    ├── supabase_seed.sql          # Backup Seed Data SQL
+    ├── supabase_init.js           # CLI Verifikasi Supabase REST
     ├── schema.sql                 # DDL SQLite Lokal
-    ├── seed.sql                   # Data Awal SQLite Lokal
+    ├── seed.sql                   # Seed SQLite Lokal
     └── init.js                    # Inisialisasi Otomatis Database Lokal
 ```
 
 ---
 
-## ⚡ Fitur Utama & Kepatuhan PRD / ERD
+## ⚡ Panduan Prisma ORM ke Supabase
 
-### 1. Frontend SPA (Hanya 1 HTML)
-- **Zero Page Reload**: Navigasi mulus antar 12 modul views menggunakan `#/` hash-routing (`frontend/js/app.js`).
-- **Design Tokens Konsisten**: Tailwind CSS dengan palet HSL modern (*Deep Crimson `#570005`, Warm Rust `#9b4500`, Deep Slate Navy `#1f273b`*) dan tipografi editorial *Newsreader* + *Plus Jakarta Sans*.
-- **Responsive Drawer**: Navigasi mobile responsif dengan akordion submenu.
+Struktur database LEGALTA didefinisikan menggunakan **Prisma Schema** (`prisma/schema.prisma`). Anda dapat melakukan sinkronisasi struktur langsung ke Supabase tanpa perlu menulis query SQL manual.
 
-### 2. Backend REST API
-- `GET /api/services`: Mengambil katalog layanan dan harga dasar (langsung dari Supabase / fallback).
-- `GET /api/orders/:id`: Mengambil live status 4 langkah tracking, dokumen brankas, dan data Personal Legal Assistant (PLA).
-- `POST /api/orders/:orderId/documents`: Mengunggah dan mencatat dokumen tambahan ke database.
-- `POST /api/tools/cek-pt`: Menguji usulan nama PT (aturan 3 kata, cek kata terlarang, Levenshtein distance terhadap PT terdaftar).
-- `POST /api/tools/cek-merek`: Menghitung probabilitas lolos substantif dan kemiripan fonetik PDKI.
-- `GET /api/tools/cek-kbli`: Pencarian kode 5-digit KBLI 2020 dan pemetaan tingkat risiko (R, MR, MT, T).
-- `POST /api/consultations`: Menyimpan data konsultasi & menghasilkan deep-link WhatsApp otomatis.
-- `GET /api/supabase/status`: Memeriksa status koneksi aktif ke Supabase PostgreSQL.
-- `GET /api/health`: Health-check status server & engine basis data yang sedang aktif.
+### Langkah 1: Siapkan Supabase Connection String
+1. Buat project di [Supabase Dashboard](https://supabase.com/dashboard).
+2. Buka menu **Project Settings** -> **Database**.
+3. Di bagian **Connection String**:
+   - Salin URI dengan mode **Transaction** (Port 6543) ke variabel `DATABASE_URL` di file [`.env`](file:///e:/Ngodingkan/LegalTA/.env).
+   - Salin URI dengan mode **Session / Direct connection** (Port 5432) ke variabel `DIRECT_URL` di file [`.env`](file:///e:/Ngodingkan/LegalTA/.env).
 
----
-
-## 🗄️ Panduan Integrasi Supabase (PostgreSQL Cloud)
-
-LEGALTA telah terintegrasi penuh dengan **Supabase**. Ikuti langkah mudah berikut untuk menghubungkan basis data:
-
-### Langkah 1: Buat Project di Supabase
-1. Masuk ke [https://supabase.com](https://supabase.com) dan buat project baru (misal: `legalta-db`).
-2. Tentukan nama database dan password database Anda.
-
-### Langkah 2: Jalankan Skema & Data Awal di Supabase SQL Editor
-1. Buka dashboard Supabase Anda, lalu klik menu **SQL Editor** pada navigasi kiri.
-2. Buat **New Query**, buka file [database/supabase_schema.sql](file:///e:/Ngodingkan/LegalTA/database/supabase_schema.sql), lalu salin seluruh kodenya dan klik **Run**.
-   - Ini akan membuat seluruh 10 tabel inti, foreign keys, index performa, serta aturan *Row Level Security (RLS)*.
-3. Buat query baru, buka file [database/supabase_seed.sql](file:///e:/Ngodingkan/LegalTA/database/supabase_seed.sql), lalu salin seluruh isinya dan klik **Run**.
-   - Ini akan mengisi data awal paket layanan, akun demo, riwayat tracking, database KBLI 2020, PT terdaftar, dan merek DJKI.
-
-### Langkah 3: Konfigurasi Kredensial di `.env`
-Buka menu **Project Settings** -> **API** di Supabase Dashboard, salin **Project URL** dan **anon public key**, lalu masukkan ke file `.env` di root project LEGALTA:
+Contoh isi [`.env`](file:///e:/Ngodingkan/LegalTA/.env):
 ```env
 PORT=3000
-SUPABASE_URL=https://<your-project-ref>.supabase.co
-SUPABASE_ANON_KEY=<your-anon-public-key>
+
+DATABASE_URL="postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:5432/postgres"
+
+SUPABASE_URL=https://[PROJECT-REF].supabase.co
+SUPABASE_ANON_KEY=[ANON-KEY]
 ```
 
-### Langkah 4: Verifikasi Koneksi Supabase
-Jalankan perintah verifikasi:
+### Langkah 2: Dorong Skema Prisma ke Supabase
+Jalankan perintah ini untuk membuat seluruh tabel, enum, foreign key, dan indeks di Supabase PostgreSQL:
 ```bash
-npm run db:supabase
+npm run prisma:push
 ```
-Script akan memeriksa koneksi dan menampilkan jumlah baris data di setiap tabel Supabase secara langsung.
 
-> **Fitur Fallback Aman:** Jika Supabase belum dikonfigurasi atau sedang offline, server LEGALTA secara otomatis beralih ke database lokal SQLite tanpa pernah mengalami *crash* atau *downtime*.
+### Langkah 3: Isi Data Awal (Seed) Menggunakan Prisma
+Jalankan seeder idempotent Prisma:
+```bash
+npm run prisma:seed
+```
+Perintah ini akan mengisi data demo pesanan (`LEG-2025-0891`, `LEG-2025-0104`, `LEG-2025-0942`), katalog layanan AHU/OSS/DJKI, akun PLA Najwa & Wildan, serta kamus KBLI 2020.
+
+### Langkah 4: Buka Prisma Studio (Opsional)
+Untuk melihat dan mengelola data tabel secara visual melalui antarmuka web interaktif:
+```bash
+npm run prisma:studio
+```
 
 ---
 
-## 🚀 Panduan Menjalankan Aplikasi
+## 🚀 Menjalankan Server & API
 
 1. **Jalankan Aplikasi Monorepo**:
    ```bash
    npm start
-   # atau untuk auto-restart saat develop:
+   # atau mode pengembangan:
    npm run dev
    ```
 
 2. **Akses di Browser**:
-   - **Aplikasi Web**: [http://localhost:3000](http://localhost:3000)
+   - **Frontend Web SPA**: [http://localhost:3000](http://localhost:3000)
    - **Health Check API**: [http://localhost:3000/api/health](http://localhost:3000/api/health)
-   - **Status Supabase**: [http://localhost:3000/api/supabase/status](http://localhost:3000/api/supabase/status)
+   - **Status Mesin Database**: [http://localhost:3000/api/database/status](http://localhost:3000/api/database/status)
 
-3. **Data Demo Siap Uji**:
-   - Tracking Pesanan: Cari ID `LEG-2025-0891` atau nomor WhatsApp `+6281299990891` di menu [Live Tracking](http://localhost:3000/#/tracking).
-   - Cek Nama PT: Uji di menu [Cek PT](http://localhost:3000/#/cek-pt) (contoh usulan: `PT Inovasi Digital Nusantara`).
-   - Cek Merek: Uji di menu [Cek Merek](http://localhost:3000/#/cek-merek) (contoh: nama `VOYAGER` di Kelas Nice `42`).
-   - Cek KBLI: Uji di menu [Cek KBLI](http://localhost:3000/#/cek-kbli) (contoh cari: `software` atau kode `62019`).
+> **Catatan Keandalan:** Jika `DATABASE_URL` belum diisi, aplikasi akan tetap berjalan mulus menggunakan SQLite lokal (`database/legalta.sqlite`) sebagai fallback otomatis sehingga Anda dapat menguji seluruh UI dan fitur tanpa kendala.

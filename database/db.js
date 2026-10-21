@@ -1,11 +1,15 @@
 /**
  * LEGALTA Unified Database Access Layer
- * Supports Supabase (PostgreSQL Cloud) with graceful local SQLite fallback.
+ * Priority Cascade:
+ * 1. Prisma ORM (via DATABASE_URL to Supabase PostgreSQL)
+ * 2. Supabase Client (via SUPABASE_URL & SUPABASE_ANON_KEY)
+ * 3. Local SQLite Fallback (Zero-config local development)
  */
 
 const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
+const prismaRepo = require('./prisma');
 const supabaseRepo = require('./supabase');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'legalta.sqlite');
@@ -46,27 +50,50 @@ function run(sql, params = []) {
   return stmt.run(...params);
 }
 
+function getActiveEngine() {
+  if (prismaRepo.isPrismaConfigured()) return 'Prisma ORM (PostgreSQL Supabase)';
+  if (supabaseRepo.isSupabaseConfigured()) return 'Supabase Client (PostgreSQL Cloud)';
+  return 'SQLite (Local Fallback)';
+}
+
 // ==========================================================
-// UNIFIED ASYNC REPOSITORY METHODS (Supabase -> SQLite Fallback)
+// UNIFIED ASYNC REPOSITORY METHODS
 // ==========================================================
 
 async function getCategories() {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaCategories();
+    } catch (err) {
+      console.warn('[PRISMA WARN] getCategories error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseCategories();
     } catch (err) {
-      console.warn('[SUPABASE WARN] getCategories error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getCategories error:', err.message);
     }
   }
+
   return queryAll('SELECT * FROM service_categories ORDER BY id ASC');
 }
 
 async function getServices(categorySlug = null) {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaServices(categorySlug);
+    } catch (err) {
+      console.warn('[PRISMA WARN] getServices error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseServices(categorySlug);
     } catch (err) {
-      console.warn('[SUPABASE WARN] getServices error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getServices error:', err.message);
     }
   }
 
@@ -85,11 +112,19 @@ async function getServices(categorySlug = null) {
 }
 
 async function getServiceBySlug(slug) {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaServiceBySlug(slug);
+    } catch (err) {
+      console.warn('[PRISMA WARN] getServiceBySlug error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseServiceBySlug(slug);
     } catch (err) {
-      console.warn('[SUPABASE WARN] getServiceBySlug error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getServiceBySlug error:', err.message);
     }
   }
 
@@ -102,11 +137,19 @@ async function getServiceBySlug(slug) {
 }
 
 async function getOrderWithDetails(cleanId) {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaOrderWithDetails(cleanId);
+    } catch (err) {
+      console.warn('[PRISMA WARN] getOrderWithDetails error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseOrderWithDetails(cleanId);
     } catch (err) {
-      console.warn('[SUPABASE WARN] getOrderWithDetails error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getOrderWithDetails error:', err.message);
     }
   }
 
@@ -152,9 +195,17 @@ async function getOrderWithDetails(cleanId) {
 }
 
 async function saveDocument({ orderId, fileName, fileSize = '1.2 MB', docType = 'OTHER' }) {
-  const docId = 'doc-' + Date.now();
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.savePrismaDocument({ orderId, fileName, fileSize, docType });
+    } catch (err) {
+      console.warn('[PRISMA WARN] saveDocument error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
+      const docId = 'doc-' + Date.now();
       return await supabaseRepo.insertSupabaseDocument({
         id: docId,
         order_id: orderId,
@@ -165,10 +216,11 @@ async function saveDocument({ orderId, fileName, fileSize = '1.2 MB', docType = 
         doc_type: docType
       });
     } catch (err) {
-      console.warn('[SUPABASE WARN] saveDocument error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] saveDocument error:', err.message);
     }
   }
 
+  const docId = 'doc-' + Date.now();
   run(`
     INSERT INTO documents (id, order_id, uploaded_by, file_name, file_url, file_size, doc_type)
     VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -178,6 +230,14 @@ async function saveDocument({ orderId, fileName, fileSize = '1.2 MB', docType = 
 }
 
 async function saveConsultation({ name, phone, email, city = '', service = 'pt-standar', method = 'whatsapp', notes = '' }) {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.savePrismaConsultation({ name, phone, email, city, service, method, notes });
+    } catch (err) {
+      console.warn('[PRISMA WARN] saveConsultation error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.insertSupabaseConsultation({
@@ -190,7 +250,7 @@ async function saveConsultation({ name, phone, email, city = '', service = 'pt-s
         notes
       });
     } catch (err) {
-      console.warn('[SUPABASE WARN] saveConsultation error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] saveConsultation error:', err.message);
     }
   }
 
@@ -203,11 +263,19 @@ async function saveConsultation({ name, phone, email, city = '', service = 'pt-s
 }
 
 async function getConsultations(limit = 50) {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaConsultations(limit);
+    } catch (err) {
+      console.warn('[PRISMA WARN] getConsultations error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseConsultations(limit);
     } catch (err) {
-      console.warn('[SUPABASE WARN] getConsultations error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getConsultations error:', err.message);
     }
   }
 
@@ -215,35 +283,62 @@ async function getConsultations(limit = 50) {
 }
 
 async function getRegisteredPTs() {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaRegisteredPTs();
+    } catch (err) {
+      console.warn('[PRISMA WARN] getRegisteredPTs error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseRegisteredPTs();
     } catch (err) {
-      console.warn('[SUPABASE WARN] getRegisteredPTs error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getRegisteredPTs error:', err.message);
     }
   }
+
   return queryAll('SELECT name FROM registered_pts');
 }
 
 async function getRegisteredTrademarks() {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaRegisteredTrademarks();
+    } catch (err) {
+      console.warn('[PRISMA WARN] getRegisteredTrademarks error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseRegisteredTrademarks();
     } catch (err) {
-      console.warn('[SUPABASE WARN] getRegisteredTrademarks error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getRegisteredTrademarks error:', err.message);
     }
   }
+
   return queryAll('SELECT * FROM registered_trademarks');
 }
 
 async function getKBLIItems() {
+  if (prismaRepo.isPrismaConfigured()) {
+    try {
+      return await prismaRepo.getPrismaKBLIItems();
+    } catch (err) {
+      console.warn('[PRISMA WARN] getKBLIItems error:', err.message);
+    }
+  }
+
   if (supabaseRepo.isSupabaseConfigured()) {
     try {
       return await supabaseRepo.getSupabaseKBLIItems();
     } catch (err) {
-      console.warn('[SUPABASE WARN] getKBLIItems error, falling back to SQLite:', err.message);
+      console.warn('[SUPABASE WARN] getKBLIItems error:', err.message);
     }
   }
+
   return queryAll('SELECT * FROM kbli_items');
 }
 
@@ -254,7 +349,12 @@ module.exports = {
   queryOne,
   run,
   DB_PATH,
-  // Supabase status & instance
+  getActiveEngine,
+  // Prisma ORM Layer
+  isPrismaConfigured: prismaRepo.isPrismaConfigured,
+  getPrisma: prismaRepo.getPrisma,
+  testPrisma: prismaRepo.testPrismaConnection,
+  // Supabase Client Layer
   isSupabaseConfigured: supabaseRepo.isSupabaseConfigured,
   getSupabase: supabaseRepo.getSupabase,
   testSupabase: supabaseRepo.testConnection,

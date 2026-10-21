@@ -1,6 +1,6 @@
 # Entity Relationship Diagram (ERD): LEGALTA
 
-Platform basis data LEGALTA menggunakan **Supabase PostgreSQL** sebagai sistem manajemen basis data relasional di cloud, dengan dukungan skema relasional terstruktur penuh serta pengamanan Row Level Security (RLS).
+Platform basis data LEGALTA menggunakan **Prisma ORM** sebagai fondasi *Data Modeling & Schema Management* sebelum dialirkan ke **Supabase (PostgreSQL Cloud)**.
 
 ---
 
@@ -20,117 +20,128 @@ erDiagram
     ORDERS ||--o{ DOCUMENTS : "attaches (order_id)"
 
     USERS {
-        text id PK "Default gen_random_uuid() or custom code"
-        text name "Nama lengkap pengguna"
-        text email UK "Alamat email unik"
-        text password_hash "Hash password terenkripsi"
-        text phone_number "Nomor WhatsApp aktif"
+        string id PK "Default UUID"
+        string name "Nama lengkap pengguna"
+        string email UK "Alamat email unik"
+        string password_hash "Hash password terenkripsi"
+        string phone_number "Nomor WhatsApp aktif"
         enum role "CLIENT, ADMIN, PLA"
-        text avatar_url "URL foto profil"
-        timestamptz created_at
+        string avatar_url "URL foto profil"
+        datetime created_at
     }
 
     SERVICE_CATEGORIES {
-        bigint id PK "Identity generated"
-        text name "Nama kategori (Pendirian, Perizinan, dll)"
-        text slug UK "URL slug identik"
-        text description
+        int id PK "Autoincrement"
+        string name "Nama kategori (Pendirian, Perizinan, dll)"
+        string slug UK "URL slug unik"
+        string description
     }
 
     SERVICES {
-        bigint id PK "Identity generated"
-        bigint category_id FK "Relasi ke service_categories"
-        text title "Judul paket layanan"
-        text slug UK "Slug unik layanan"
-        text description "Deskripsi lengkap"
-        numeric base_price "Biaya paket (IDR)"
-        integer estimated_days "Estimasi hari kerja selesai"
+        int id PK "Autoincrement"
+        int category_id FK "Relasi ke service_categories"
+        string title "Judul paket layanan"
+        string slug UK "Slug unik layanan"
+        string description "Deskripsi lengkap"
+        decimal base_price "Biaya paket (IDR Decimal 15,2)"
+        int estimated_days "Estimasi hari kerja selesai"
     }
 
     ORDERS {
-        text id PK "Contoh: LEG-2025-0891"
-        text user_id FK "Pemesan (users)"
-        bigint service_id FK "Layanan yang dipesan"
-        text pla_id FK "Personal Legal Assistant bertugas"
-        text title "Nama badan usaha / merek yang diajukan"
+        string id PK "Contoh: LEG-2025-0891"
+        string user_id FK "Pemesan (users)"
+        int service_id FK "Layanan yang dipesan"
+        string pla_id FK "Personal Legal Assistant bertugas"
+        string title "Nama badan usaha / merek yang diajukan"
         enum status "PENDING, ON_PROGRESS, COMPLETED, CANCELLED"
-        numeric total_amount "Total pembayaran final"
-        text voucher_code "Kode voucher PNBP Kemenkumham"
-        text kemenkumham_id "Nomor registrasi resmi AHU/DJKI"
-        timestamptz created_at
-        timestamptz updated_at
+        decimal total_amount "Total pembayaran final"
+        string voucher_code "Kode voucher PNBP Kemenkumham"
+        string kemenkumham_id "Nomor registrasi resmi AHU/DJKI"
+        datetime created_at
+        datetime updated_at
     }
 
     ORDER_TRACKING {
-        bigint id PK "Identity generated"
-        text order_id FK "Relasi ke orders"
-        integer step_number "Urutan tahapan (1..4)"
-        text step_name "Nama tahap legalitas"
+        int id PK "Autoincrement"
+        string order_id FK "Relasi ke orders"
+        int step_number "Urutan tahapan (1..4)"
+        string step_name "Nama tahap legalitas"
         enum status "DONE, JALAN, PENDING"
-        text description "Detail perkembangan"
-        timestamptz completed_at
-        timestamptz updated_at
+        string description "Detail perkembangan"
+        datetime completed_at
+        datetime updated_at
     }
 
     DOCUMENTS {
-        text id PK "Default gen_random_uuid() or doc-*"
-        text order_id FK "Relasi ke orders"
-        text uploaded_by FK "Relasi ke users"
-        text file_name "Nama file fisik dokumen"
-        text file_url "Akses berkas terenkripsi"
-        text file_size "Ukuran file (e.g. 1.8 MB)"
+        string id PK "Default UUID or doc-*"
+        string order_id FK "Relasi ke orders"
+        string uploaded_by FK "Relasi ke users"
+        string file_name "Nama file fisik dokumen"
+        string file_url "Akses berkas terenkripsi"
+        string file_size "Ukuran file (e.g. 1.8 MB)"
         enum doc_type "KTP, NPWP, AKTA, NIB, SK_MENKUMHAM, VOUCHER, OTHER"
-        timestamptz created_at
+        datetime created_at
     }
 
     CONSULTATIONS {
-        bigint id PK "Identity generated"
-        text client_name "Nama prospek / klien"
-        text phone_number "Nomor WhatsApp"
-        text email "Email aktif"
-        text city "Domisili kota"
-        text service_slug "Layanan yang diminati"
-        enum consult_method "whatsapp, gmeet, office"
-        text notes "Catatan kebutuhan khusus"
+        int id PK "Autoincrement"
+        string client_name "Nama prospek / klien"
+        string phone_number "Nomor WhatsApp"
+        string email "Email aktif"
+        string city "Domisili kota"
+        string service_slug "Layanan yang diminati"
+        enum consult_method "WHATSAPP, GMEET, OFFICE"
+        string notes "Catatan kebutuhan khusus"
         enum status "NEW, CONTACTED, RESOLVED"
-        timestamptz created_at
+        datetime created_at
     }
 
     KBLI_ITEMS {
-        text code PK "Kode KBLI 5 Digit (e.g. 62019)"
-        text title "Judul kelompok usaha"
-        text category "Kategori sektor (J, I, F, G)"
-        text sector_name "Nama sektor industri"
-        text description "Ruang lingkup kegiatan"
+        string code PK "Kode KBLI 5 Digit (e.g. 62019)"
+        string title "Judul kelompok usaha"
+        string category "Kategori sektor (J, I, F, G)"
+        string sector_name "Nama sektor industri"
+        string description "Ruang lingkup kegiatan"
         enum risk_level "R, MR, MT, T (OSS-RBA)"
-        text permits_required "Perizinan berusaha yang diterbitkan"
-        text dpi_rules "Aturan Daftar Positif Investasi"
+        string permits_required "Perizinan berusaha yang diterbitkan"
+        string dpi_rules "Aturan Daftar Positif Investasi"
     }
 
     REGISTERED_PTS {
-        bigint id PK "Identity generated"
-        text name UK "Nama PT terdaftar di Ditjen AHU"
-        text status "ACTIVE / DISSOLVED"
-        text ahu_number "Nomor SK Menkumham"
+        int id PK "Autoincrement"
+        string name UK "Nama PT terdaftar di Ditjen AHU"
+        string status "ACTIVE / DISSOLVED"
+        string ahu_number "Nomor SK Menkumham"
         date registration_date
     }
 
     REGISTERED_TRADEMARKS {
-        bigint id PK "Identity generated"
-        text brand_name "Nama merek dagang"
-        integer nice_class "Kelas Nice (1 - 45)"
-        text application_number UK "Nomor pendaftaran DJKI"
-        text owner_name "Nama pemegang hak merek"
-        text status "Terdaftar / Diumumkan / Ditolak"
-        text phonetic_key "Kunci fonetik soundex"
+        int id PK "Autoincrement"
+        string brand_name "Nama merek dagang"
+        int nice_class "Kelas Nice (1 - 45)"
+        string application_number UK "Nomor pendaftaran DJKI"
+        string owner_name "Nama pemegang hak merek"
+        string status "Terdaftar / Diumumkan / Ditolak"
+        string phonetic_key "Kunci fonetik soundex"
     }
 ```
 
 ---
 
-## 2. File Skrip Supabase
+## 2. Struktur Prisma ORM ([prisma/schema.prisma](file:///e:/Ngodingkan/LegalTA/prisma/schema.prisma))
 
-- **Skema DDL PostgreSQL**: [database/supabase_schema.sql](file:///e:/Ngodingkan/LegalTA/database/supabase_schema.sql)
-  - Berisi seluruh definisi tabel, foreign key constraints, default value, index performa, serta kebijakan **Row Level Security (RLS)** untuk publik dan admin.
-- **Data Awal (Seed)**: [database/supabase_seed.sql](file:///e:/Ngodingkan/LegalTA/database/supabase_seed.sql)
-  - Berisi data dummy pesanan live tracking (`LEG-2025-0891`, `LEG-2025-0104`, `LEG-2025-0942`), database referensi KBLI 2020, database PT AHU terdaftar, dan database merek DJKI PDKI.
+Skema Prisma telah didefinisikan secara deklaratif dan *type-safe* dengan fitur:
+- **Datasource**: PostgreSQL via `DATABASE_URL` (dengan connection pooling pgbouncer di port 6543) dan `DIRECT_URL` (direct port 5432 untuk migrasi DDL).
+- **Enums**: `UserRole`, `OrderStatus`, `StepStatus`, `DocType`, `ConsultMethod`, `ConsultationStatus`, `RiskLevel`.
+- **Relasi & Referential Actions**:
+  - `orders` -> `users` (`onDelete: Restrict`)
+  - `orders` -> `services` (`onDelete: Restrict`)
+  - `order_tracking` -> `orders` (`onDelete: Cascade`)
+  - `documents` -> `orders` (`onDelete: Cascade`)
+- **Indeks Unik**:
+  - `@@unique([orderId, stepNumber], name: "orderStepUnique")` pada `order_tracking`.
+- **Perintah Sinkronisasi**:
+  - Generate Client: `npm run prisma:generate`
+  - Push Schema ke Supabase: `npm run prisma:push`
+  - Seed Data Awal: `npm run prisma:seed`
+  - GUI Inspector: `npm run prisma:studio`

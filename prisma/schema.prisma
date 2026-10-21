@@ -1,0 +1,233 @@
+// ==========================================================
+// LEGALTA Prisma Schema
+// Database Engine: PostgreSQL (Supabase Cloud Database)
+// LegalTech Platform: Keseimbangan • Modern • Adil
+// ==========================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ----------------------------------------------------------
+// 1. ENUMS
+// ----------------------------------------------------------
+
+enum UserRole {
+  CLIENT
+  ADMIN
+  PLA
+}
+
+enum OrderStatus {
+  PENDING
+  ON_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum StepStatus {
+  DONE
+  JALAN
+  PENDING
+}
+
+enum DocType {
+  KTP
+  NPWP
+  AKTA
+  NIB
+  SK_MENKUMHAM
+  VOUCHER
+  OTHER
+}
+
+enum ConsultMethod {
+  WHATSAPP
+  GMEET
+  OFFICE
+}
+
+enum ConsultationStatus {
+  NEW
+  CONTACTED
+  RESOLVED
+}
+
+enum RiskLevel {
+  R
+  MR
+  MT
+  T
+}
+
+// ----------------------------------------------------------
+// 2. CORE MODELS
+// ----------------------------------------------------------
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String?   @map("password_hash")
+  phoneNumber  String?   @map("phone_number")
+  role         UserRole  @default(CLIENT)
+  avatarUrl    String?   @map("avatar_url")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  // Relasi
+  clientOrders      Order[]    @relation("ClientOrders")
+  plaOrders         Order[]    @relation("PlaAssignedOrders")
+  uploadedDocuments Document[] @relation("UserUploadedDocs")
+
+  @@map("users")
+}
+
+model ServiceCategory {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  description String?
+  services    Service[]
+
+  @@map("service_categories")
+}
+
+model Service {
+  id            Int             @id @default(autoincrement())
+  categoryId    Int             @map("category_id")
+  title         String
+  slug          String          @unique
+  description   String?
+  basePrice     Decimal         @default(0) @db.Decimal(15, 2) @map("base_price")
+  estimatedDays Int             @default(3) @map("estimated_days")
+  
+  // Relasi
+  category      ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  orders        Order[]
+
+  @@index([categoryId])
+  @@map("services")
+}
+
+model Order {
+  id            String        @id // Contoh: "LEG-2025-0891"
+  userId        String        @map("user_id")
+  serviceId     Int           @map("service_id")
+  plaId         String?       @map("pla_id")
+  title         String
+  status        OrderStatus   @default(PENDING)
+  totalAmount   Decimal       @default(0) @db.Decimal(15, 2) @map("total_amount")
+  voucherCode   String?       @map("voucher_code")
+  kemenkumhamId String?       @map("kemenkumham_id")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @default(now()) @updatedAt @map("updated_at")
+
+  // Relasi
+  user          User          @relation("ClientOrders", fields: [userId], references: [id], onDelete: Restrict)
+  service       Service       @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  pla           User?         @relation("PlaAssignedOrders", fields: [plaId], references: [id], onDelete: SetNull)
+  trackingSteps OrderTracking[]
+  documents     Document[]
+
+  @@index([userId])
+  @@index([serviceId])
+  @@map("orders")
+}
+
+model OrderTracking {
+  id          Int        @id @default(autoincrement())
+  orderId     String     @map("order_id")
+  stepNumber  Int        @map("step_number")
+  stepName    String     @map("step_name")
+  status      StepStatus @default(PENDING)
+  description String?
+  completedAt DateTime?  @map("completed_at")
+  updatedAt   DateTime   @default(now()) @updatedAt @map("updated_at")
+
+  // Relasi
+  order       Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, stepNumber], name: "orderStepUnique")
+  @@index([orderId])
+  @@map("order_tracking")
+}
+
+model Document {
+  id         String   @id @default(uuid())
+  orderId    String   @map("order_id")
+  uploadedBy String?  @map("uploaded_by")
+  fileName   String   @map("file_name")
+  fileUrl    String   @map("file_url")
+  fileSize   String?  @map("file_size")
+  docType    DocType  @default(OTHER) @map("doc_type")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relasi
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  uploader   User?    @relation("UserUploadedDocs", fields: [uploadedBy], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@map("documents")
+}
+
+model Consultation {
+  id            Int                @id @default(autoincrement())
+  clientName    String             @map("client_name")
+  phoneNumber   String             @map("phone_number")
+  email         String
+  city          String?
+  serviceSlug   String?            @map("service_slug")
+  consultMethod ConsultMethod      @default(WHATSAPP) @map("consult_method")
+  notes         String?
+  status        ConsultationStatus @default(NEW)
+  createdAt     DateTime           @default(now()) @map("created_at")
+
+  @@map("consultations")
+}
+
+// ----------------------------------------------------------
+// 3. REFERENCE TABLES (PUBLIC LEGAL TOOLS ENGINE)
+// ----------------------------------------------------------
+
+model KbliItem {
+  code            String    @id
+  title           String
+  category        String
+  sectorName      String    @map("sector_name")
+  description     String
+  riskLevel       RiskLevel @map("risk_level")
+  permitsRequired String    @map("permits_required")
+  dpiRules        String    @map("dpi_rules")
+
+  @@map("kbli_items")
+}
+
+model RegisteredPt {
+  id               Int       @id @default(autoincrement())
+  name             String    @unique
+  status           String    @default("ACTIVE")
+  ahuNumber        String?   @map("ahu_number")
+  registrationDate DateTime? @db.Date @map("registration_date")
+
+  @@index([name])
+  @@map("registered_pts")
+}
+
+model RegisteredTrademark {
+  id                Int     @id @default(autoincrement())
+  brandName         String  @map("brand_name")
+  niceClass         Int     @map("nice_class")
+  applicationNumber String  @unique @map("application_number")
+  ownerName         String  @map("owner_name")
+  status            String
+  phoneticKey       String? @map("phonetic_key")
+
+  @@index([brandName])
+  @@map("registered_trademarks")
+}

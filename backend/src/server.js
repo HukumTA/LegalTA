@@ -6,7 +6,13 @@ const path = require('path');
 const fs = require('fs');
 
 const { initDatabase } = require('../../database/init');
-const { isSupabaseConfigured, testSupabase } = require('../../database/db');
+const { 
+  isPrismaConfigured, 
+  testPrisma, 
+  isSupabaseConfigured, 
+  testSupabase, 
+  getActiveEngine 
+} = require('../../database/db');
 const apiRoutes = require('./routes/api');
 
 const app = express();
@@ -49,17 +55,25 @@ app.use((err, req, res, next) => {
 
 if (require.main === module) {
   app.listen(PORT, async () => {
+    const prismaActive = isPrismaConfigured();
     const supabaseActive = isSupabaseConfigured();
+
     console.log(`\n======================================================`);
     console.log(`  ⚖️ LEGALTA MONOREPO APPLICATION`);
     console.log(`  > Front-End SPA: http://localhost:${PORT}`);
     console.log(`  > Back-End API:  http://localhost:${PORT}/api/health`);
-    console.log(`  > Supabase:      ${supabaseActive ? '🟢 Configured (PostgreSQL Cloud)' : '🟡 Not configured (Using SQLite Fallback)'}`);
-    if (supabaseActive) {
+    console.log(`  > Database DB:   ${getActiveEngine()}`);
+    console.log(`  > Prisma ORM:    ${prismaActive ? '🟢 Active (DATABASE_URL configured)' : '🟡 Not configured (Set DATABASE_URL in .env)'}`);
+    console.log(`  > Supabase API:  ${supabaseActive ? '🟢 Active' : '🟡 Not configured (Set SUPABASE_URL in .env)'}`);
+
+    if (prismaActive) {
+      const pTest = await testPrisma();
+      console.log(`  > Prisma Conn:   ${pTest.connected ? '✅ Terhubung ke PostgreSQL' : '⚠️ ' + (pTest.error || pTest.reason)}`);
+    } else if (supabaseActive) {
       const connTest = await testSupabase();
-      console.log(`  > Connection:    ${connTest.connected ? '✅ Terhubung ke Supabase' : '⚠️ ' + (connTest.error || connTest.reason)}`);
+      console.log(`  > Supabase Conn: ${connTest.connected ? '✅ Terhubung ke Supabase' : '⚠️ ' + (connTest.error || connTest.reason)}`);
     } else {
-      console.log(`  > Tip:           Isi SUPABASE_URL & SUPABASE_ANON_KEY di .env`);
+      console.log(`  > Status:        🚀 Berjalan mulus via Local SQLite (Zero-config)`);
     }
     console.log(`  > Filosofi:      Keseimbangan • Modern • Adil`);
     console.log(`======================================================\n`);

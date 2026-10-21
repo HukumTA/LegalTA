@@ -5,7 +5,13 @@ const { getCategories, getServices, getServiceBySlug } = require('../controllers
 const { getOrderTracking, uploadDocument } = require('../controllers/ordersController');
 const { handleCheckPT, handleCheckMerek, handleCheckKBLI } = require('../controllers/toolsController');
 const { createConsultation, getConsultations } = require('../controllers/consultationsController');
-const { isSupabaseConfigured, testSupabase } = require('../../../database/db');
+const { 
+  isPrismaConfigured, 
+  testPrisma, 
+  isSupabaseConfigured, 
+  testSupabase, 
+  getActiveEngine 
+} = require('../../../database/db');
 
 // Services & Categories
 router.get('/categories', getCategories);
@@ -25,13 +31,31 @@ router.get('/tools/cek-kbli', handleCheckKBLI);
 router.post('/consultations', createConsultation);
 router.get('/consultations', getConsultations);
 
-// Supabase Status Endpoint
+// Database & Engine Status Endpoints
+router.get('/database/status', async (req, res) => {
+  const prismaConfigured = isPrismaConfigured();
+  const supabaseConfigured = isSupabaseConfigured();
+  const prismaTest = await testPrisma();
+  const supabaseTest = await testSupabase();
+  res.json({
+    activeEngine: getActiveEngine(),
+    prisma: {
+      isConfigured: prismaConfigured,
+      connection: prismaTest
+    },
+    supabase: {
+      isConfigured: supabaseConfigured,
+      connection: supabaseTest
+    }
+  });
+});
+
 router.get('/supabase/status', async (req, res) => {
   const configured = isSupabaseConfigured();
   const test = await testSupabase();
   res.json({
     isConfigured: configured,
-    engine: configured ? 'Supabase PostgreSQL' : 'Local SQLite Fallback',
+    engine: getActiveEngine(),
     connection: test
   });
 });
@@ -42,7 +66,7 @@ router.get('/health', (req, res) => {
     status: 'ONLINE',
     service: 'LEGALTA Core API Engine',
     version: '2.0.0 (Monorepo Architecture)',
-    databaseEngine: isSupabaseConfigured() ? 'Supabase PostgreSQL' : 'SQLite (Local Fallback)',
+    databaseEngine: getActiveEngine(),
     tagline: 'Keseimbangan • Modern • Adil'
   });
 });
