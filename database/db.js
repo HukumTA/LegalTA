@@ -12,7 +12,7 @@ const fs = require('fs');
 const prismaRepo = require('./prisma');
 const supabaseRepo = require('./supabase');
 
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'legalta.sqlite');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'sqlite', 'legalta.sqlite');
 
 // Ensure local directory exists
 const dbDir = path.dirname(DB_PATH);

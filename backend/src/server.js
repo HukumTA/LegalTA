@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-const { initDatabase } = require('../../database/init');
+const { initDatabase } = require('../../database/sqlite/init');
 const { 
   isPrismaConfigured, 
   testPrisma, 

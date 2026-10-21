@@ -19,9 +19,8 @@ async function checkSupabaseStatus() {
     console.log('    Panduan:');
     console.log('    1. Buat project baru di https://supabase.com');
     console.log('    2. Buka menu "SQL Editor"');
-    console.log('    3. Salin & jalankan isi: database/supabase_schema.sql');
-    console.log('    4. Salin & jalankan isi: database/supabase_seed.sql');
-    console.log('    5. Isi kredensial di file .env');
+    console.log('    3. Salin & jalankan seluruh isi file: database/supabase_setup.sql');
+    console.log('    4. Isi kredensial di file .env');
     console.log('======================================================\n');
     return;
   }
@@ -32,7 +31,7 @@ async function checkSupabaseStatus() {
   if (!test.connected) {
     console.error('❌ Gagal terhubung ke Supabase:');
     console.error(`   ${test.error || test.reason}`);
-    console.log('\n💡 Pastikan URL dan API Key di .env sudah benar dan skema database/supabase_schema.sql sudah dijalankan di SQL Editor.');
+    console.log('\n💡 Pastikan URL dan API Key di .env sudah benar dan skrip database/supabase_setup.sql sudah dijalankan di SQL Editor.');
     return;
   }
 

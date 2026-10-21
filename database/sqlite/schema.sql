@@ -1,5 +1,5 @@
 -- ==========================================================
--- LEGALTA Database Schema
+-- LEGALTA Database Schema for Local SQLite
 -- Based on ERD.Md Specification
 -- Database: SQLite (via Node.js 24 native node:sqlite)
 -- ==========================================================

@@ -58,15 +58,16 @@ LegalTA/
 │           └── kbliEngine.js      # Search & Risk Determination OSS-RBA
 │
 └── database/                      # 🗄️ DATABASE LAYER & UNIFIED CASCADE ADAPTER
+    ├── db.js                      # Unified Adapter: Prisma ORM -> Supabase -> SQLite Fallback
     ├── prisma.js                  # Prisma Client Repository Layer (@prisma/client)
     ├── supabase.js                # Supabase Client Layer (@supabase/supabase-js)
-    ├── db.js                      # Unified Adapter: Prisma ORM -> Supabase -> SQLite Fallback
-    ├── supabase_schema.sql        # Backup Skema DDL PostgreSQL
-    ├── supabase_seed.sql          # Backup Seed Data SQL
-    ├── supabase_init.js           # CLI Verifikasi Supabase REST
-    ├── schema.sql                 # DDL SQLite Lokal
-    ├── seed.sql                   # Seed SQLite Lokal
-    └── init.js                    # Inisialisasi Otomatis Database Lokal
+    ├── supabase_setup.sql         # ⚡ ALL-IN-ONE SQL Script untuk Supabase SQL Editor
+    ├── supabase_init.js           # CLI Verifikasi Supabase (`npm run db:supabase`)
+    └── sqlite/                    # 📁 Folder Khusus SQLite Lokal (Zero-Config Fallback)
+        ├── init.js                # Script Inisialisasi Database SQLite
+        ├── schema.sql             # DDL Tabel SQLite
+        ├── seed.sql               # Data Awal SQLite
+        └── legalta.sqlite         # Berkas Database SQLite Lokal
 ```
 
 ---

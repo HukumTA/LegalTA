@@ -1,10 +1,10 @@
 /**
- * LEGALTA Database Initialization & Seeding Script
+ * LEGALTA Local SQLite Initialization & Seeding Script
  */
 
 const fs = require('fs');
 const path = require('path');
-const { exec, DB_PATH } = require('./db');
+const { exec, DB_PATH } = require('../db');
 
 function initDatabase() {
   console.log(`[DB] Menginisialisasi basis data di: ${DB_PATH}`);
@@ -21,10 +21,9 @@ function initDatabase() {
     exec(seedSql);
     console.log('[DB] ✅ Data awal (seed) berhasil dimasukkan');
 
-    console.log('[DB] Inisialisasi basis data LEGALTA selesai 100%!\n');
+    console.log('[DB] Inisialisasi basis data SQLite selesai 100%!\n');
   } catch (error) {
-    console.error('[DB] ❌ Gagal menginisialisasi basis data:', error.message);
-    process.exit(1);
+    console.error('[DB] ❌ Gagal menginisialisasi basis data SQLite:', error.message);
   }
 }
 
