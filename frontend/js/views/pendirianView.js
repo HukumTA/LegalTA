@@ -77,16 +77,16 @@ export function renderPendirianView() {
             <div class="lg:col-span-5">
               <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
                 <!-- Top Photo with Badge -->
-                <div class="relative h-56 bg-slate-900 overflow-hidden">
+                <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center">
                   <img 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDBBX4oYEjKj03BduiMzCJfrpECk6CvuiV_Vt7PBvlmxK8gJ1pHR1WqIjoIWV3O67FurU7hyRHf06W8BuL2UA9wl8RSq9sEc7tl8ccqLnN2SDH4vrXy_j0SDjL1BSKL5sQxuHTzUi8b6d2751Ig1wBp1Q38p12_g0OhRCnM00KmIFF7YelcLbnp3VfSJ9j1l_Y-ykHq8evDMzAqw6oPVMn9Ytg_QWErVJ6EcFPOJL7gqE3uAcOWNcuILKPzTQKfE_uRA" 
-                    alt="Notaris & Konsultan LEGALTA" 
-                    class="w-full h-full object-cover object-top"
+                    src="assets/pendirian-hero.png" 
+                    alt="Proses Verifikasi Pendirian PT &amp; CV" 
+                    class="w-full h-full object-cover object-center"
                   />
-                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
                   <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-md flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span class="text-[11px] font-bold text-slate-800">Notaris &amp; Konsultan Aktif</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-[11px] font-bold text-slate-800">Proses Verifikasi Aktif</span>
                   </div>
                 </div>
 

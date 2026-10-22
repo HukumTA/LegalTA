@@ -24,8 +24,8 @@ async function main() {
       id: 'usr-pla-wildan',
       name: 'Wildan',
       email: 'wildan@legalta.id',
-      phoneNumber: '+6281288880193',
-      role: 'PLA',
+      phoneNumber: '',
+      role: 'CTO',
       avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqsZ6ngVW8Z6CtogIwwkxrbHDdEEPIZVDqrlJqC4q9rup7_g9dDEeT4FQHmkkk47wiovPZTle2fRgdPld6xjnvjpT6Dz8ZbESbBvrGkHn-_g_Pc1mSbta4bPZxnZiKgJTVUeaets5ViUfr8YPmWTWzrK6dDJy5KZDLJPqt8Mtk0JwxiOZFcYtUjp2WON5wOnV4pmbGOZpM7C4lFR20RggLjfFpZ6eHjz1ZshpkLWydFK2IQyWhrgRgs3MR4RW3deetRg'
     },
     {

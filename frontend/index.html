@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -14,19 +14,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-  <!-- Critical Anti-FOUC & Mobile Drawer Safeguard Styles (Prevents initial load popup/flash) -->
+  <!-- Critical Anti-FOUC, Trackpad-friendly Scroll & Safeguard Styles -->
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
     }
-    html, body {
+    html {
+      margin: 0;
+      padding: 0;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
+    body {
       margin: 0;
       padding: 0;
       font-family: 'Plus Jakarta Sans', sans-serif;
       color: #0F172A;
       background-color: #FAFAFC;
-      overscroll-behavior: none;
-      overflow-x: hidden;
+      overflow-x: clip;
+      min-height: 100vh;
+      touch-action: pan-y;
     }
     /* Prevent flash of unstyled content or mobile drawer popup before Tailwind & SPA initialize */
     body:not(.app-ready) #navbar-container,
@@ -43,30 +50,53 @@
     /* Hard guarantee: mobile drawer & overlay are strictly hidden unless explicitly opened */
     #mobileDrawer {
       display: none !important;
+      pointer-events: none !important;
     }
     #mobileDrawer.is-open {
       display: flex !important;
+      pointer-events: auto !important;
     }
     #mobileOverlay {
       display: none !important;
+      pointer-events: none !important;
     }
     #mobileOverlay.is-open {
       display: block !important;
+      pointer-events: auto !important;
     }
-    /* Desktop dropdown safeguard before Tailwind loads */
+    /* Desktop dropdown safeguard with zero gap & invisible hover bridge */
     .nav-dropdown-panel {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transform: translateY(6px);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(4px);
+      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.18s;
+    }
+    /* Invisible hover bridge to eliminate gap between button and panel */
+    .nav-dropdown-panel::before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: transparent;
+      display: block;
     }
     .nav-dropdown-group:hover .nav-dropdown-panel,
+    .nav-dropdown-group.is-hovered .nav-dropdown-panel,
+    .nav-dropdown-group.is-open .nav-dropdown-panel,
     .nav-dropdown-group:focus-within .nav-dropdown-panel {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
       transform: translateY(0);
+    }
+    .nav-dropdown-group:hover .dropdown-chevron,
+    .nav-dropdown-group.is-hovered .dropdown-chevron,
+    .nav-dropdown-group.is-open .dropdown-chevron {
+      transform: rotate(180deg);
+      color: #7F1517;
     }
     /* Prevent Material Symbols ligature text expansion before font loads */
     .material-symbols-outlined {
@@ -237,21 +267,22 @@
   <!-- 3. Dynamic Footer (Placed cleanly at bottom of flex column) -->
   <div id="footer-container" class="w-full mt-auto"></div>
 
-  <!-- 4. Floating WhatsApp Button (Fixed Bottom Right) -->
+  <!-- 4. Floating WhatsApp Button (Fixed Bottom Right - Logo Only) -->
+  <!-- Silakan ganti href dengan nomor WhatsApp resmi: https://wa.me/[NOMOR] -->
   <a 
-    href="https://wa.me/6281288880192?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20layanan%20legalitas%20bisnis." 
+    href="https://wa.me/?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20layanan%20legalitas%20bisnis." 
     target="_blank" 
     rel="noopener noreferrer"
-    class="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3 rounded-full shadow-2xl shadow-emerald-600/30 hover:shadow-emerald-500/50 hover:-translate-y-1 transition-all duration-300 group"
-    aria-label="Konsultasi via WhatsApp"
+    class="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-2xl shadow-emerald-600/35 hover:shadow-emerald-500/50 hover:scale-110 active:scale-95 transition-all duration-300 group"
+    aria-label="WhatsApp"
+    title="Hubungi via WhatsApp"
   >
     <div class="relative flex items-center justify-center">
-      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+      <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
         <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.175.58 4.218 1.597 5.986l-1.605 5.856 6.035-1.583c1.705.93 3.655 1.47 5.728 1.47 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
       </svg>
-      <span class="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping"></span>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full animate-ping"></span>
     </div>
-    <span class="font-bold text-xs tracking-wide pr-0.5">Konsultasi WhatsApp</span>
   </a>
 
   <!-- Global Toast Notifications Container -->

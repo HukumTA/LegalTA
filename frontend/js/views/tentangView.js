@@ -129,9 +129,9 @@ export function renderTentangView() {
                 </div>
                 <div class="p-6 space-y-1.5">
                   <h3 class="text-lg text-slate-900 font-extrabold">Faiz</h3>
-                  <p class="text-xs text-crimson-800 font-bold uppercase tracking-wide">Chief Technology Officer / Head of Product</p>
+                  <p class="text-xs text-crimson-800 font-bold uppercase tracking-wide">Head of Operations &amp; OSS Compliance</p>
                   <p class="text-xs text-slate-600 leading-relaxed pt-1">
-                    Arsitek utama engine otomasi dokumen legal dan integrasi API AHU &amp; OSS RBA dengan standar enkripsi perbankan ISO 27001.
+                    Spesialis pemetaan KBLI 2020 presisi dan mitigasi risiko perizinan berbasis risiko OSS-RBA deviasi nol.
                   </p>
                 </div>
               </div>
@@ -161,9 +161,9 @@ export function renderTentangView() {
                 </div>
                 <div class="p-6 space-y-1.5">
                   <h3 class="text-lg text-slate-900 font-extrabold">Wildan</h3>
-                  <p class="text-xs text-crimson-800 font-bold uppercase tracking-wide">Head of Operations &amp; OSS Compliance</p>
+                  <p class="text-xs text-crimson-800 font-bold uppercase tracking-wide">Chief Technology Officer / Head of Product</p>
                   <p class="text-xs text-slate-600 leading-relaxed pt-1">
-                    Spesialis pemetaan KBLI 2020 presisi dan mitigasi risiko perizinan berbasis risiko OSS-RBA deviasi nol.
+                    Arsitek utama engine otomasi dokumen legal dan integrasi API AHU &amp; OSS RBA dengan standar enkripsi perbankan ISO 27001.
                   </p>
                 </div>
               </div>

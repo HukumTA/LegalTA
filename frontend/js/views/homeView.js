@@ -70,13 +70,13 @@ export function renderHomeView() {
                 <!-- Outer aesthetic border frame with gold accent -->
                 <div class="relative rounded-3xl p-2 bg-gradient-to-tr from-crimson-800/20 via-transparent to-amber-400/30 shadow-2xl">
                   <!-- Main Photo Container -->
-                  <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[4/3] bg-slate-100 shadow-inner">
+                  <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[4/3] bg-white shadow-inner flex items-center justify-center">
                     <img 
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhoJgXN_p3ermwZCgr6K_e6mu4y37kmC6DIN1aWIBA_84MhUbSUMAzvyNYukFiqJ6MEit8WPfQWiAHtNTDGWFe-941_GSheiN0WNIbUMjpLHvD3XZwBGRctQiOVND5aBqq-7fVw7dIWvHwSTHd5HEc7fojn3bw94XKalTZfYA4aXsdpg8RWsTcJhWct9MzmQTYP8Xm28eobAanfUzkW_9W2KggnslfsKSqQWTmhH-gZ_djTpfVMkCx" 
+                      src="assets/home-hero.png" 
                       alt="Konsultan Legalitas LEGALTA" 
-                      class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
+                      class="w-full h-full object-contain p-2 hover:scale-105 transition-transform duration-700"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
                   </div>
                 </div>
 

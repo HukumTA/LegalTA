@@ -47,7 +47,7 @@ export function renderKontakView() {
                   </div>
                   <div>
                     <h5 class="text-sm text-slate-900 font-bold">Telepon &amp; WhatsApp</h5>
-                    <p class="mt-0.5 font-semibold text-slate-800">+62 812-8888-0192 (Fast Track)</p>
+                    <p class="mt-0.5 font-semibold text-slate-800">WhatsApp Resmi (Fast Track)</p>
                     <p>+62 21-5088-9120 (Office Hunting)</p>
                   </div>
                 </div>
@@ -75,7 +75,8 @@ export function renderKontakView() {
               </div>
 
               <div class="pt-4 border-t border-slate-100 flex flex-col gap-2.5">
-                <a href="https://wa.me/6281288880192?text=Halo%20LEGALTA,%20saya%20ingin%20berkonsultasi" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                <!-- Silakan ganti href dengan nomor WhatsApp resmi: https://wa.me/[NOMOR] -->
+                <a href="https://wa.me/?text=Halo%20LEGALTA,%20saya%20ingin%20berkonsultasi" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
                   <i data-lucide="message-circle" class="w-4 h-4"></i>
                   <span>Chat WhatsApp Tim Legal</span>
                 </a>
@@ -142,7 +143,8 @@ export function initKontakLogic() {
     const text = `Halo Tim LEGALTA,\n\nSaya ingin berkonsultasi:\n- Nama: ${name}\n- WhatsApp: ${phone}\n- Email: ${email}\n- Pesan: ${msg}\n\nMohon info lebih lanjut. Terima kasih!`;
     showToast('Pesan dirangkum. Membuka WhatsApp Legal...');
     setTimeout(() => {
-      window.open(`https://wa.me/6281288880192?text=${encodeURIComponent(text)}`, '_blank');
+      // Silakan ganti href dengan nomor WhatsApp resmi: https://wa.me/[NOMOR]
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     }, 600);
   });
 

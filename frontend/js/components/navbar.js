@@ -28,89 +28,93 @@ export function renderNavbar(activePath = '/') {
           <a href="#/" class="${activePath === '/' ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors">Home</a>
           
           <!-- Dropdown Layanan -->
-          <div class="relative nav-dropdown-group group cursor-pointer py-2">
-            <button type="button" class="flex items-center gap-1.5 ${activePath.startsWith('/layanan') ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors focus:outline-none">
+          <div class="relative nav-dropdown-group group py-2">
+            <button type="button" class="dropdown-trigger flex items-center gap-1.5 ${activePath.startsWith('/layanan') ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors focus:outline-none" aria-haspopup="true">
               <span>Layanan</span>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-crimson-800 group-hover:rotate-180 transition-transform duration-200"></i>
+              <i data-lucide="chevron-down" class="dropdown-chevron w-4 h-4 text-slate-400 group-hover:text-crimson-800 transition-transform duration-200"></i>
             </button>
-            <div class="nav-dropdown-panel absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-50">
-              <a href="#/layanan/pendirian" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/pendirian' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-700 shrink-0">
-                  <i data-lucide="building-2" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Pendirian PT &amp; CV</span>
-                  <span class="text-[11px] text-slate-400">PT Umum, Perorangan &amp; PMA</span>
-                </div>
-              </a>
-              <a href="#/layanan/hki" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/hki' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-gold-600 shrink-0">
-                  <i data-lucide="shield-check" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Pendaftaran HKI &amp; Merek</span>
-                  <span class="text-[11px] text-slate-400">Merek Dagang, Cipta &amp; Paten</span>
-                </div>
-              </a>
-              <a href="#/layanan/perizinan" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/perizinan' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
-                  <i data-lucide="file-check" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Perizinan Usaha OSS &amp; PB-UMKU</span>
-                  <span class="text-[11px] text-slate-400">NIB RBA, BPOM, Halal &amp; PKKPR</span>
-                </div>
-              </a>
-              <a href="#/layanan/dokumen" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/dokumen' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-800 shrink-0">
-                  <i data-lucide="file-signature" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Dokumen Perusahaan &amp; RUPS</span>
-                  <span class="text-[11px] text-slate-400">Perubahan Akta &amp; Akuisisi Saham</span>
-                </div>
-              </a>
+            <div class="nav-dropdown-panel absolute top-full left-0 pt-2 w-72 z-50">
+              <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 py-2.5 overflow-hidden">
+                <a href="#/layanan/pendirian" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/pendirian' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-700 shrink-0">
+                    <i data-lucide="building-2" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Pendirian PT &amp; CV</span>
+                    <span class="text-[11px] text-slate-400">PT Umum, Perorangan &amp; PMA</span>
+                  </div>
+                </a>
+                <a href="#/layanan/hki" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/hki' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-gold-600 shrink-0">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Pendaftaran HKI &amp; Merek</span>
+                    <span class="text-[11px] text-slate-400">Merek Dagang, Cipta &amp; Paten</span>
+                  </div>
+                </a>
+                <a href="#/layanan/perizinan" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/perizinan' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
+                    <i data-lucide="file-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Perizinan Usaha OSS &amp; PB-UMKU</span>
+                    <span class="text-[11px] text-slate-400">NIB RBA, BPOM, Halal &amp; PKKPR</span>
+                  </div>
+                </a>
+                <a href="#/layanan/dokumen" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/layanan/dokumen' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-800 shrink-0">
+                    <i data-lucide="file-signature" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Dokumen Perusahaan &amp; RUPS</span>
+                    <span class="text-[11px] text-slate-400">Perubahan Akta &amp; Akuisisi Saham</span>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
 
           <!-- Dropdown Tools Legalitas -->
-          <div class="relative nav-dropdown-group group cursor-pointer py-2">
-            <button type="button" class="flex items-center gap-1.5 ${activePath.startsWith('/tools') ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors focus:outline-none">
+          <div class="relative nav-dropdown-group group py-2">
+            <button type="button" class="dropdown-trigger flex items-center gap-1.5 ${activePath.startsWith('/tools') ? 'text-crimson-800 font-bold' : 'hover:text-crimson-800'} transition-colors focus:outline-none" aria-haspopup="true">
               <span>Tools Legalitas</span>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-crimson-800 group-hover:rotate-180 transition-transform duration-200"></i>
+              <i data-lucide="chevron-down" class="dropdown-chevron w-4 h-4 text-slate-400 group-hover:text-crimson-800 transition-transform duration-200"></i>
             </button>
-            <div class="nav-dropdown-panel absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-50">
-              <div class="px-4 py-1.5 mb-1 flex items-center justify-between border-b border-slate-100">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tools Interaktif</span>
-                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Gratis</span>
+            <div class="nav-dropdown-panel absolute top-full left-0 pt-2 w-72 z-50">
+              <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 py-2.5 overflow-hidden">
+                <div class="px-4 py-1.5 mb-1 flex items-center justify-between border-b border-slate-100">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tools Interaktif</span>
+                  <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Gratis</span>
+                </div>
+                <a href="#/tools/cek-pt" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-pt' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-700 shrink-0">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Cek Ketersediaan Nama PT</span>
+                    <span class="text-[11px] text-slate-400">Validasi AHU &amp; PP 43/2011</span>
+                  </div>
+                </a>
+                <a href="#/tools/cek-merek" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-merek' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-gold-600 shrink-0">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Cek Nama Merek (PDKI)</span>
+                    <span class="text-[11px] text-slate-400">Deteksi kemiripan 45 Kelas Nice</span>
+                  </div>
+                </a>
+                <a href="#/tools/cek-kbli" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-kbli' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
+                  <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
+                    <i data-lucide="list-checks" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="block font-semibold text-slate-900">Cek Klasifikasi KBLI 2020</span>
+                    <span class="text-[11px] text-slate-400">5 digit KBLI &amp; tingkat risiko OSS</span>
+                  </div>
+                </a>
               </div>
-              <a href="#/tools/cek-pt" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-pt' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-crimson-50 flex items-center justify-center text-crimson-700 shrink-0">
-                  <i data-lucide="search" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Cek Ketersediaan Nama PT</span>
-                  <span class="text-[11px] text-slate-400">Validasi AHU &amp; PP 43/2011</span>
-                </div>
-              </a>
-              <a href="#/tools/cek-merek" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-merek' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-gold-600 shrink-0">
-                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Cek Nama Merek (PDKI)</span>
-                  <span class="text-[11px] text-slate-400">Deteksi kemiripan 45 Kelas Nice</span>
-                </div>
-              </a>
-              <a href="#/tools/cek-kbli" class="flex items-center gap-3 px-4 py-2.5 text-xs ${activePath === '/tools/cek-kbli' ? 'bg-crimson-50/70 text-crimson-800 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-crimson-800'} transition-colors">
-                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
-                  <i data-lucide="list-checks" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="block font-semibold text-slate-900">Cek Klasifikasi KBLI 2020</span>
-                  <span class="text-[11px] text-slate-400">5 digit KBLI &amp; tingkat risiko OSS</span>
-                </div>
-              </a>
             </div>
           </div>
 
@@ -215,6 +219,54 @@ export function renderNavbar(activePath = '/') {
       </div>
     </div>
   `;
+
+  // Desktop dropdown interactions (hover with grace delay + click toggle)
+  const dropdownGroups = document.querySelectorAll('.nav-dropdown-group');
+  
+  dropdownGroups.forEach(group => {
+    const trigger = group.querySelector('.dropdown-trigger');
+    const panel = group.querySelector('.nav-dropdown-panel');
+    let closeTimer = null;
+
+    // Hover with grace period so trackpad users don't lose hover
+    group.addEventListener('mouseenter', () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      group.classList.add('is-hovered');
+    });
+
+    group.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => {
+        group.classList.remove('is-hovered');
+      }, 180);
+    });
+
+    // Click to lock open/toggle
+    trigger?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasOpen = group.classList.contains('is-open');
+      dropdownGroups.forEach(g => g.classList.remove('is-open', 'is-hovered'));
+      if (!wasOpen) {
+        group.classList.add('is-open');
+      }
+    });
+
+    // Close when clicking any link inside panel
+    panel?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        dropdownGroups.forEach(g => g.classList.remove('is-open', 'is-hovered'));
+      });
+    });
+  });
+
+  // Close dropdowns on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-dropdown-group')) {
+      dropdownGroups.forEach(g => g.classList.remove('is-open', 'is-hovered'));
+    }
+  });
 
   // Attach mobile drawer interactions
   const menuToggle = document.getElementById('mobileMenuToggle');

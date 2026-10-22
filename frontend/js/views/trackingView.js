@@ -78,6 +78,19 @@ export function initTrackingLogic() {
       if (response.success) {
         const { order, steps, documents, pla } = response.data;
 
+        const isCto = (pla.name && pla.name.toLowerCase().includes('wildan')) || 
+                      (pla.title && pla.title.toLowerCase().includes('cto'));
+
+        const cardBadge = isCto ? 'Chief Technology Officer (CTO)' : 'Pendamping Legal Anda (PLA)';
+        const plaTitle = isCto ? 'Chief Technology Officer / Head of Product' : (pla.title || 'Head of Client Relations & PLA');
+        const plaSpecialization = isCto ? 'Arsitektur Otomasi Legaltech & Integrasi API AHU/OSS' : (pla.specialization || 'Hukum Perseroan & Perizinan OSS-RBA');
+        const plaGreeting = isCto
+          ? `Halo! Saya Wildan, Chief Technology Officer (CTO) di LEGALTA. Saya mengawal langsung infrastruktur otomasi dokumen dan sistem live tracking agar proses permohonan legalitas Anda berjalan presisi, aman, dan tanpa kendala teknis.`
+          : `Halo! Saya ${pla.name}, asisten legal pribadi yang mengawal permohonan Anda hingga SK Menkumham resmi terbit. Silakan hubungi saya untuk konsultasi langsung.`;
+        const plaActionBtnText = isCto
+          ? `Konsultasi Teknis & Berkas dengan ${pla.name}`
+          : `Chat WhatsApp dengan ${pla.name}`;
+
         let statusClass = 'bg-amber-100 text-gold-700';
         if (order.status === 'COMPLETED') statusClass = 'bg-emerald-100 text-emerald-800';
         else if (order.status === 'PENDING') statusClass = 'bg-slate-100 text-slate-600';
@@ -245,7 +258,7 @@ export function initTrackingLogic() {
               
               <div class="bg-white p-6 sm:p-7 rounded-3xl shadow-sm border border-slate-200/80 space-y-5">
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <span class="text-[11px] text-crimson-800 uppercase font-extrabold tracking-wider">Pendamping Legal Anda (PLA)</span>
+                  <span class="text-[11px] text-crimson-800 uppercase font-extrabold tracking-wider">${cardBadge}</span>
                   <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full font-bold">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     Online
@@ -256,19 +269,20 @@ export function initTrackingLogic() {
                   <img src="${pla.avatar || 'assets/najwa.jpg'}" alt="${pla.name}" class="w-16 h-16 rounded-2xl object-cover object-top shadow-sm border border-slate-100">
                   <div>
                     <h4 class="text-base text-slate-900 font-extrabold">${pla.name}</h4>
-                    <p class="text-xs text-gold-600 font-bold">${pla.title}</p>
-                    <span class="text-xs text-slate-500">${pla.specialization}</span>
+                    <p class="text-xs text-gold-600 font-bold">${plaTitle}</p>
+                    <span class="text-xs text-slate-500">${plaSpecialization}</span>
                   </div>
                 </div>
 
                 <p class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100 italic">
-                  "Halo! Saya ${pla.name}, asisten legal pribadi yang mengawal permohonan Anda hingga SK Menkumham resmi terbit. Silakan hubungi saya untuk konsultasi langsung."
+                  "${plaGreeting}"
                 </p>
 
                 <div class="space-y-2.5 pt-1">
-                  <a href="https://wa.me/6281288880192?text=Halo%20${pla.name}%20LEGALTA,%20saya%20klien%20dengan%20No%20Order%20${order.id}" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                  <!-- Silakan ganti href dengan nomor WhatsApp resmi: https://wa.me/[NOMOR] -->
+                  <a href="https://wa.me/?text=Halo%20${pla.name}%20LEGALTA,%20saya%20klien%20dengan%20No%20Order%20${order.id}" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-[18px]">chat</span>
-                    <span>Chat WhatsApp dengan ${pla.name}</span>
+                    <span>${plaActionBtnText}</span>
                   </a>
                   <a href="mailto:${pla.email}?subject=Status%20Order%20${order.id}" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-[18px]">mail</span>

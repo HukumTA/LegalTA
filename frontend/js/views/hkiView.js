@@ -93,17 +93,74 @@ export function renderHkiView() {
                   <span class="px-2.5 py-0.5 rounded-full bg-amber-50 text-gold-700 text-[10px] font-extrabold uppercase">100% Sah &amp; Tercatat</span>
                 </div>
 
-                <!-- Image container -->
-                <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-900">
-                  <img 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg0Mc2x4PoIYdBGuLU9TbsCUCpT4lFmufN_7c_3OSBV8jlMtOHKcYFwKQQdAOarCdNNTBGYwW9OzjlnJXBpRNlo0MmK-NKTCOFRohengCZX_W_6cTX0xJYRaX_Byj52UbHTSf9A3w0yzNBdAurlqEyHt8CYf_EUUC6gIu5JSpoojSOIeYKsYaMIU3-Z66ADd4_pqHPmspY1KQMCn_WypVzmCQUTy0oBX6cn-xlkCe-tHUUUOj0V0tmO_O5qMMd91rGcA" 
-                    alt="Sertifikat Merek HKI LEGALTA" 
-                    class="w-full h-full object-cover object-top opacity-90"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-crimson-950/90 via-crimson-950/30 to-transparent flex flex-col justify-end p-5 text-white">
-                    <span class="text-[10px] uppercase tracking-widest text-gold-400 font-bold">Sertifikat Resmi DJKI</span>
-                    <h4 class="text-lg font-extrabold leading-snug">Perlindungan Yuridis 10 Tahun</h4>
-                    <p class="text-xs text-white/80 mt-0.5">Hak eksklusif penuh atas nama, logo, dan identitas brand Anda.</p>
+                <!-- Document Showcase: Framed Sertifikat Merek & LEGALTA Dossier Folder -->
+                <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-slate-900 via-[#1e1315] to-[#2d1215] p-3 sm:p-4 flex items-center justify-center border border-amber-900/30 shadow-inner group">
+                  <!-- Ambient executive background pattern & warm lighting glow -->
+                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_35%_25%,rgba(176,133,20,0.22),transparent_70%)] pointer-events-none"></div>
+
+                  <!-- Executive Mockup: Framed Certificate + Maroon Dossier -->
+                  <div class="relative z-10 w-full h-full flex items-center justify-between gap-3 px-1 sm:px-2 pb-14">
+                    <!-- 1. Gold-Framed Official Sertifikat Merek DJKI -->
+                    <div class="relative flex-1 h-[94%] bg-[#FDFBF7] rounded-lg p-2.5 sm:p-3 shadow-2xl border-4 border-[#C8A24D] transform -rotate-1 hover:rotate-0 transition-transform duration-300 flex flex-col justify-between">
+                      <!-- Ornate inner legal border -->
+                      <div class="border border-[#C8A24D]/60 p-2 rounded flex flex-col items-center text-center h-full justify-between">
+                        <!-- Top: Garuda & Official Heading -->
+                        <div class="flex flex-col items-center w-full">
+                          <div class="w-6 h-6 rounded-full bg-amber-50 border border-gold-500/50 flex items-center justify-center text-gold-700 mb-0.5">
+                            <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                          </div>
+                          <span class="text-[7.5px] sm:text-[8px] font-black uppercase tracking-widest text-slate-900 leading-none">REPUBLIK INDONESIA</span>
+                          <span class="text-[6px] sm:text-[6.5px] font-bold uppercase tracking-wider text-slate-600 mt-0.5">KEMENTERIAN HUKUM DAN HAM</span>
+                          <span class="text-[5.5px] font-medium text-slate-400">Direktorat Jenderal Kekayaan Intelektual</span>
+                        </div>
+
+                        <!-- Center: Certificate Title & Badge -->
+                        <div class="my-1 py-1 px-2 border-y border-[#C8A24D]/35 w-full bg-amber-50/40">
+                          <span class="text-[8.5px] sm:text-[9.5px] font-black tracking-wider text-crimson-900 uppercase block">SERTIFIKAT MEREK</span>
+                          <span class="text-[6px] sm:text-[6.5px] text-slate-600 font-mono">No. Reg: IDM001092842 • Kelas 42 &amp; 35</span>
+                        </div>
+
+                        <!-- Bottom: Brand & Legal Verification Stamp -->
+                        <div class="w-full flex items-center justify-between text-[6px] text-slate-700 px-1 pt-0.5">
+                          <div class="text-left leading-tight">
+                            <span class="block font-black text-slate-900 text-[7px]">LEGALTA™</span>
+                            <span class="text-slate-500">Masa Berlaku: 10 Tahun</span>
+                          </div>
+                          <div class="w-5 h-5 rounded-full bg-crimson-800/10 border border-crimson-700/40 flex items-center justify-center text-crimson-800 shrink-0">
+                            <i data-lucide="stamp" class="w-3 h-3"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 2. Rich Maroon Leather LEGALTA Dossier Folder -->
+                    <div class="w-24 sm:w-28 h-[88%] bg-gradient-to-b from-crimson-900 to-crimson-950 rounded-r-xl rounded-l-sm p-3 shadow-2xl border-l-4 border-crimson-800 flex flex-col justify-between transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
+                        <span class="text-[7px] font-extrabold text-gold-300 tracking-wider uppercase">Dossier HKI</span>
+                      </div>
+                      <div class="text-center my-auto py-2">
+                        <span class="font-extrabold text-sm sm:text-base tracking-widest text-gold-400 block font-serif">LEGALTA</span>
+                        <span class="text-[6.5px] uppercase tracking-widest text-gold-200/80 block mt-0.5">Kekayaan Intelektual</span>
+                      </div>
+                      <div class="text-[6.5px] text-white/50 text-right font-medium">
+                        <span>DJKI RI</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Gradient Overlay with Official Legal Reference -->
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-crimson-950 via-crimson-950/85 to-transparent pt-8 pb-3.5 px-4 sm:px-5 text-white z-20">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <span class="text-[10px] uppercase tracking-widest text-gold-400 font-bold flex items-center gap-1.5">
+                          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-gold-400"></i>
+                          Sertifikat Resmi DJKI
+                        </span>
+                        <h4 class="text-base sm:text-lg font-extrabold leading-snug text-white mt-0.5">Perlindungan Yuridis 10 Tahun</h4>
+                        <p class="text-[11px] text-white/80 mt-0.5">UU No. 20/2016 tentang Merek dan Indikasi Geografis</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -728,7 +785,8 @@ export function renderHkiView() {
                   <span>Konsultasi HKI Gratis</span>
                   <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
-                <a href="https://wa.me/6281288880192?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20pendaftaran%20merek%20HKI" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm transition-all inline-flex items-center gap-2">
+                <!-- Silakan ganti href dengan nomor WhatsApp resmi: https://wa.me/[NOMOR] -->
+                <a href="https://wa.me/?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20pendaftaran%20merek%20HKI" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm transition-all inline-flex items-center gap-2">
                   <i data-lucide="message-circle" class="w-4 h-4"></i>
                   <span>Hubungi via WhatsApp</span>
                 </a>

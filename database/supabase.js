@@ -228,11 +228,17 @@ async function getSupabaseOrderWithDetails(cleanId) {
     documents: documents || [],
     pla: {
       name: order.pla_name || 'Najwa',
-      title: 'Senior Personal Legal Assistant',
-      specialization: 'Hukum Perseroan & Perizinan OSS-RBA',
-      email: order.pla_email || 'halo@legalta.id',
-      phone: order.pla_phone || '+6281288880192',
-      avatar: order.pla_avatar
+      title: order.pla_name === 'Wildan'
+        ? 'Chief Technology Officer / Head of Product'
+        : 'Head of Client Relations & PLA',
+      specialization: order.pla_name === 'Wildan'
+        ? 'Arsitektur Otomasi Legaltech & Integrasi API AHU/OSS'
+        : 'Hukum Perseroan & Perizinan OSS-RBA',
+      email: order.pla_email || (order.pla_name === 'Wildan' ? 'wildan@legalta.id' : 'halo@legalta.id'),
+      phone: order.pla_phone || '',
+      avatar: order.pla_avatar || (order.pla_name === 'Wildan' 
+        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqsZ6ngVW8Z6CtogIwwkxrbHDdEEPIZVDqrlJqC4q9rup7_g9dDEeT4FQHmkkk47wiovPZTle2fRgdPld6xjnvjpT6Dz8ZbESbBvrGkHn-_g_Pc1mSbta4bPZxnZiKgJTVUeaets5ViUfr8YPmWTWzrK6dDJy5KZDLJPqt8Mtk0JwxiOZFcYtUjp2WON5wOnV4pmbGOZpM7C4lFR20RggLjfFpZ6eHjz1ZshpkLWydFK2IQyWhrgRgs3MR4RW3deetRg' 
+        : 'assets/najwa.jpg')
     }
   };
 }
