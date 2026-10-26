@@ -4,6 +4,7 @@
   "description": "LEGALTA — Keseimbangan • Modern • Adil | Modern LegalTech Web Platform Monorepo",
   "main": "backend/src/server.js",
   "scripts": {
+    "build": "prisma generate",
     "start": "node backend/src/server.js",
     "dev": "node backend/src/server.js",
     "db:init": "node database/sqlite/init.js",

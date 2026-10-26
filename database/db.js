@@ -11,7 +11,11 @@ const fs = require('fs');
 const prismaRepo = require('./prisma');
 const supabaseRepo = require('./supabase');
 
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'sqlite', 'legalta.sqlite');
+const isVercel = Boolean(process.env.VERCEL);
+const defaultDbPath = isVercel
+  ? path.join('/tmp', 'legalta.sqlite')
+  : path.join(__dirname, 'sqlite', 'legalta.sqlite');
+const DB_PATH = process.env.DB_PATH || defaultDbPath;
 
 // Ensure local directory exists
 const dbDir = path.dirname(DB_PATH);
