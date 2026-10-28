@@ -1,69 +1,95 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="web_standard" name="shell-type">
-  <title>LEGALTA — Keseimbangan • Modern • Adil | Platform LegalTech Indonesia</title>
-  <meta name="description" content="Platform LegalTech modern terpercaya di Indonesia untuk pendirian PT & CV secara kilat, pengurusan perizinan berusaha OSS terintegrasi, hingga proteksi merek HKI.">
+  <title>HUKUMTA — Keseimbangan • Modern • Adil | Platform LegalTech Indonesia</title>
+  <meta name="description"
+    content="Platform LegalTech modern terpercaya di Indonesia untuk pendirian PT & CV secara kilat, pengurusan perizinan berusaha OSS terintegrasi, hingga proteksi merek HKI.">
   <link rel="icon" type="image/png" href="assets/logo.png">
-  
+
   <!-- Google Fonts: Plus Jakarta Sans & Newsreader -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
 
   <!-- Critical Anti-FOUC, Trackpad-friendly Scroll & Safeguard Styles -->
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
+
     html {
       margin: 0;
       padding: 0;
       touch-action: pan-y;
       -webkit-overflow-scrolling: touch;
     }
+
+    /* Latar belakang dikembalikan sepenuhnya seperti semula */
     body {
       margin: 0;
       padding: 0;
       font-family: 'Plus Jakarta Sans', sans-serif;
       color: #0F172A;
-      background-color: #FAFAFC;
+      background-color: #FFF7ED;
+      background-image:
+        radial-gradient(ellipse 60% 40% at 0% 0%, rgba(230, 184, 0, 0.22) 0px, transparent 70%),
+        radial-gradient(ellipse 55% 45% at 100% 8%, rgba(127, 21, 23, 0.20) 0px, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 10% 55%, rgba(230, 184, 0, 0.16) 0px, transparent 70%),
+        radial-gradient(ellipse 55% 45% at 95% 75%, rgba(127, 21, 23, 0.18) 0px, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 30% 100%, rgba(230, 184, 0, 0.18) 0px, transparent 70%),
+        linear-gradient(180deg, #FFFFFF 0%, #FFF8EC 30%, #FFEFE8 60%, #FBE9EC 85%, #FFF8F1 100%);
+      background-attachment: fixed;
       overflow-x: clip;
       min-height: 100vh;
       touch-action: pan-y;
     }
+
     /* Prevent flash of unstyled content or mobile drawer popup before Tailwind & SPA initialize */
     body:not(.app-ready) #navbar-container,
     body:not(.app-ready) #app,
     body:not(.app-ready) #footer-container {
       opacity: 0;
     }
+
     body.app-ready #navbar-container,
     body.app-ready #app,
     body.app-ready #footer-container {
       opacity: 1;
       transition: opacity 0.18s ease-out;
     }
+
     /* Hard guarantee: mobile drawer & overlay are strictly hidden unless explicitly opened */
     #mobileDrawer {
       display: none !important;
       pointer-events: none !important;
     }
+
     #mobileDrawer.is-open {
       display: flex !important;
       pointer-events: auto !important;
     }
+
     #mobileOverlay {
       display: none !important;
       pointer-events: none !important;
     }
+
     #mobileOverlay.is-open {
       display: block !important;
       pointer-events: auto !important;
     }
+
     /* Desktop dropdown safeguard with zero gap & invisible hover bridge */
     .nav-dropdown-panel {
       opacity: 0;
@@ -72,7 +98,7 @@
       transform: translateY(4px);
       transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.18s;
     }
-    /* Invisible hover bridge to eliminate gap between button and panel */
+
     .nav-dropdown-panel::before {
       content: '';
       position: absolute;
@@ -83,6 +109,7 @@
       background: transparent;
       display: block;
     }
+
     .nav-dropdown-group:hover .nav-dropdown-panel,
     .nav-dropdown-group.is-hovered .nav-dropdown-panel,
     .nav-dropdown-group.is-open .nav-dropdown-panel,
@@ -92,13 +119,14 @@
       pointer-events: auto;
       transform: translateY(0);
     }
+
     .nav-dropdown-group:hover .dropdown-chevron,
     .nav-dropdown-group.is-hovered .dropdown-chevron,
     .nav-dropdown-group.is-open .dropdown-chevron {
       transform: rotate(180deg);
       color: #7F1517;
     }
-    /* Prevent Material Symbols ligature text expansion before font loads */
+
     .material-symbols-outlined {
       font-family: 'Material Symbols Outlined';
       font-weight: normal;
@@ -118,23 +146,56 @@
       overflow: hidden;
       flex-shrink: 0;
     }
+
     .gold-gradient-text {
       background: linear-gradient(135deg, #B08514 0%, #E6B800 50%, #B08514 100%);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     .crimson-gradient-bg {
       background: linear-gradient(135deg, #7F1517 0%, #570005 100%);
     }
-    /* FAQ Accordion smooth transition */
+
+    .bg-section-warm {
+      background:
+        radial-gradient(ellipse 50% 60% at 0% 0%, rgba(230, 184, 0, 0.18), transparent 70%),
+        linear-gradient(180deg, #FFFBF2 0%, #FFF3E2 100%);
+    }
+
+    .bg-section-rose {
+      background:
+        radial-gradient(ellipse 50% 60% at 100% 0%, rgba(127, 21, 23, 0.14), transparent 70%),
+        linear-gradient(180deg, #FFFFFF 0%, #FDF0F2 100%);
+    }
+
+    .bg-section-dark {
+      background:
+        radial-gradient(ellipse 60% 70% at 85% 0%, rgba(230, 184, 0, 0.22), transparent 65%),
+        linear-gradient(135deg, #7F1517 0%, #450A0C 100%);
+    }
+
+    .bg-dots {
+      background-image: radial-gradient(rgba(127, 21, 23, 0.12) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .divider-glow {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(176, 133, 20, 0.6), transparent);
+    }
+
     .faq-answer {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.28s ease, padding 0.28s ease;
     }
+
     .faq-item.active .faq-answer {
       max-height: 360px;
     }
+
     .faq-item.active .faq-icon {
       transform: rotate(180deg);
     }
@@ -149,21 +210,7 @@
         extend: {
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['"Newsreader"', 'serif'],
-            "display-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "body-sm": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "label-sm": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "label-md": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "headline-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "headline-sm": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "legal-clause": ['"Newsreader"', 'serif'],
-            "headline-xl-mobile": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "label-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "body-lg": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "display-lg-mobile": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "body-md": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "headline-xl": ['"Plus Jakarta Sans"', 'sans-serif'],
-            "headline-md": ['"Plus Jakarta Sans"', 'sans-serif']
+            serif: ['"Newsreader"', 'serif']
           },
           colors: {
             crimson: {
@@ -180,83 +227,34 @@
             gold: {
               50: '#FFFBEB',
               100: '#FEF3C7',
+              200: '#FDE68A',
               400: '#E6B800',
               500: '#CCA01D',
               600: '#B08514',
               700: '#8C680D',
-            },
-            "on-primary": "#ffffff",
-            "secondary-fixed": "#ffdbca",
-            "surface-container-lowest": "#ffffff",
-            "on-primary-fixed-variant": "#891c1b",
-            "on-background": "#0F172A",
-            "error": "#ba1a1a",
-            "tertiary-fixed-dim": "#bec6e0",
-            "on-tertiary-container": "#a0a8c1",
-            "on-surface": "#0F172A",
-            "outline": "#64748B",
-            "surface-bright": "#FAFAFC",
-            "on-secondary": "#ffffff",
-            "outline-variant": "#E2E8F0",
-            "surface": "#FAFAFC",
-            "on-error": "#ffffff",
-            "secondary": "#B08514",
-            "primary-container": "#991B1E",
-            "surface-dim": "#E2E8F0",
-            "primary-fixed": "#FCE7E7",
-            "tertiary-fixed": "#dae2fd",
-            "surface-container-low": "#F8FAFC",
-            "surface-container": "#F1F5F9",
-            "primary-fixed-dim": "#ffb3ac",
-            "surface-tint": "#7F1517",
-            "on-surface-variant": "#475569",
-            "inverse-primary": "#ffb3ac",
-            "secondary-fixed-dim": "#ffb68e",
-            "on-tertiary": "#ffffff",
-            "on-secondary-fixed-variant": "#763300",
-            "on-tertiary-fixed": "#0F172A",
-            "tertiary-container": "#1E293B",
-            "surface-container-high": "#E2E8F0",
-            "inverse-surface": "#1E293B",
-            "inverse-on-surface": "#F8FAFC",
-            "surface-container-highest": "#CBD5E1",
-            "on-primary-fixed": "#410003",
-            "secondary-container": "#E6B800",
-            "on-secondary-fixed": "#331200",
-            "on-secondary-container": "#682c00",
-            "on-primary-container": "#ff837a",
-            "error-container": "#ffdad6",
-            "primary": "#7F1517",
-            "surface-variant": "#E2E8F0",
-            "on-tertiary-fixed-variant": "#3f465c",
-            "tertiary": "#0F172A",
-            "background": "#FAFAFC",
-            "on-error-container": "#93000a"
-          },
-          fontSize: {
-            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-            "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
-            "label-sm": ["11px", { "lineHeight": "15px", "letterSpacing": "0.04em", "fontWeight": "700" }],
-            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
-            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
-            "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-            "legal-clause": ["15px", { "lineHeight": "26px", "fontWeight": "400" }],
-            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
-            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
-            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "800" }],
-            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
-            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-            "headline-md": ["22px", { "lineHeight": "30px", "fontWeight": "700" }]
+            }
           }
         }
       }
     };
   </script>
+
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Fungsi Global Toggle Dark Mode (Opsional jika ingin dipakai nanti) -->
+  <script>
+    window.toggleDarkMode = function () {
+      const html = document.documentElement;
+      html.classList.toggle('dark');
+      const isDark = html.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+  </script>
 </head>
-<body class="relative min-h-screen flex flex-col bg-[#FAFAFC] text-slate-900 font-sans antialiased selection:bg-crimson-100 selection:text-crimson-900">
+
+<body
+  class="relative min-h-screen flex flex-col text-slate-900 font-sans antialiased selection:bg-crimson-100 selection:text-crimson-900">
 
   <!-- 1. Dynamic Header / Navbar (Sticky Top) -->
   <div id="navbar-container" class="sticky top-0 z-40 w-full"></div>
@@ -264,22 +262,18 @@
   <!-- 2. Dynamic SPA Root View Outlet -->
   <main id="app" class="flex-1 w-full"></main>
 
-  <!-- 3. Dynamic Footer (Placed cleanly at bottom of flex column) -->
+  <!-- 3. Dynamic Footer -->
   <div id="footer-container" class="w-full mt-auto"></div>
 
-  <!-- 4. Floating WhatsApp Button (Fixed Bottom Right - Logo Only) -->
-  <!-- Silakan ganti href dengan nomor WhatsApp resmi: https://wa.me/[NOMOR] -->
-  <a 
-    href="https://wa.me/?text=Halo%20LEGALTA,%20saya%20ingin%20konsultasi%20layanan%20legalitas%20bisnis." 
-    target="_blank" 
-    rel="noopener noreferrer"
+  <!-- 4. Floating WhatsApp Button -->
+  <a href="https://wa.me/6281234567890?text=Halo%20HUKUMTA,%20saya%20ingin%20konsultasi%20layanan%20legalitas%20bisnis."
+    target="_blank" rel="noopener noreferrer"
     class="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-2xl shadow-emerald-600/35 hover:shadow-emerald-500/50 hover:scale-110 active:scale-95 transition-all duration-300 group"
-    aria-label="WhatsApp"
-    title="Hubungi via WhatsApp"
-  >
+    aria-label="WhatsApp" title="Hubungi via WhatsApp">
     <div class="relative flex items-center justify-center">
       <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
-        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.175.58 4.218 1.597 5.986l-1.605 5.856 6.035-1.583c1.705.93 3.655 1.47 5.728 1.47 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+        <path
+          d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.175.58 4.218 1.597 5.986l-1.605 5.856 6.035-1.583c1.705.93 3.655 1.47 5.728 1.47 6.627 0 12-5.373 12-12s-5.373-12-12-12z" />
       </svg>
       <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full animate-ping"></span>
     </div>
@@ -288,7 +282,35 @@
   <!-- Global Toast Notifications Container -->
   <div id="toast-container" class="fixed bottom-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- Auto-render ikon Lucide -->
+  <script>
+    (function () {
+      function refreshIcons() {
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+          window.lucide.createIcons();
+        }
+      }
+      window.addEventListener("load", function () {
+        var targets = ["app", "navbar-container", "footer-container"]
+          .map(function (id) { return document.getElementById(id); })
+          .filter(Boolean);
+        var timer;
+        if (window.MutationObserver) {
+          var observer = new MutationObserver(function () {
+            clearTimeout(timer);
+            timer = setTimeout(refreshIcons, 30);
+          });
+          targets.forEach(function (el) {
+            observer.observe(el, { childList: true, subtree: true });
+          });
+        }
+        refreshIcons();
+      });
+    })();
+  </script>
+
   <!-- SPA Router Entrypoint -->
   <script type="module" src="js/app.js"></script>
 </body>
+
 </html>

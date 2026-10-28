@@ -1,5 +1,5 @@
 /**
- * LEGALTA API Client
+ * HUKUMTA API Client
  * Centralized asynchronous data-fetching layer communicating with the Monorepo Backend API
  */
 
@@ -13,8 +13,8 @@ export const api = {
   },
 
   async getServices(categorySlug = '') {
-    const url = categorySlug 
-      ? `${API_BASE}/services?category=${encodeURIComponent(categorySlug)}` 
+    const url = categorySlug
+      ? `${API_BASE}/services?category=${encodeURIComponent(categorySlug)}`
       : `${API_BASE}/services`;
     const res = await fetch(url);
     return res.json();

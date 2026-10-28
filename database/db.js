@@ -25,7 +25,11 @@ function getDb() {
   if (!sqliteInstance) {
     const { DatabaseSync } = require('node:sqlite');
     sqliteInstance = new DatabaseSync(DB_PATH);
-    sqliteInstance.exec('PRAGMA journal_mode = WAL;');
+    try {
+      sqliteInstance.exec('PRAGMA journal_mode = WAL;');
+    } catch (_) {
+      sqliteInstance.exec('PRAGMA journal_mode = DELETE;');
+    }
     sqliteInstance.exec('PRAGMA foreign_keys = ON;');
 
     try {

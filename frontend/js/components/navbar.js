@@ -1,6 +1,6 @@
 /**
  * Navbar & Mobile Drawer Component
- * Matches LEGALTA Modern Reference Design (Sticky Header, Dropdowns with Icons, Capsule CTA)
+ * Matches HUKUMTA Modern Reference Design (Sticky Header, Dropdowns with Icons, Capsule CTA)
  * Includes hard safeguard against initial load mobile/tablet popup flash.
  */
 
@@ -9,17 +9,17 @@ export function renderNavbar(activePath = '/') {
   if (!container) return;
 
   container.innerHTML = `
-    <header class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all">
+    <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm transition-all">
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <!-- Kiri: Logo & Tagline -->
         <a href="#/" class="flex items-center gap-3 group">
-          <img src="assets/logo.png" alt="LEGALTA Logo" class="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+          <img src="assets/logo.png" alt="HUKUMTA Logo" class="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
           <div class="flex flex-col">
             <div class="flex items-center gap-1.5">
-              <span class="font-extrabold text-2xl tracking-tight text-slate-900 leading-tight">LEGALTA</span>
+              <span class="font-extrabold text-2xl tracking-tight text-slate-900 leading-tight">HUKUMTA</span>
               <span class="text-[10px] font-bold text-crimson-800 uppercase bg-crimson-50 border border-crimson-100 px-1.5 py-0.5 rounded leading-none">ID</span>
             </div>
-            <span class="text-[10px] font-semibold tracking-wider uppercase text-slate-500">Keseimbangan • Modern • Adil</span>
+            <span class="text-[10px] font-semibold tracking-wider uppercase text-slate-500">Aksesibel untuk semua</span>
           </div>
         </a>
 
@@ -145,9 +145,9 @@ export function renderNavbar(activePath = '/') {
       <div class="p-6">
         <div class="flex items-center justify-between pb-5 border-b border-slate-100">
           <div class="flex items-center gap-2.5">
-            <img src="assets/logo.png" alt="Logo LEGALTA" class="h-9 w-auto object-contain" />
+            <img src="assets/logo.png" alt="Logo HUKUMTA" class="h-9 w-auto object-contain" />
             <div class="flex flex-col">
-              <span class="font-extrabold text-lg text-slate-900 tracking-tight leading-none">LEGALTA</span>
+              <span class="font-extrabold text-lg text-slate-900 tracking-tight leading-none">HUKUMTA</span>
               <span class="text-[9px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">LegalTech Indonesia</span>
             </div>
           </div>
@@ -222,7 +222,7 @@ export function renderNavbar(activePath = '/') {
 
   // Desktop dropdown interactions (hover with grace delay + click toggle)
   const dropdownGroups = document.querySelectorAll('.nav-dropdown-group');
-  
+
   dropdownGroups.forEach(group => {
     const trigger = group.querySelector('.dropdown-trigger');
     const panel = group.querySelector('.nav-dropdown-panel');
@@ -293,7 +293,7 @@ export function renderNavbar(activePath = '/') {
   });
 
   drawer?.querySelectorAll('.mobile-accordion-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       const content = this.nextElementSibling;
       if (content) {
         content.classList.toggle('hidden');

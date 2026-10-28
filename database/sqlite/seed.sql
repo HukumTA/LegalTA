@@ -5,7 +5,7 @@
 -- 1. SEED USERS (Admin, PLA, and Clients)
 INSERT OR IGNORE INTO users (id, name, email, phone_number, role, avatar_url) VALUES 
 ('usr-pla-najwa', 'Najwa', 'najwa@legalta.id', '+6281288880192', 'PLA', 'assets/najwa.jpg'),
-('usr-pla-wildan', 'Wildan', 'wildan@legalta.id', '', 'CTO', 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqsZ6ngVW8Z6CtogIwwkxrbHDdEEPIZVDqrlJqC4q9rup7_g9dDEeT4FQHmkkk47wiovPZTle2fRgdPld6xjnvjpT6Dz8ZbESbBvrGkHn-_g_Pc1mSbta4bPZxnZiKgJTVUeaets5ViUfr8YPmWTWzrK6dDJy5KZDLJPqt8Mtk0JwxiOZFcYtUjp2WON5wOnV4pmbGOZpM7C4lFR20RggLjfFpZ6eHjz1ZshpkLWydFK2IQyWhrgRgs3MR4RW3deetRg'),
+('usr-pla-wildan', 'Wildan', 'wildan@legalta.id', '+6281288880193', 'PLA', 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqsZ6ngVW8Z6CtogIwwkxrbHDdEEPIZVDqrlJqC4q9rup7_g9dDEeT4FQHmkkk47wiovPZTle2fRgdPld6xjnvjpT6Dz8ZbESbBvrGkHn-_g_Pc1mSbta4bPZxnZiKgJTVUeaets5ViUfr8YPmWTWzrK6dDJy5KZDLJPqt8Mtk0JwxiOZFcYtUjp2WON5wOnV4pmbGOZpM7C4lFR20RggLjfFpZ6eHjz1ZshpkLWydFK2IQyWhrgRgs3MR4RW3deetRg'),
 ('usr-admin-amirah', 'Amirah Sridinanti', 'amirah@legalta.id', '+6281288880100', 'ADMIN', 'https://lh3.googleusercontent.com/aida-public/AB6AXuDg0Mc2x4PoIYdBGuLU9TbsCUCpT4lFmufN_7c_3OSBV8jlMtOHKcYFwKQQdAOarCdNNTBGYwW9OzjlnJXBpRNlo0MmK-NKTCOFRohengCZX_W_6cTX0xJYRaX_Byj52UbHTSf9A3w0yzNBdAurlqEyHt8CYf_EUUC6gIu5JSpoojSOIeYKsYaMIU3-Z66ADd4_pqHPmspY1KQMCn_WypVzmCQUTy0oBX6cn-xlkCe-tHUUUOj0V0tmO_O5qMMd91rGcA'),
 ('usr-client-01', 'Bambang Sutrisno', 'bambang@perkasadigital.id', '+6281299990891', 'CLIENT', NULL),
 ('usr-client-02', 'Dewi Lestari', 'dewi@kopisenja.com', '+6281311110104', 'CLIENT', NULL),

@@ -1,5 +1,5 @@
 /**
- * LEGALTA - Single Page Application (SPA) Core Router & Controller
+ * HUKUMTA - Single Page Application (SPA) Core Router & Controller
  * Architecture: Monorepo Frontend Client (Single HTML entry point)
  */
 
@@ -145,5 +145,5 @@ function handleRoute() {
 window.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('hashchange', handleRoute);
   handleRoute();
-  console.log('[LEGALTA SPA] Monorepo frontend initialized successfully.');
+  console.log('[HUKUMTA SPA] Monorepo frontend initialized successfully.');
 });
