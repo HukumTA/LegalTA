@@ -36,7 +36,7 @@ export function renderCustomClassSelect(targetId = 'merekClassSelect', defaultCl
       </button>
 
       <!-- Dropdown Popover Panel -->
-      <div id="${targetId}-panel" class="custom-nice-panel hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-2xl border border-slate-200/90 z-50 overflow-hidden transform transition-all duration-200">
+      <div id="${targetId}-panel" class="custom-nice-panel hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] border border-slate-200/90 z-[999] overflow-hidden transform transition-all duration-200">
         
         <!-- Search bar inside Dropdown -->
         <div class="p-3 bg-slate-50/80 border-b border-slate-100">

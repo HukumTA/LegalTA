@@ -12,7 +12,7 @@ export function renderCekMerekView() {
     <div class="flex flex-col w-full">
 
       <!-- 1. HERO + FORM -->
-      <section class="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24 bg-transparent border-b border-slate-200/50">
+      <section class="relative pt-12 pb-20 lg:pt-16 lg:pb-24 bg-transparent border-b border-slate-200/50">
         <div class="max-w-4xl mx-auto px-6 text-center space-y-6">
           <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.1] tracking-tight">
             Cek Kemiripan Merek, <span class="text-crimson-800">Sebelum Mendaftar</span>
@@ -22,7 +22,7 @@ export function renderCekMerekView() {
           </p>
 
           <div class="max-w-3xl mx-auto pt-4 text-left">
-            <form id="merekSearchForm" class="bg-white p-7 sm:p-8 rounded-[2.5rem] shadow-xl border border-slate-200/80 space-y-6">
+            <form id="merekSearchForm" class="bg-white p-7 sm:p-8 rounded-[2.5rem] shadow-xl border border-slate-200/80 space-y-6 relative z-30">
               <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
                 
                 <!-- Input Nama Merek -->
@@ -35,7 +35,7 @@ export function renderCekMerekView() {
                 </div>
 
                 <!-- Custom Dropdown Kelas Nice 1–45 -->
-                <div class="md:col-span-7">
+                <div class="md:col-span-7 relative z-40">
                   <label class="block text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
                     <span>Klasifikasi Kelas Nice (1 s/d 45)</span>
                     <span class="text-[10px] font-bold text-crimson-800 bg-crimson-50 px-2 py-0.5 rounded-full border border-crimson-100">DJKI Urut 1–45</span>
@@ -62,7 +62,7 @@ export function renderCekMerekView() {
       </section>
 
       <!-- 2. HASIL -->
-      <section class="max-w-6xl mx-auto px-6 py-12 w-full" id="merekResultContainer">
+      <section class="max-w-6xl mx-auto px-6 py-12 w-full relative z-10" id="merekResultContainer">
         <div id="merekResultCard" class="space-y-8">
           <div class="p-12 text-center bg-white rounded-[2rem] border border-slate-200 text-slate-500 text-sm">
             <i data-lucide="shield-search" class="w-10 h-10 mx-auto mb-3 text-slate-400"></i>
