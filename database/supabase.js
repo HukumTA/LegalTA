@@ -55,7 +55,14 @@ async function testConnection() {
     }
     return { connected: true, message: 'Terhubung ke Supabase PostgreSQL secara sukses.' };
   } catch (err) {
-    return { connected: false, error: err.message };
+    const causeMsg = err.cause ? ` (${err.cause.code || err.cause.message})` : '';
+    const isNotFound = (err.cause && err.cause.code === 'ENOTFOUND') || (err.message && err.message.includes('ENOTFOUND'));
+    return {
+      connected: false,
+      error: isNotFound
+        ? `Host Supabase (${SUPABASE_URL}) tidak ditemukan (ENOTFOUND). Project Supabase mungkin sedang di-pause atau dihapus.`
+        : `${err.message}${causeMsg}`
+    };
   }
 }
 

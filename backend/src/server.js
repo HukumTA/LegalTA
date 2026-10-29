@@ -86,7 +86,15 @@ async function verifyDatabaseConnection() {
   if (isPrismaConfigured()) {
     const pTest = await testPrisma();
     if (!pTest.connected) {
-      console.warn(`[LEGALTA] Peringatan DB: Gagal terhubung ke PostgreSQL (${pTest.error || pTest.reason}). Menggunakan fallback SQLite.`);
+      console.warn(`[LEGALTA] Peringatan DB: Gagal terhubung ke PostgreSQL (${pTest.error || pTest.reason}).`);
+      if (isSupabaseConfigured()) {
+        const sTest = await testSupabase();
+        if (!sTest.connected) {
+          console.warn(`[LEGALTA] Peringatan DB: Gagal terhubung ke Supabase (${sTest.error || sTest.reason}). Menggunakan fallback SQLite.`);
+        }
+      } else {
+        console.warn(`[LEGALTA] Menggunakan fallback SQLite.`);
+      }
     }
   } else if (isSupabaseConfigured()) {
     const sTest = await testSupabase();
