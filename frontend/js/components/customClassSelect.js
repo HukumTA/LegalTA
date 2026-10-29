@@ -51,8 +51,8 @@ export function renderCustomClassSelect(targetId = 'merekClassSelect', defaultCl
           </div>
         </div>
 
-        <!-- Scrollable Options List (1 to 45 ordered, perpanjang tinggi agar lebih banyak terlihat) -->
-        <div class="custom-nice-options max-h-[460px] overflow-y-auto divide-y divide-slate-100 overscroll-contain py-1" role="listbox">
+        <!-- Scrollable Options List (1 to 45 ordered, tinggi leluasa) -->
+        <div class="custom-nice-options max-h-[60vh] sm:max-h-[500px] overflow-y-auto divide-y divide-slate-100 overscroll-contain py-1" role="listbox">
           ${NICE_CLASSES_LIST.map(c => `
             <div role="option" 
               aria-selected="${c.id === current.id}" 
