@@ -1,3 +1,4 @@
+import { renderNiceClassOptions } from '../data/niceClasses.js';
 /**
  * View: Pendaftaran HKI (Merek, Hak Cipta, Desain Industri, Paten)
  * Gaya disamakan dengan halaman Pendirian.
@@ -71,14 +72,12 @@ export function renderHkiView() {
                     <input type="text" id="hkiQuickBrandInput" placeholder="Contoh: Kopi Nusantara" required class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-sm text-slate-900 outline-none focus:border-crimson-800" />
                   </div>
                   <div class="sm:col-span-7">
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Kategori Kelas</label>
-                    <select id="hkiQuickClassSelect" style="font-size:15px;" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-slate-900 outline-none cursor-pointer focus:border-crimson-800">
-                      <option value="42" style="font-size:16px; padding:8px;">Kelas 42 — Teknologi &amp; Software</option>
-                      <option value="35" style="font-size:16px; padding:8px;">Kelas 35 — Retail &amp; Bisnis</option>
-                      <option value="43" style="font-size:16px; padding:8px;">Kelas 43 — Kafe, Restoran &amp; F&amp;B</option>
-                      <option value="30" style="font-size:16px; padding:8px;">Kelas 30 — Kopi, Teh &amp; Pangan</option>
-                      <option value="25" style="font-size:16px; padding:8px;">Kelas 25 — Fashion &amp; Pakaian</option>
-                      <option value="3" style="font-size:16px; padding:8px;">Kelas 3 — Kosmetik &amp; Skincare</option>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                    <span>Kategori Kelas Nice (1 s/d 45)</span>
+                    <span class="text-[10px] font-bold text-crimson-800 bg-crimson-50 px-2 py-0.5 rounded-full">45 Kelas DJKI</span>
+                  </label>
+                    <select id="hkiQuickClassSelect" style="font-size:14px;" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-slate-900 font-medium outline-none cursor-pointer focus:border-crimson-800 transition-colors">
+                      ${renderNiceClassOptions(42)}
                     </select>
                   </div>
                 </div>
