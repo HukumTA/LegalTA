@@ -1,11 +1,11 @@
 /**
  * View: Cek Merek (Public Tool)
- * Gaya disamakan dengan halaman Pendirian, HKI, Perizinan, dan Dokumen.
+ * Desain modern HUKUMTA dengan Custom Selector Kelas Nice 1–45
  */
 
 import { api } from '../api.js';
 import { showToast } from '../components/toast.js';
-import { renderNiceClassOptions } from '../data/niceClasses.js';
+import { renderCustomClassSelect, initCustomClassSelect } from '../components/customClassSelect.js';
 
 export function renderCekMerekView() {
   return `
@@ -18,30 +18,44 @@ export function renderCekMerekView() {
             Cek Kemiripan Merek, <span class="text-crimson-800">Sebelum Mendaftar</span>
           </h1>
           <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto font-medium">
-            Periksa apakah nama merek Anda mirip dengan merek yang sudah terdaftar.
+            Periksa apakah nama merek Anda mirip dengan merek yang sudah terdaftar pada 45 Kelas Nice resmi DJKI.
           </p>
 
           <div class="max-w-3xl mx-auto pt-4 text-left">
-            <form id="merekSearchForm" class="bg-white p-8 rounded-[2rem] shadow-xl border border-slate-200 space-y-5">
-              <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <form id="merekSearchForm" class="bg-white p-7 sm:p-8 rounded-[2.5rem] shadow-xl border border-slate-200/80 space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+                
+                <!-- Input Nama Merek -->
                 <div class="md:col-span-5">
-                  <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Merek</label>
-                  <input type="text" id="merekInputName" value="" required placeholder="Contoh: Kopi Nusantara" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 outline-none focus:border-crimson-800">
-                </div>
-                <div class="md:col-span-7">
-                  <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center justify-between">
-                    <span>Kategori Kelas Nice (1 s/d 45)</span>
-                    <span class="text-[10px] font-bold text-crimson-800 bg-crimson-50 px-2 py-0.5 rounded-full">45 Kelas DJKI</span>
+                  <label class="block text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                    <span>Nama Merek</span>
+                    <span class="text-[10px] text-slate-400 font-semibold">Teks / Kata</span>
                   </label>
-                  <select id="merekClassSelect" style="font-size:14px;" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-slate-900 font-medium outline-none cursor-pointer focus:border-crimson-800 transition-colors">
-                    ${renderNiceClassOptions(42)}
-                  </select>
+                  <input type="text" id="merekInputName" value="" required placeholder="Contoh: Kopi Nusantara" class="w-full h-[58px] px-5 rounded-2xl sm:rounded-full bg-slate-50 hover:bg-slate-100/70 border border-slate-200 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-crimson-800/20 focus:border-crimson-800 transition-all shadow-sm">
                 </div>
+
+                <!-- Custom Dropdown Kelas Nice 1–45 -->
+                <div class="md:col-span-7">
+                  <label class="block text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                    <span>Klasifikasi Kelas Nice (1 s/d 45)</span>
+                    <span class="text-[10px] font-bold text-crimson-800 bg-crimson-50 px-2 py-0.5 rounded-full border border-crimson-100">DJKI Urut 1–45</span>
+                  </label>
+                  ${renderCustomClassSelect('merekClassSelect', 42)}
+                </div>
+
               </div>
-              <button type="submit" id="merekSubmitBtn" class="inline-flex items-center justify-center px-8 py-4 bg-crimson-800 hover:bg-crimson-900 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all gap-2">
-                <span>Cek Sekarang</span>
-                <i data-lucide="arrow-right" class="w-5 h-5"></i>
-              </button>
+
+              <!-- Baris Bawah: Tombol Cek -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-slate-100">
+                <span class="text-xs text-slate-500 font-medium flex items-center gap-1.5">
+                  <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                  <span>Menggunakan algoritma fonetik Soundex &amp; basis data PDKI DJKI</span>
+                </span>
+                <button type="submit" id="merekSubmitBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-9 py-4 bg-crimson-800 hover:bg-crimson-900 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all gap-2 shrink-0">
+                  <span>Cek Sekarang</span>
+                  <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -65,9 +79,13 @@ export function renderCekMerekView() {
 export function initCekMerekLogic() {
   const form = document.getElementById('merekSearchForm');
   const input = document.getElementById('merekInputName');
-  const classSelect = document.getElementById('merekClassSelect');
+  const classInput = document.getElementById('merekClassSelect');
   const submitBtn = document.getElementById('merekSubmitBtn');
   const resultCard = document.getElementById('merekResultCard');
+  const selectWrapper = document.getElementById('merekClassSelect-wrapper');
+
+  // Inisialisasi Custom Selector Kelas Merek
+  initCustomClassSelect('merekClassSelect');
 
   // Isi otomatis dari form cek merek di halaman HKI
   const prefillBrand = sessionStorage.getItem('legalta_prefill_merek');
@@ -76,8 +94,8 @@ export function initCekMerekLogic() {
     input.value = prefillBrand;
     sessionStorage.removeItem('legalta_prefill_merek');
   }
-  if (prefillClass && classSelect) {
-    classSelect.value = prefillClass;
+  if (prefillClass && selectWrapper?.setSelectedClass) {
+    selectWrapper.setSelectedClass(prefillClass);
     sessionStorage.removeItem('legalta_prefill_class');
   }
 
@@ -136,39 +154,50 @@ export function initCekMerekLogic() {
             <!-- Catatan Konsultan -->
             <div class="lg:col-span-7 bg-white p-8 rounded-[2rem] shadow-md border border-slate-200 flex flex-col justify-between gap-6">
               <div class="space-y-4">
-                <div class="flex items-center justify-between gap-3 pb-4 border-b border-slate-100 flex-wrap">
-                  <div>
-                    <h4 class="text-lg text-slate-900 font-extrabold">Catatan Konsultan</h4>
-                    <p class="text-sm text-slate-500">${d.legalOpinion.counselName} (${d.legalOpinion.counselRole})</p>
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-crimson-50 text-crimson-800 flex items-center justify-center font-bold">
+                    <i data-lucide="scale" class="w-5 h-5"></i>
                   </div>
-                  <span class="text-xs bg-amber-50 text-gold-700 px-4 py-1.5 rounded-full font-extrabold">${d.legalOpinion.recommendationTier}</span>
+                  <div>
+                    <h4 class="text-sm font-extrabold text-slate-900">${d.legalOpinion.counselName}</h4>
+                    <span class="text-xs text-slate-500">${d.legalOpinion.counselRole}</span>
+                  </div>
                 </div>
-                <p class="text-sm sm:text-base text-slate-600 leading-relaxed">${d.legalOpinion.statement}</p>
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-sm text-slate-700 leading-relaxed font-medium">
+                  ${d.legalOpinion.statement}
+                </div>
               </div>
-              <div>
-                <a href="#/konsultasi?layanan=merek" class="inline-flex items-center justify-center px-8 py-4 bg-crimson-800 hover:bg-crimson-900 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all gap-2">
+              <div class="flex items-center justify-between gap-4 flex-wrap pt-2 border-t border-slate-100">
+                <span class="text-xs font-bold text-slate-500">${d.legalOpinion.recommendationTier}</span>
+                <a href="#/konsultasi?layanan=merek" class="px-6 py-2.5 bg-crimson-800 hover:bg-crimson-900 text-white text-xs font-bold rounded-full transition-colors inline-flex items-center gap-2">
                   <span>Daftarkan Merek</span>
-                  <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
               </div>
             </div>
+
           </div>
 
-          <!-- Tabel Pembanding -->
+          <!-- Merek Terdaftar Mirip -->
           <div class="bg-white rounded-[2rem] shadow-md border border-slate-200 overflow-hidden">
-            <div class="p-7 border-b border-slate-100">
-              <h4 class="text-lg text-slate-900 font-extrabold">Merek Terdaftar yang Mirip</h4>
+            <div class="p-6 sm:p-8 border-b border-slate-100 flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h3 class="text-xl font-extrabold text-slate-900">Perbandingan Merek Terdaftar</h3>
+                <p class="text-xs text-slate-500 mt-1">Data merek terdaftar yang berpotensi menjadi pembanding di DJKI</p>
+              </div>
+              <span class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Kelas Nice ${d.niceClass}</span>
             </div>
+
             <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse text-sm">
+              <table class="w-full text-left text-sm">
                 <thead>
-                  <tr class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase border-b border-slate-100">
+                  <tr class="bg-slate-50/70 border-b border-slate-200 text-slate-700 font-extrabold text-xs">
                     <th class="py-4 px-5">Nama Merek</th>
                     <th class="py-4 px-5">Kelas</th>
                     <th class="py-4 px-5">No. Permohonan</th>
                     <th class="py-4 px-5">Pemilik</th>
                     <th class="py-4 px-5">Status</th>
-                    <th class="py-4 px-5 text-right">Risiko Benturan</th>
+                    <th class="py-4 px-5 text-right">Potensi Konflik</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -193,14 +222,16 @@ export function initCekMerekLogic() {
 
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    executeAnalysis(input.value.trim(), classSelect.value, true);
+    const valClass = classInput?.value || '42';
+    executeAnalysis(input.value.trim(), valClass, true);
   });
 
   if (window.lucide) {
     window.lucide.createIcons();
   }
 
-  if (input?.value) {
-    executeAnalysis(input.value.trim(), classSelect.value, Boolean(prefillBrand));
+  if (prefillBrand) {
+    const valClass = classInput?.value || '42';
+    executeAnalysis(input.value.trim(), valClass, true);
   }
 }

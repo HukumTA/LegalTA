@@ -1,4 +1,4 @@
-import { renderNiceClassOptions } from '../data/niceClasses.js';
+import { renderCustomClassSelect, initCustomClassSelect } from '../components/customClassSelect.js';
 /**
  * View: Pendaftaran HKI (Merek, Hak Cipta, Desain Industri, Paten)
  * Gaya disamakan dengan halaman Pendirian.
@@ -76,9 +76,7 @@ export function renderHkiView() {
                     <span>Kategori Kelas Nice (1 s/d 45)</span>
                     <span class="text-[10px] font-bold text-crimson-800 bg-crimson-50 px-2 py-0.5 rounded-full">45 Kelas DJKI</span>
                   </label>
-                    <select id="hkiQuickClassSelect" style="font-size:14px;" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-slate-900 font-medium outline-none cursor-pointer focus:border-crimson-800 transition-colors">
-                      ${renderNiceClassOptions(42)}
-                    </select>
+                    ${renderCustomClassSelect('hkiQuickClassSelect', 42)}
                   </div>
                 </div>
                 <button type="submit" class="inline-flex items-center justify-center px-8 py-4 bg-crimson-800 hover:bg-crimson-900 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
@@ -386,6 +384,7 @@ export function renderHkiView() {
 }
 
 export function initHkiLogic() {
+  initCustomClassSelect('hkiQuickClassSelect');
   const form = document.getElementById('hkiQuickSearchForm');
   const brandInput = document.getElementById('hkiQuickBrandInput');
   const classSelect = document.getElementById('hkiQuickClassSelect');
