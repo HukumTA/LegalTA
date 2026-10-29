@@ -122,7 +122,7 @@ export function renderFooter() {
               </li>
               <li class="flex items-center gap-3">
                 <i data-lucide="mail" class="w-5 h-5 text-crimson-500 shrink-0"></i>
-                <a href="mailto:halo@hukumta.id" class="hover:text-[#E8C26A] transition-colors">halo@hukumta.id</a>
+                <a href="mailto:legalta.app@gmail.com" class="hover:text-[#E8C26A] transition-colors">legalta.app@gmail.com</a>
               </li>
               <li class="flex items-center gap-3">
                 <div class="w-5 h-5 flex items-center justify-center text-emerald-500 shrink-0">

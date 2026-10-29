@@ -25,7 +25,7 @@ export function renderCekMerekView() {
               <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                 <div class="md:col-span-5">
                   <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Merek</label>
-                  <input type="text" id="merekInputName" value="VOYAGER LABS" required placeholder="Contoh: Kopi Nusantara" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 outline-none focus:border-crimson-800">
+                  <input type="text" id="merekInputName" value="" required placeholder="Contoh: Kopi Nusantara" class="w-full px-5 py-3.5 rounded-full bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 outline-none focus:border-crimson-800">
                 </div>
                 <div class="md:col-span-7">
                   <label class="block text-xs font-bold text-slate-700 mb-1.5">Kategori Kelas</label>
@@ -51,7 +51,13 @@ export function renderCekMerekView() {
 
       <!-- 2. HASIL -->
       <section class="max-w-6xl mx-auto px-6 py-12 w-full" id="merekResultContainer">
-        <div id="merekResultCard" class="space-y-8"></div>
+        <div id="merekResultCard" class="space-y-8">
+          <div class="p-12 text-center bg-white rounded-[2rem] border border-slate-200 text-slate-500 text-sm">
+            <i data-lucide="shield-search" class="w-10 h-10 mx-auto mb-3 text-slate-400"></i>
+            <p class="font-bold text-slate-700">Ketik nama merek dan pilih kelas Nice di atas.</p>
+            <p class="text-xs text-slate-400 mt-1">Hasil penelusuran kemiripan fonetik dan probabilitas kelolosan akan tampil di sini.</p>
+          </div>
+        </div>
       </section>
 
     </div>

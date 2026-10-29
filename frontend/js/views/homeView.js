@@ -330,7 +330,7 @@ export function renderHomeView() {
                   </div>
 
                   <div class="relative z-10 flex items-center bg-crimson-50 p-3 rounded-2xl border border-crimson-200 shadow-md ring-2 ring-crimson-500/20 gap-4">
-                    <div class="w-10 h-10 rounded-full bg-crimson-700 text-white flex items-center justify-center animate-spin" style="animation-duration: 4s;">
+                    <div class="w-10 h-10 rounded-full bg-crimson-700 text-white flex items-center justify-center animate-pulse">
                       <i data-lucide="loader-2" class="w-5 h-5"></i>
                     </div>
                     <div>

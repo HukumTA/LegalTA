@@ -169,5 +169,6 @@ export function initCekKbliLogic() {
     window.lucide.createIcons();
   }
 
-  fetchKbli('', 'all');
+  // Biarkan kosong dlu saat awal dibuka
+  // fetchKbli('', 'all');
 }

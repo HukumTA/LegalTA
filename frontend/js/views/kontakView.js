@@ -59,7 +59,7 @@ export function renderKontakView() {
                     </div>
                     <div>
                       <h5 class="text-base text-slate-900 font-bold">Email</h5>
-                      <p class="mt-0.5">halo@legalta.id</p>
+                      <p class="mt-0.5">legalta.app@gmail.com</p>
                     </div>
                   </div>
 

@@ -23,7 +23,7 @@ export function renderTrackingView() {
             <form id="trackingSearchForm" class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-200 flex flex-col sm:flex-row items-center gap-3">
               <div class="flex items-center gap-3 px-5 py-3.5 w-full flex-1 bg-slate-50 rounded-full border border-slate-200 focus-within:border-crimson-800 transition-colors">
                 <i data-lucide="search" class="w-5 h-5 text-slate-400 shrink-0"></i>
-                <input type="text" id="trackingIdInput" value="LEG-2025-0891" placeholder="Contoh: LEG-2025-0891" class="w-full bg-transparent border-none outline-none text-sm text-slate-900 font-bold uppercase">
+                <input type="text" id="trackingIdInput" value="" placeholder="Contoh: LEG-2025-0891" class="w-full bg-transparent border-none outline-none text-sm text-slate-900 font-bold uppercase">
               </div>
               <button type="submit" id="trackingSubmitBtn" class="w-full sm:w-auto px-8 py-4 bg-crimson-800 hover:bg-crimson-900 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 shrink-0">
                 <span>Lacak</span>
@@ -59,7 +59,7 @@ export function initTrackingLogic() {
   const content = document.getElementById('trackingContent');
   const demoBtns = document.querySelectorAll('.demo-track-btn');
 
-  let currentActiveOrderId = 'LEG-2025-0891';
+  let currentActiveOrderId = '';
 
   async function loadOrder(orderId, notify = false) {
     if (!orderId) return;
@@ -283,7 +283,8 @@ export function initTrackingLogic() {
               const uploadRes = await api.uploadOrderDocument(currentActiveOrderId, file.name, 'OTHER');
               if (uploadRes.success) {
                 showToast(`Dokumen "${file.name}" berhasil diunggah.`, 'success');
-                loadOrder(currentActiveOrderId, false);
+                // Biarkan kosong saat pertama dibuka
+  // loadOrder(currentActiveOrderId, false);
               }
             } catch (err) {
               showToast('Gagal mengunggah dokumen: ' + err.message, 'error');

@@ -110,17 +110,27 @@
       display: block;
     }
 
-    .nav-dropdown-group:hover .nav-dropdown-panel,
+        .nav-dropdown-panel {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: opacity 0.16s ease-out, transform 0.16s ease-out, visibility 0.16s ease-out;
+      z-index: 60;
+    }
+
     .nav-dropdown-group.is-hovered .nav-dropdown-panel,
-    .nav-dropdown-group.is-open .nav-dropdown-panel,
-    .nav-dropdown-group:focus-within .nav-dropdown-panel {
+    .nav-dropdown-group.is-open .nav-dropdown-panel {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
       transform: translateY(0);
     }
 
-    .nav-dropdown-group:hover .dropdown-chevron,
+    .dropdown-chevron {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+    }
+
     .nav-dropdown-group.is-hovered .dropdown-chevron,
     .nav-dropdown-group.is-open .dropdown-chevron {
       transform: rotate(180deg);

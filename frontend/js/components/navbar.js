@@ -220,43 +220,62 @@ export function renderNavbar(activePath = '/') {
     </div>
   `;
 
-  // Desktop dropdown interactions (hover with grace delay + click toggle)
+  // Desktop dropdown interactions (Mutual Exclusion - never overlap)
   const dropdownGroups = document.querySelectorAll('.nav-dropdown-group');
+  let closeTimer = null;
+
+  function closeAllDropdowns() {
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+    dropdownGroups.forEach(g => {
+      g.classList.remove('is-open', 'is-hovered');
+    });
+  }
+
+  function openSingleDropdown(targetGroup) {
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+    // Close other dropdowns immediately so they never overlap/menimpa
+    dropdownGroups.forEach(g => {
+      if (g !== targetGroup) {
+        g.classList.remove('is-open', 'is-hovered');
+      }
+    });
+    targetGroup.classList.add('is-hovered');
+  }
 
   dropdownGroups.forEach(group => {
     const trigger = group.querySelector('.dropdown-trigger');
     const panel = group.querySelector('.nav-dropdown-panel');
-    let closeTimer = null;
 
-    // Hover with grace period so trackpad users don't lose hover
     group.addEventListener('mouseenter', () => {
-      if (closeTimer) {
-        clearTimeout(closeTimer);
-        closeTimer = null;
-      }
-      group.classList.add('is-hovered');
+      openSingleDropdown(group);
     });
 
     group.addEventListener('mouseleave', () => {
       closeTimer = setTimeout(() => {
-        group.classList.remove('is-hovered');
-      }, 180);
+        group.classList.remove('is-hovered', 'is-open');
+      }, 140);
     });
 
-    // Click to lock open/toggle
+    // Click toggle
     trigger?.addEventListener('click', (e) => {
       e.stopPropagation();
-      const wasOpen = group.classList.contains('is-open');
-      dropdownGroups.forEach(g => g.classList.remove('is-open', 'is-hovered'));
-      if (!wasOpen) {
-        group.classList.add('is-open');
+      const isOpen = group.classList.contains('is-open') || group.classList.contains('is-hovered');
+      closeAllDropdowns();
+      if (!isOpen) {
+        group.classList.add('is-open', 'is-hovered');
       }
     });
 
-    // Close when clicking any link inside panel
+    // Close when clicking link inside
     panel?.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
-        dropdownGroups.forEach(g => g.classList.remove('is-open', 'is-hovered'));
+        closeAllDropdowns();
       });
     });
   });
@@ -264,7 +283,7 @@ export function renderNavbar(activePath = '/') {
   // Close dropdowns on outside click
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-dropdown-group')) {
-      dropdownGroups.forEach(g => g.classList.remove('is-open', 'is-hovered'));
+      closeAllDropdowns();
     }
   });
 

@@ -24,7 +24,7 @@ export function renderCekPtView() {
             <form id="ptSearchForm" class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-200 flex flex-col sm:flex-row items-center gap-3">
               <div class="flex items-center gap-3 px-5 py-3.5 w-full flex-1 bg-slate-50 rounded-full border border-slate-200 focus-within:border-crimson-800 transition-colors">
                 <span class="text-sm font-extrabold text-crimson-800">PT.</span>
-                <input type="text" id="ptInputName" value="Perkasa Digital Nusantara" placeholder="Contoh: Perkasa Digital Nusantara" required class="w-full bg-transparent border-none outline-none text-sm text-slate-900 font-bold">
+                <input type="text" id="ptInputName" value="" placeholder="Contoh: Perkasa Digital Nusantara" required class="w-full bg-transparent border-none outline-none text-sm text-slate-900 font-bold">
               </div>
               <button type="submit" id="ptSubmitBtn" class="w-full sm:w-auto px-8 py-4 bg-crimson-800 hover:bg-crimson-900 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 shrink-0">
                 <span>Cek Nama</span>
@@ -37,7 +37,13 @@ export function renderCekPtView() {
 
       <!-- 2. HASIL -->
       <section class="max-w-6xl mx-auto px-6 py-12 w-full" id="ptResultContainer">
-        <div id="ptResultCard" class="space-y-8"></div>
+        <div id="ptResultCard" class="space-y-8">
+          <div class="p-12 text-center bg-white rounded-[2rem] border border-slate-200 text-slate-500 text-sm">
+            <i data-lucide="search" class="w-10 h-10 mx-auto mb-3 text-slate-400"></i>
+            <p class="font-bold text-slate-700">Masukkan usulan nama PT pada formulir di atas.</p>
+            <p class="text-xs text-slate-400 mt-1">Sistem akan memvalidasi kepatuhan PP 43/2011 dan kemiripan nama terdaftar.</p>
+          </div>
+        </div>
       </section>
 
       <!-- 3. ATURAN PENAMAAN -->
